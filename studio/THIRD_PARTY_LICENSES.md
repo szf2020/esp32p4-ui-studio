@@ -15,7 +15,7 @@ This document preserves the required upstream open-source attributions, clarifie
 
 ### Integrated Core Framework Features
 * Component-tree layout state managers and inspector control sheets.
-* Absolute drag-and-drop boundary boxes and live preview element canvas renders.
+* Visual drag-and-drop layout interaction systems and live preview element canvas renders.
 * Local storage state sync layers and foundational export template architecture structures.
 
 ### Custom Embedded Engineering Extensions
@@ -41,7 +41,7 @@ The web-based visual layout workstation leverages the following core components 
 * **Implementation Profile:** Handles the virtual workspace core component tree lifecycle, front-end canvas states, and interaction listeners.
 
 ### 3. Next.js
-* Project Ecosystem:** [Next.js Framework](https://nextjs.org/)
+* **Project Ecosystem:** [Next.js Framework](https://nextjs.org/)
 *Implementation Profile:** Provides the local development server, frontend build system, and workspace runtime environment.
 
 ### 4. React-RND

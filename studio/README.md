@@ -2,7 +2,7 @@
 
 **ESP32-P4 UI Studio** is an open-source, all-in-one visual HMI designer and automated deployment toolchain engineered specifically for **ESP32-P4** touchscreen hardware running **LVGL v9**. 
 
-By adapting a mature, drag-and-drop editor engine into an absolute coordinate-based layout platform, this project completely bridges web-based visual prototyping with automated native hardware flashing. The project aims to reduce the traditional complexity of embedded LVGL workflows by integrating visual editing, export generation, and firmware deployment into a single coordinated workspace.
+By adapting a mature drag-and-drop editor engine toward a hardware-aware embedded layout workflow platform, this project completely bridges web-based visual prototyping with automated native hardware flashing. The project aims to reduce the traditional complexity of embedded LVGL workflows by integrating visual editing, export generation, and firmware deployment into a single coordinated workspace.
 
 ---
 
@@ -83,7 +83,7 @@ To maintain high stability and maintainability, the project strictly enforces th
    ```bash
    START_FORGEUI_STUDIO.bat
    ```
-2. The environment automatically boots the frontend studio, initializes the local export node bridge, and opens your browser interface at `localhost:3000`.
+2. The environment visual embedded UI designer and deployment toolchain for ESP32-P4 hardware running LVGL v9..nt automatically boots the frontend studio, initializes the local export node bridge, and opens your browser interface at `localhost:3000`.
 3. Visually construct your interface on the workspace canvas using absolute coordinates.
 4. Click **Export UI to Device** (*"Export UI to Device"*).
 5. The pipeline automatically writes out your clean `90_Studio_Export.c` / `.h` assets, calls the ESP-IDF compiler backend, builds and flashes the target board, and pushes your layout live to the screen.
