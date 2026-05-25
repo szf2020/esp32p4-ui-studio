@@ -1,0 +1,16 @@
+export const forgeuiCoreWidgets = [
+  'Button',
+  'Text',
+  'Input',
+  'Textarea',
+  'Switch',
+  'Checkbox',
+  'Radio',
+  'Slider',
+  'Progress',
+  'CircularProgress',
+  'NumberInput',
+  'Select',
+  'Image',
+  'Box',
+]

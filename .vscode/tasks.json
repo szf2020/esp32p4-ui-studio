@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ForgeUI Flash P4",
+            "type": "shell",
+            "command": "C:\\ForgeUI\\Projects\\ForgeUI-Studio\\tools\\flash-p4.bat",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
