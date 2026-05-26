@@ -6,8 +6,8 @@
 * **Project Name:** ESP32-P4 UI Studio
 * **Internal Branding:** ForgeUI Studio
 * **Repository Name:** `esp32p4-ui-studio`
-* ** Current Status: ALIVE / STUDIO-TO-HARDWARE PIPELINE PROVEN
-* ** Active Save Point: `FORGEUI_STUDIO_MINIMAL_RUNTIME_CLEAN_FLASH_OK__WEB_FLASH_PANEL_NEXT__2026-05-26``
+* ** Current Status:** ALIVE / STUDIO-TO-HARDWARE PIPELINE PROVEN / DEV MODE RUNTIME ACTIVE
+* ** Active Save Point:** `FORGEUI_STUDIO_WEB_FLASH_CONSOLE_V1_STABLE__BACKGROUND_FLAVOURS_NEXT__2026-05-26`
 
 ### Project Goal
 * **Definition:** Visual embedded UI designer and deployment toolchain.
@@ -24,20 +24,24 @@
 ## 2. Monorepo Architecture & Layout
 
 ### Workspace Structure
+
 ```text
 esp32p4-ui-studio/
-├── studio/                     # UI Designer codebase
+├── studio/                             # Visual editor / Studio frontend
 ├── firmware/
-│   └── ForgeUI-One/            # ESP-IDF firmware project
-├── tools/                      # Automation and flashing scripts
-├── docs/                       # Project documentation
-│   └── history/                # Archive for old notes and migrations
-├── START_FORGEUI_STUDIO.bat    # Main application launcher
-├── README.md                   # Main documentation
-├── LICENSE                     # Project license
-├── THIRD_PARTY_LICENSES.md     # Upstream licenses
-└── 01_SPINE.md                 # This architecture spine
+│   └── ForgeUI-One/                    # ESP-IDF firmware runtime
+├── tools/                              # Flash/build/helper tooling
+├── docs/                               # Project documentation
+│   └── history/                        # Archived notes and migrations
+├── START_FORGEUI_STUDIO.bat            # Legacy visible launcher
+├── START_FORGEUI_STUDIO_HIDDEN.vbs     # Current hidden dev launcher
+├── STOP_FORGEUI_STUDIO.bat             # Runtime cleanup helper
+├── README.md                           # Main documentation
+├── LICENSE                             # Project license
+├── THIRD_PARTY_LICENSES.md             # Upstream licenses
+└── 01_SPINE.md                         # Architecture spine
 ```
+
 
 ### Area Ownership Rules
 * **Studio Owns:** Visual editor, drag-and-drop workflow, viewport rendering, and LVGL export orchestration.

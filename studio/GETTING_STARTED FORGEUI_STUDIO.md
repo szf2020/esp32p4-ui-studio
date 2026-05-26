@@ -1,289 +1,497 @@
-# ForgeUI Studio — GETTING STARTED.
+# ForgeUI Studio — GETTING STARTED
 
-============================================================
-FORGEUI STUDIO
-============================================================
+---
 
-ForgeUI Studio is an embedded UI and HMI designer focused on:
+# FORGEUI STUDIO
+
+ForgeUI Studio is a visual embedded UI and HMI designer focused on:
+
 - ESP32-P4
 - LVGL workflows
 - embedded touchscreen UI design
-- coordinate-based screen editing
-- future LVGL export tooling
+- coordinate-based UI editing
+- hardware-first interface design
+- future direct firmware deployment
 
 Current hardware target:
+
 - Waveshare ESP32-P4-WIFI6-Touch-LCD-7B
 
 Current viewport:
+
 - 1024x600
 
 Current project status:
-ALIVE
-ACTIVE DEVELOPMENT
+
+**ALIVE**  
+**ACTIVE DEVELOPMENT**
 
 ForgeUI Studio is evolving from:
-- responsive web builder
+
+- responsive web tooling
 
 toward:
+
 - embedded HMI editor
-- LVGL visual editor
-- ESP32-P4 UI workflow platform
+- LVGL visual designer
+- ESP32-P4 deployment platform
+- embedded UI IDE/toolchain
 
-============================================================
-IMPORTANT CURRENT TRUTH
-============================================================
+---
 
-ForgeUI Studio is NOT yet a standalone firmware generator.
+# IMPORTANT CURRENT TRUTH
 
-Current workflow is:
+ForgeUI Studio is **NOT** yet a standalone firmware generator.
 
+Current workflow:
+
+```text
 ForgeUI Studio
     ->
-ForgeUI-One
+Generated LVGL Export
+    ->
+ForgeUI-One Runtime
     ->
 ESP32-P4 Hardware
+```
 
 ForgeUI-One currently acts as:
-- runtime shell
-- LVGL execution environment
-- ESP32-P4 firmware target
-- hardware bridge
 
-============================================================
-WHAT YOU NEED INSTALLED
-============================================================
+- LVGL runtime shell
+- ESP-IDF firmware project
+- hardware execution environment
+- display/touch runtime
+- generated UI execution target
+
+---
+
+# CURRENT DEV MODE ARCHITECTURE
+
+Current Studio operation is DEV MODE based.
+
+The current stack uses:
+
+- React
+- NextJS
+- local Node.js servers
+- export bridge runtime
+- hidden launcher scripts
+
+Current startup flow:
+
+```text
+START_FORGEUI_STUDIO_HIDDEN.vbs
+    ->
+Studio Dev Server
+    ->
+Export Bridge
+    ->
+Browser Launch
+```
+
+Current shutdown flow:
+
+```text
+STOP_FORGEUI_STUDIO.bat
+```
+
+This stops:
+
+- Node servers
+- export bridge
+- hidden background processes
+
+---
+
+# WHAT YOU NEED INSTALLED
 
 Required:
+
 - Windows PC
 - Node.js
 - Git (recommended)
 
 Recommended:
+
 - Visual Studio Code
 - ESP-IDF
 - ESP32-P4 hardware
 
-============================================================
-1. INSTALL NODE.JS
-============================================================
+---
+
+# 1. INSTALL NODE.JS
 
 ForgeUI Studio requires Node.js.
 
 Download:
+
 https://nodejs.org/
 
-Recommended version:
+Recommended:
+
 - Node 20 LTS or newer
 
-Install Node.js normally.
-
 IMPORTANT:
+
 After installation:
 - reboot PC
 OR
 - restart terminal/command prompt
 
-============================================================
-2. INSTALL GIT (RECOMMENDED)
-============================================================
+Verify install:
+
+```bash
+node -v
+npm -v
+```
+
+---
+
+# 2. INSTALL GIT (RECOMMENDED)
 
 Download:
+
 https://git-scm.com/
 
 Git is recommended for:
+
 - cloning the repo
 - updating Studio
 - commits
 - version control
+- future contribution workflow
 
-============================================================
-3. DOWNLOAD FORGEUI STUDIO
-============================================================
+---
 
-OPTION A — GIT CLONE
+# 3. INSTALL VISUAL STUDIO CODE (RECOMMENDED)
+
+Download:
+
+https://code.visualstudio.com/
+
+Recommended extensions:
+
+- ES7 React snippets
+- Prettier
+- ESLint
+- GitHub Pull Requests
+- ESP-IDF Extension
+
+---
+
+# 4. DOWNLOAD FORGEUI STUDIO
+
+## OPTION A — GIT CLONE
 
 Open terminal or command prompt:
 
 ```bash
-git clone https://github.com/RTechAI/ForgeUI-Studio.git
-
-OPTION B — DOWNLOAD ZIP
-
-Download ZIP from GitHub:
-
-extract folder somewhere safe
+git clone https://github.com/RTechAI/esp32p4-ui-studio.git
+```
 
 Recommended location:
 
-C:\ForgeUI\
+```text
+C:\ForgeUI\Projects\
+```
 
-Example:
+Example final path:
 
-C:\ForgeUI\ForgeUI-Studio
-============================================================
-4. OPEN THE PROJECT
+```text
+C:\ForgeUI\Projects\esp32p4-ui-studio
+```
 
-Open the ForgeUI Studio folder in:
+---
 
-Visual Studio Code
+## OPTION B — DOWNLOAD ZIP
+
+- Download ZIP from GitHub
+- Extract somewhere safe
+
+Recommended:
+
+```text
+C:\ForgeUI\Projects\
+```
+
+---
+
+# 5. OPEN THE PROJECT
+
+Open folder in:
+
+- Visual Studio Code
 OR
-normal Windows Explorer
-============================================================
-5. INSTALL PROJECT DEPENDENCIES
+- Windows Explorer
+
+Recommended root:
+
+```text
+C:\ForgeUI\Projects\esp32p4-ui-studio
+```
+
+---
+
+# 6. INSTALL PROJECT DEPENDENCIES
 
 FIRST RUN ONLY.
 
-Open terminal inside ForgeUI Studio folder.
+Open terminal inside:
+
+```text
+studio/
+```
 
 Run:
 
+```bash
 npm install
-
-OR:
-
-double-click:
-
-INSTALL_DEPENDENCIES.bat
-
-This may take several minutes.
+```
 
 This installs:
 
-React packages
-Vite
-Chakra UI
-editor dependencies
-OpenChakra dependencies
-ForgeUI modifications
-============================================================
-6. START FORGEUI STUDIO
+- React packages
+- NextJS/Vite tooling
+- Chakra UI
+- OpenChakra dependencies
+- ForgeUI Studio dependencies
 
-Inside ForgeUI Studio folder:
+IMPORTANT:
 
-Run:
+First install may take several minutes.
 
-npm run dev
+---
 
-OR:
+# 7. START FORGEUI STUDIO
 
-double-click:
+Current recommended launcher:
 
-START_FORGEUI_STUDIO.bat
-============================================================
-7. OPEN THE STUDIO
+```text
+START_FORGEUI_STUDIO_HIDDEN.vbs
+```
 
-ForgeUI Studio should open automatically.
+This:
+
+- starts Studio dev server
+- starts export bridge
+- opens browser automatically
+- hides background console windows
+
+---
+
+# 8. OPEN THE STUDIO
+
+Studio should open automatically.
 
 If not:
 
-open browser:
+open browser manually:
 
+```text
 http://localhost:3000
-============================================================
-IMPORTANT
+```
 
-DO NOT:
+---
 
-close the terminal window
-close the dev server window
+# 9. STOP FORGEUI STUDIO
 
-The Studio runs from the local development server.
+IMPORTANT:
 
-============================================================
-RECOMMENDED FOLDER LAYOUT
+DO NOT repeatedly relaunch the hidden VBS launcher.
+
+Current dev mode uses hidden background Node processes.
+
+When finished using Studio:
+
+Run:
+
+```text
+STOP_FORGEUI_STUDIO.bat
+```
+
+This cleans up:
+
+- node.exe
+- npm processes
+- export bridge
+- hidden runtime processes
+
+---
+
+# RECOMMENDED WORKSPACE LAYOUT
 
 Recommended structure:
 
+```text
 C:\ForgeUI\
 │
-├── ForgeUI-Studio
+├── Projects\
+│   └── esp32p4-ui-studio\
 │
-├── ForgeUI-One
+├── Exports\
 │
-├── Projects
+├── Backups\
 │
-├── Exports
+└── Firmware\
+```
+
+---
+
+# MONOREPO STRUCTURE
+
+Current repo layout:
+
+```text
+esp32p4-ui-studio/
 │
-└── Backups
-============================================================
-FORGEUI-ONE
+├── studio/                     # Visual editor
+│
+├── firmware/
+│   └── ForgeUI-One/            # ESP-IDF runtime firmware
+│
+├── tools/                      # Flash/build helper scripts
+│
+├── docs/                       # Documentation
+│
+├── START_FORGEUI_STUDIO.bat
+├── START_FORGEUI_STUDIO_HIDDEN.vbs
+├── STOP_FORGEUI_STUDIO.bat
+│
+├── README.md
+├── LICENSE
+└── 01_SPINE.md
+```
 
-ForgeUI-One is currently used as:
+---
 
-hardware runtime target
-LVGL runtime shell
-ESP32-P4 execution environment
+# FORGEUI-ONE RUNTIME
 
-Current export proof flow:
+ForgeUI-One currently owns:
 
+- ESP-IDF runtime
+- BSP startup
+- display bring-up
+- touch bring-up
+- LVGL lifecycle
+- execution of generated Studio exports
+
+Current export flow:
+
+```text
 ForgeUI Studio
-->
-export/generated code
-->
-ForgeUI-One
-->
+    ->
+90_Studio_Export.c
+    ->
+ForgeUI-One runtime
+    ->
 ESP32-P4 hardware
+```
 
-============================================================
-ESP-IDF (OPTIONAL CURRENTLY)
+---
+
+# ESP-IDF (OPTIONAL CURRENTLY)
 
 ESP-IDF is currently recommended for:
 
-ESP32-P4 firmware work
-hardware flashing
-LVGL runtime development
+- ESP32-P4 firmware work
+- runtime debugging
+- flashing hardware
+- LVGL runtime development
+- BSP experimentation
 
 Download:
+
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/
 
-============================================================
-CURRENT KNOWN-WORKING FEATURES
+---
+
+# CURRENT KNOWN-WORKING FEATURES
 
 Working:
 
-embedded viewport
-fixed P4 screen sizing
-drag/drop components
-coordinate positioning
-absolute positioning
-persistent x/y placement
-persistent resize
-resize handles
-wrapper-owned interaction layer
-multiple Chakra component previews
-embedded workbench architecture
-ForgeUI-One popup export proof
-============================================================
-KNOWN LIMITATIONS
+- embedded viewport
+- fixed 1024x600 P4 workspace
+- drag/drop components
+- coordinate positioning
+- persistent x/y placement
+- persistent resize
+- resize handles
+- wrapper-owned interaction layer
+- embedded workbench architecture
+- Studio-to-runtime export proof
+- hardware popup proof
+- flash panel proof
+- export bridge proof
+- hidden launcher workflow
+
+---
+
+# KNOWN LIMITATIONS
 
 Current limitations:
 
-active development
-not yet packaged as standalone EXE
-requires Node.js
-local dev environment required
-export pipeline still evolving
-direct LVGL generation not complete
-direct device flashing not complete
-============================================================
-FUTURE DIRECTION
+- active development
+- not yet packaged as standalone EXE
+- requires Node.js
+- local dev environment required
+- direct LVGL generation incomplete
+- widget coverage incomplete
+- flashing workflow evolving
+- hidden launcher currently DEV MODE only
+
+---
+
+# CURRENT DEVELOPMENT DIRECTION
+
+Current focus areas:
+
+- UI themes/background flavours
+- inspector cleanup
+- widget system expansion
+- export pipeline cleanup
+- LVGL component generation
+- flash workflow integration
+- embedded tooling workflow
+
+---
+
+# FUTURE DIRECTION
 
 Planned future goals:
 
-LVGL code generation
-direct firmware export
-direct ESP32-P4 flashing
-standalone desktop app
-visual asset manager
-screen/page manager
-reusable widget library
-live hardware preview
-project packaging
-============================================================
-CREATED BY
+- full LVGL code generation
+- direct firmware deployment
+- one-click ESP32-P4 flashing
+- serial monitor integration
+- packaged desktop application
+- Tauri/Wails/Electron runtime shell
+- integrated process manager
+- embedded preview runtime
+- reusable widget ecosystem
+- multi-screen/page support
+- hardware profile system
 
-ForgeUI Studio
+---
+
+# LICENSING
+
+ForgeUI Studio includes upstream components and licenses.
+
+Important upstream project:
+
+OpenChakra
+- Created by Premier Octet
+- MIT Licensed
+
+Please retain upstream license notices where required.
+
+---
+
+# CREATED BY
+
+ForgeUI Studio  
 Created by Scott Forster
 
-Project:
-https://github.com/RTechAI/ForgeUI-Studio
+GitHub:
+
+https://github.com/RTechAI/esp32p4-ui-studio
