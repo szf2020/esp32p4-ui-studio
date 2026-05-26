@@ -137,6 +137,22 @@ const Header = () => {
     return () => clearInterval(timer)
   }, [flashPanelOpen])
 
+    useEffect(() => {
+    const handleClose = () => {
+      try {
+        navigator.sendBeacon('http://localhost:3030/shutdown')
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    window.addEventListener('beforeunload', handleClose)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleClose)
+    }
+  }, [])
+
   const exportToForgeUIOne = async () => {
     const code = generateForgeUILvglCode(components)
 

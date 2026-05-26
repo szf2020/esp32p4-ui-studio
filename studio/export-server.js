@@ -111,12 +111,24 @@ app.post('/flash-stop', (req, res) => {
   res.json({ ok: true, stopped: true })
 })
 
+
+
 app.get('/flash-log', (req, res) => {
   res.json({
     ok: true,
     running: Boolean(currentProcess),
     log: flashLog.join(''),
   })
+})
+
+app.post('/shutdown', (req, res) => {
+  console.log('Shutdown requested from browser')
+
+  res.json({ ok: true })
+
+  setTimeout(() => {
+    process.exit(0)
+  }, 500)
 })
 
 app.listen(3030, () => {
