@@ -1,7 +1,7 @@
 @echo off
 
 echo =========================================
-echo ESP32-P4 UI Studio CLEAN Build / Flash / Monitor
+echo ESP32-P4 UI Studio CLEAN Build / Flash
 echo =========================================
 echo.
 
@@ -25,14 +25,14 @@ idf.py fullclean
 
 echo.
 echo =========================================
-echo BUILD / FLASH / MONITOR
+echo BUILD / FLASH
 echo =========================================
 echo.
 
-idf.py build flash monitor
+idf.py build flash
 
 echo.
 echo =========================================
-echo DONE OR FAILED
+echo DONE
 echo =========================================
-pause
+echo.

@@ -1,7 +1,7 @@
 @echo off
 
 echo =========================================
-echo ESP32-P4 UI Studio Build / Flash / Monitor
+echo ESP32-P4 UI Studio Build / Flash
 echo =========================================
 echo.
 
@@ -15,10 +15,16 @@ cd /d C:\ForgeUI\Projects\esp32p4-ui-studio\firmware\ForgeUI-One
 python --version
 idf.py --version
 
-idf.py build flash monitor
+echo.
+echo =========================================
+echo BUILD / FLASH
+echo =========================================
+echo.
+
+idf.py build flash
 
 echo.
 echo =========================================
-echo DONE OR FAILED
+echo DONE
 echo =========================================
-pause
+echo.

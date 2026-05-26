@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { generateForgeUILvglCode } from '~forgeui/ForgeUILvglExport'
 import {
   Box,
@@ -83,9 +83,7 @@ const CodeSandboxButton = () => {
                   rightIcon={<FaReact />}
                   onClick={async () => {
                     await exportToCodeSandbox(false)
-                    if (onClose) {
-                      onClose()
-                    }
+                    if (onClose) onClose()
                   }}
                 >
                   JSX
@@ -97,9 +95,7 @@ const CodeSandboxButton = () => {
                   rightIcon={<SiTypescript />}
                   onClick={async () => {
                     await exportToCodeSandbox(true)
-                    if (onClose) {
-                      onClose()
-                    }
+                    if (onClose) onClose()
                   }}
                 >
                   TSX
@@ -117,44 +113,63 @@ const Header = () => {
   const showLayout = useSelector(getShowLayout)
   const showCode = useSelector(getShowCode)
   const dispatch = useDispatch()
-
   const components = useSelector(getComponents)
 
-const exportToForgeUIOne = async () => {
-  const code = generateForgeUILvglCode(components)
+  const [flashLog, setFlashLog] = useState('')
+  const [flashPanelOpen, setFlashPanelOpen] = useState(false)
+  const [flashRunning, setFlashRunning] = useState(false)
 
-  await fetch('http://localhost:3030/export', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code }),
-  })
+  useEffect(() => {
+    if (!flashPanelOpen) return
 
-  await fetch('http://localhost:3030/flash', {
-    method: 'POST',
-  })
+    const timer = setInterval(async () => {
+      try {
+        const res = await fetch('http://localhost:3030/flash-log')
+        const data = await res.json()
 
-  alert('Build + Flash started')
-}
+        setFlashLog(data.log || '')
+        setFlashRunning(Boolean(data.running))
+      } catch (err) {
+        console.error(err)
+      }
+    }, 500)
 
-const cleanBuildFlashForgeUIOne = async () => {
-  const code = generateForgeUILvglCode(components)
+    return () => clearInterval(timer)
+  }, [flashPanelOpen])
 
-  await fetch('http://localhost:3030/export', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code }),
-  })
+  const exportToForgeUIOne = async () => {
+    const code = generateForgeUILvglCode(components)
 
-  await fetch('http://localhost:3030/clean-flash', {
-    method: 'POST',
-  })
+    setFlashPanelOpen(true)
+    setFlashLog('Starting Build & Flash...\n')
 
-  alert('Clean Build + Flash started')
-}
+    await fetch('http://localhost:3030/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+    })
+
+    await fetch('http://localhost:3030/flash', {
+      method: 'POST',
+    })
+  }
+
+  const cleanBuildFlashForgeUIOne = async () => {
+    const code = generateForgeUILvglCode(components)
+
+    setFlashPanelOpen(true)
+    setFlashLog('Starting Clean Build & Flash...\n')
+
+    await fetch('http://localhost:3030/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+    })
+
+    await fetch('http://localhost:3030/clean-flash', {
+      method: 'POST',
+    })
+  }
 
   return (
     <DarkMode>
@@ -185,6 +200,7 @@ const cleanBuildFlashForgeUIOne = async () => {
             <Box>
               <HeaderMenu />
             </Box>
+
             <FormControl flexDirection="row" display="flex" alignItems="center">
               <Tooltip
                 zIndex={100}
@@ -206,6 +222,7 @@ const cleanBuildFlashForgeUIOne = async () => {
                   Builder mode
                 </FormLabel>
               </Tooltip>
+
               <LightMode>
                 <Switch
                   isChecked={showLayout}
@@ -229,6 +246,7 @@ const cleanBuildFlashForgeUIOne = async () => {
               >
                 Code panel
               </FormLabel>
+
               <LightMode>
                 <Switch
                   isChecked={showCode}
@@ -242,41 +260,41 @@ const cleanBuildFlashForgeUIOne = async () => {
           </HStack>
 
           <Stack direction="row">
-  <CodeSandboxButton />
+            <CodeSandboxButton />
 
-      <HStack spacing={2}>
-        <Box
-         fontSize="10px"
-         color="gray.300"
-          px={2}
-          py={1}
-         borderWidth="1px"
-         borderColor="gray.600"
-         borderRadius="md"
-         bg="#202938"
-         whiteSpace="nowrap"
-  >
-        ESP32-P4-WIFI6-Touch-LCD-7B
-    </Box>
+            <HStack spacing={2}>
+              <Box
+                fontSize="10px"
+                color="gray.300"
+                px={2}
+                py={1}
+                borderWidth="1px"
+                borderColor="gray.600"
+                borderRadius="md"
+                bg="#202938"
+                whiteSpace="nowrap"
+              >
+                ESP32-P4-WIFI6-Touch-LCD-7B
+              </Box>
 
-  <Button
-  size="xs"
-  variant="solid"
-  colorScheme="teal"
-  onClick={exportToForgeUIOne}
->
-  Build & Flash
-</Button>
+              <Button
+                size="xs"
+                variant="solid"
+                colorScheme="teal"
+                onClick={exportToForgeUIOne}
+              >
+                Build & Flash
+              </Button>
 
-<Button
-  size="xs"
-  variant="outline"
-  colorScheme="orange"
-  onClick={cleanBuildFlashForgeUIOne}
->
-  Clean Build & Flash
-</Button>
-</HStack>
+              <Button
+                size="xs"
+                variant="outline"
+                colorScheme="orange"
+                onClick={cleanBuildFlashForgeUIOne}
+              >
+                Clean Build & Flash
+              </Button>
+            </HStack>
 
             <Popover>
               {({ onClose }) => (
@@ -291,6 +309,7 @@ const cleanBuildFlashForgeUIOne = async () => {
                       Clear
                     </Button>
                   </PopoverTrigger>
+
                   <LightMode>
                     <PopoverContent zIndex={100} bg="white">
                       <PopoverArrow />
@@ -308,9 +327,7 @@ const cleanBuildFlashForgeUIOne = async () => {
                           rightIcon={<CheckIcon path="" />}
                           onClick={() => {
                             dispatch.components.reset()
-                            if (onClose) {
-                              onClose()
-                            }
+                            if (onClose) onClose()
                           }}
                         >
                           Yes, clear
@@ -342,6 +359,72 @@ const cleanBuildFlashForgeUIOne = async () => {
           </Box>
         </Stack>
       </Flex>
+
+      {flashPanelOpen && (
+        <Box
+          position="fixed"
+          right="20px"
+          bottom="20px"
+          width="760px"
+          height="360px"
+          bg="#05070a"
+          color="green.100"
+          border="1px solid #2dd4bf"
+          borderRadius="md"
+          zIndex={9999}
+          p={3}
+          boxShadow="0 0 20px rgba(0,0,0,0.6)"
+        >
+          <Flex justify="space-between" mb={2} align="center">
+            <Box fontWeight="bold">ForgeUI Flash Console</Box>
+
+            <HStack spacing={2}>
+              <Box
+                fontSize="11px"
+                color={flashRunning ? 'orange.300' : 'green.300'}
+              >
+                {flashRunning ? 'RUNNING' : 'IDLE'}
+              </Box>
+
+              <Button
+                size="xs"
+                variant="outline"
+                onClick={() => setFlashLog('')}
+              >
+                Clear
+              </Button>
+
+              <Button
+                size="xs"
+                colorScheme="red"
+                onClick={async () => {
+                  await fetch('http://localhost:3030/flash-stop', {
+                    method: 'POST',
+                  })
+
+                  setFlashPanelOpen(false)
+                }}
+              >
+                Close / Stop
+              </Button>
+            </HStack>
+          </Flex>
+
+          <Box
+            as="pre"
+            whiteSpace="pre-wrap"
+            overflowY="auto"
+            height="300px"
+            fontSize="11px"
+            fontFamily="monospace"
+            bg="#020304"
+            p={2}
+            borderRadius="md"
+          >
+            {flashLog || 'Waiting for flash output...'}
+          </Box>
+        </Box>
+      )}
     </DarkMode>
   )
 }
