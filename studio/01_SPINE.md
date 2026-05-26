@@ -6,8 +6,8 @@
 * **Project Name:** ESP32-P4 UI Studio
 * **Internal Branding:** ForgeUI Studio
 * **Repository Name:** `esp32p4-ui-studio`
-* **Current Status:** ALIVE / PUBLIC RC1 FOUNDATION
-* **Active Save Point:** `FORGEUI_STUDIO_INITIAL_PUBLIC_PUSH_DARK_INSPECTOR_V1__README_TAGS_REPO_AUDIT_NEXT__2026-05-25`
+* ** Current Status: ALIVE / STUDIO-TO-HARDWARE PIPELINE PROVEN
+* ** Active Save Point: `FORGEUI_STUDIO_MINIMAL_RUNTIME_CLEAN_FLASH_OK__WEB_FLASH_PANEL_NEXT__2026-05-26``
 
 ### Project Goal
 * **Definition:** Visual embedded UI designer and deployment toolchain.
@@ -78,10 +78,28 @@ esp32p4-ui-studio/
 
 ### Generated Artifact Contract
 * **Output Files:** `90_Studio_Export.c` and `90_Studio_Export.h`.
-* **Runtime Insertion Point:** `ForgeUI-One/main/02_UI_Home.c`.
-* **Execution Call:** `fg_studio_export_create(parent);`.
+* **Runtime Insertion Point:** `ForgeUI-One/main/01_FG_Runtime.c`.
+* **Execution Call:** `fg_studio_export_create(scr);`.
 * **Status:** Treat generated files purely as replaceable artifacts. Never hand-edit them.
 
+### Runtime Ownership Truth
+
+Studio owns:
+- layout
+- colours
+- themes
+- widgets
+- generated LVGL code
+
+ForgeUI-One owns:
+- ESP-IDF boot
+- BSP display/touch startup
+- LVGL lifecycle
+- generated export execution
+- optional backend hardware services
+
+The firmware runtime no longer owns pages, headers,
+themes, icon sets, or app UI layout.
 ---
 
 ## 5. Strict Development Rules

@@ -1,19 +1,12 @@
 idf_component_register(
     SRCS
         "main.c"
-        "01_FG_HMI.c"
-        "02_UI_Home.c"
-        "05_FG_Icons.c"
-        "14_UI_Header.c"
-        "15_UI_Keyboard.c"
-        "16_UI_Style.c"
+        "01_FG_Runtime.c"
         "20_RTC.c"
         "30_Audio.c"
         "30_WIFI.c"
         "40_SD.c"
-	"90_Studio_Export.c"
-
-
+        "90_Studio_Export.c"
 
     INCLUDE_DIRS
         "."

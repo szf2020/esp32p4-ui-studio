@@ -11,7 +11,7 @@ const buildLvglBlock = (
   lines: string[],
   counter: { value: number }
 ) => {
-  component.children.forEach((key: string) => {
+    ;(component.children || []).forEach((key: string) => {
     const child = components[key]
     if (!child) return
 
@@ -97,16 +97,28 @@ export const generateForgeUILvglCode = (components: IComponents) => {
   lines.push(``)
   lines.push(`void fg_studio_export_create(lv_obj_t *parent)`)
   lines.push(`{`)
+      lines.push(`    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0xB00020), 0);`)
+  lines.push(`    lv_obj_set_style_bg_opa(lv_screen_active(), LV_OPA_COVER, 0);`)
+  lines.push(`    lv_obj_set_style_bg_color(parent, lv_color_hex(0xB00020), 0);`)
+  lines.push(`    lv_obj_set_style_bg_opa(parent, LV_OPA_COVER, 0);`)
+  lines.push(``)
 
   const body: string[] = []
 
-  buildLvglBlock(
-    components.root,
-    components,
-    'parent',
-    body,
-    { value: 0 }
-  )
+    const root =
+    components.root ||
+    Object.values(components).find((c: any) => c.parent === c.id) ||
+    Object.values(components)[0]
+
+  if (root) {
+    buildLvglBlock(
+      root,
+      components,
+      'parent',
+      body,
+      { value: 0 }
+    )
+  }
 
   body.forEach(line => {
     lines.push(line ? `    ${line}` : ``)

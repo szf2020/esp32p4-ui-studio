@@ -1,52 +1,33 @@
 // ============================================================
-// ForgeUI One
+// ForgeUI One Runtime
 // ============================================================
 //
 // Created by Scott Forster
 // Contact: forgeui.esp32@gmail.com
 //
-// Clean ESP32-P4 LVGL starter framework.
+// Minimal ESP32-P4 firmware runtime target
+// for ESP32-P4 UI Studio.
 //
-// Purpose:
-// - single-page alive baseline
-// - display + touch proof
-// - header + styling baseline
-// - hosted WiFi support
-// - SD card support
-// - RTC support
-// - optional audio support
+// Responsibilities:
+// - ESP-IDF boot
+// - BSP display/touch startup
+// - LVGL lifecycle
+// - generated Studio export execution
+// - optional backend hardware services
 //
-// Designed to help ESP32-P4 developers get a stable UI baseline
-// alive faster.
-//
-// Please retain ForgeUI attribution in public, commercial,
-// educational, or redistributed builds.
+// Studio owns:
+// - layout
+// - widgets
+// - themes
+// - colours
+// - generated LVGL UI
 //
 // Powered by ForgeUI
 //
 // ============================================================
 
-// ============================================================
-// Studio Export Test
-// ============================================================
-//
-// Enables temporary ForgeUI Studio -> LVGL export testing.
-//
-// Purpose:
-// - validate generated LVGL code
-// - validate Studio coordinate export
-// - validate physical ESP32-P4 rendering
-//
-// When enabled:
-// - 90_Studio_Export.c may inject generated LVGL objects
-// - generated screens may appear on top of ForgeUI One UI
-//
-// This is a temporary experimental bridge layer.
-//
-// ============================================================
-
-#define FORGEUI_ENABLE_STUDIO_EXPORT_TEST  1
-
+// #define FORGEUI_ENABLE_STUDIO_EXPORT_TEST  1
+#define FORGEUI_ENABLE_STUDIO_EXPORT_TEST  2
 
 #pragma once
 
@@ -78,13 +59,6 @@
 #define FORGEUI_ENABLE_AUDIO               0
 
 // ============================================================
-// Header Options
-// ============================================================
-
-#define FORGEUI_ENABLE_HEADER              1
-#define FORGEUI_SHOW_HEADER_CLOCK          1
-
-// ============================================================
 // Display Options
 // ============================================================
 
@@ -92,42 +66,6 @@
 #define FORGEUI_ROTATION_180               1
 
 #define FORGEUI_DISPLAY_ROTATION           FORGEUI_ROTATION_180
-
-// ============================================================
-// Theme IDs
-// ============================================================
-
-#define FORGEUI_STYLE_ATLAS_LIGHT          0
-#define FORGEUI_STYLE_NEBULA_BLUE          1
-#define FORGEUI_STYLE_CARBON               2
-
-// ============================================================
-// Active Theme
-// ============================================================
-//
-// Select ONE active style.
-//
-// ============================================================
-
-//#define FORGEUI_STYLE_ACTIVE             FORGEUI_STYLE_ATLAS_LIGHT
-#define FORGEUI_STYLE_ACTIVE             FORGEUI_STYLE_NEBULA_BLUE
-
-
-// ============================================================
-// Icon Set IDs
-// ============================================================
-
-#define FORGEUI_ICON_SET_LIGHT_32          0
-#define FORGEUI_ICON_SET_DARK_32           1
-#define FORGEUI_ICON_SET_LIGHT_48          2
-#define FORGEUI_ICON_SET_DARK_48           3
-#define FORGEUI_ICON_SET_DARK_64           4
-
-// ============================================================
-// Active Icon Set
-// ============================================================
-
-#define FORGEUI_ICON_SET_ACTIVE            FORGEUI_ICON_SET_DARK_48
 
 // ============================================================
 // WiFi Backend Options

@@ -1,38 +1,4 @@
-/*
- * ============================================================
- * ForgeUI One
- * ============================================================
- *
- * Main application entry point.
- *
- * Responsibilities:
- * - NVS init
- * - display bring-up
- * - LVGL startup
- * - backend startup
- * - runtime loop
- *
- * Runtime Ownership Rules:
- * - main.c owns boot order only
- * - backend modules own system state
- * - UI modules render only
- * - no business logic in app_main
- *
- * Target Board:
- *   Waveshare ESP32-P4-WIFI6-Touch-LCD-7B
- *
- * Important Hardware Rule:
- *
- * ESP32-P4 Hosted WiFi and SDMMC
- * share critical hardware paths.
- *
- * Current stable boot order:
- *
- *   Hosted WiFi first
- *   -> SD mount second
- *
- * ============================================================
- */
+
 
 #include "nvs_flash.h"
 #include "nvs.h"
@@ -44,11 +10,11 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "30_WIFI.h"
-#include "01_FG_HMI.h"
-#include "14_UI_Header.h"
 #include "20_RTC.h"
 #include "40_SD.h"
 #include "00_ForgeUI_Config.h"
+
+#include "01_FG_Runtime.h"
 
 
 static const char *TAG = "APP_MAIN";
@@ -79,14 +45,9 @@ void app_main(void)
 
     bsp_display_backlight_on();
 
-    //if (disp != NULL)
-    //{
-    //    bsp_display_rotate(disp, LV_DISPLAY_ROTATION_180);
-    //}
-
-    // ---- UI INIT ----
+        // ---- UI INIT ----
     bsp_display_lock(0);
-    fg_hmi_init();
+    fg_runtime_init();
     bsp_display_unlock();
 
 #if FORGEUI_ENABLE_RTC
@@ -193,11 +154,7 @@ void app_main(void)
         {
             last_1hz = now;
 
-            bsp_display_lock(0);
-            fg_header_refresh();
-            bsp_display_unlock();
-
-#if FORGEUI_ENABLE_WIFI
+ #if FORGEUI_ENABLE_WIFI
             const char *wifi_status = fg_wifi_status_text();
             const char *wifi_ip = fg_wifi_ip_text();
 #else
