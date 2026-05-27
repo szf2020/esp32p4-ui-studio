@@ -13,8 +13,8 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ components }) => {
   const root = components.root
 
   return (
-    <Box p={4}>
-      <HStack mb={3} justify="space-between">
+    <Box px={3} pt={0} pb={1}>
+      <HStack mb={0} justify="space-between">
         <Text fontWeight="bold">ForgeUI Browser Preview</Text>
         <Text fontSize="xs" color="gray.400">
           Browser Preview Only — final LVGL render may differ slightly.

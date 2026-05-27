@@ -7,7 +7,7 @@
 * **Internal Branding:** ForgeUI Studio
 * **Repository Name:** `esp32p4-ui-studio`
 * ** Current Status:** ALIVE / STUDIO-TO-HARDWARE PIPELINE PROVEN / DEV MODE RUNTIME ACTIVE
-* ** Active Save Point:** `FORGEUI_STUDIO_WEB_FLASH_CONSOLE_V1_STABLE__BACKGROUND_FLAVOURS_NEXT__2026-05-26`
+* ** Active Save Point:** `FORGEUI_STUDIO_BROWSER_PREVIEW_V1__MULTI_WIDGET_RENDERER_OK__2026-05-27
 
 ### Project Goal
 * **Definition:** Visual embedded UI designer and deployment toolchain.
@@ -87,6 +87,49 @@ esp32p4-ui-studio/
 * **Runtime Insertion Point:** `ForgeUI-One/main/01_FG_Runtime.c`.
 * **Execution Call:** `fg_studio_export_create(scr);`.
 * **Status:** Treat generated files purely as replaceable artifacts. Never hand-edit them.
+
+### Browser Preview V1 Contract
+
+* **Status:** ALIVE / PROVEN V1.
+* **Purpose:** Allow the user to preview the designed ESP32-P4 screen in the browser before running ESP-IDF build and flash.
+* **Entry Point:** `Header.tsx` owns the Preview button and preview overlay.
+* **Preview Shell:** `studio/src/forgeui/preview/DevicePreview.tsx`.
+* **Preview Renderer:** `studio/src/forgeui/preview/forgePreviewRenderer.tsx`.
+* **Preview Theme Map:** `studio/src/forgeui/preview/forgeThemeMap.ts`.
+* **Device Source of Truth:** `studio/src/forgeui/ForgeUIDeviceConfig.ts`.
+
+#### Preview Rules
+* Browser Preview is a visual approximation only.
+* Final LVGL hardware render may differ slightly.
+* Preview must reuse the same Studio component graph as LVGL export.
+* Do not create a separate preview-only schema.
+* Keep preview code isolated under `studio/src/forgeui/preview/`.
+* Preview must not modify firmware files.
+* Preview exists to reduce wasted build/flash cycles and catch obvious layout, spacing, colour, and widget issues early.
+
+#### Preview V1 Supported Components
+* Button
+* Text
+* Input
+* Textarea
+* Switch
+* Checkbox
+* Radio
+* Slider
+* Progress
+* CircularProgress
+* NumberInput
+* Select
+* Image
+* Box
+
+#### Current Preview Limitations
+* Browser Preview is not a true LVGL renderer.
+* Nested layout parity is still early.
+* Flex/Grid behaviour may not exactly match final LVGL output.
+* Image source handling is basic.
+* Component styling is approximate and theme-driven.
+* Hardware validation by flash remains the final truth.
 
 ### Runtime Ownership Truth
 
