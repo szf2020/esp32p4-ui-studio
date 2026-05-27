@@ -1,6 +1,6 @@
 {
-  "name": "OpenChakra",
-  "short_name": "React JSX visual editor for Chakra UI",
+  "name": "ForgeUI Studio",
+  "short_name": "ForgeUI",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "background_color": "#020617",
   "display": "standalone"
 }

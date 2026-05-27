@@ -8,4 +8,6 @@ taskkill /F /IM npm.cmd
 taskkill /F /IM powershell.exe
 
 echo Done.
-pause
+
+timeout /t 0 >nul
+exit

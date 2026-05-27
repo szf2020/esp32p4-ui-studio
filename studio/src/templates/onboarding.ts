@@ -429,7 +429,7 @@ export const onboarding: IComponents = {
   'comp-K6GPAPKNQACEE': {
     id: 'comp-K6GPAPKNQACEE',
     props: {
-      children: '⚡️Welcome to OpenChakra',
+      children: '⚡️Welcome to ForgeUI Studio',
       fontSize: '3xl',
       fontWeight: 'bold',
     },
@@ -917,7 +917,7 @@ export const onboarding: IComponents = {
     id: 'comp-K6H17HIGGSUHM',
     props: {
       children:
-        'Reach the yellow bar on the top to delete, reset and access the Chakra doc of each component.',
+          'Use the top toolbar to manage components, reset layouts, and access component documentation.',
       color: 'gray.600',
     },
     children: [],
@@ -1005,7 +1005,7 @@ export const onboarding: IComponents = {
   'comp-K6H1NSQY3KC7W': {
     id: 'comp-K6H1NSQY3KC7W',
     props: {
-      children: 'The Visual Editor for Chakra UI',
+      children: 'Embedded UI Designer for ESP32-P4 and LVGL',
       color: 'gray.500',
     },
     children: [],
