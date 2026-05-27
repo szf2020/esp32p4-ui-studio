@@ -13,7 +13,7 @@ void fg_studio_export_create(lv_obj_t *parent)
     lv_obj_set_style_bg_opa(parent, LV_OPA_COVER, 0);
 
     lv_obj_t * obj1 = lv_button_create(parent);
-    lv_obj_set_pos(obj1, 340, 86);
+    lv_obj_set_pos(obj1, 349, 109);
     lv_obj_set_size(obj1, 240, 120);
     lv_obj_set_style_radius(obj1, 12, 0);
     lv_obj_set_style_bg_color(obj1, lv_color_hex(0x1E2328), 0);

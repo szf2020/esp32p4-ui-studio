@@ -390,19 +390,19 @@ const Header = () => {
 
             {flashPanelOpen && (
         <Box
-          position="fixed"
-          right="20px"
-          bottom="20px"
-          width="760px"
-          height="360px"
-          bg="#05070a"
-          color="green.100"
-          border="1px solid #2dd4bf"
-          borderRadius="md"
-          zIndex={9999}
-          p={3}
-          boxShadow="0 0 20px rgba(0,0,0,0.6)"
-        >
+  position="fixed"
+  left="18rem"
+  right="18rem"
+  bottom="14px"
+  height="118px"
+  bg="#05070a"
+  color="green.100"
+  border="1px solid #2dd4bf"
+  borderRadius="md"
+  zIndex={9999}
+  p={3}
+  boxShadow="0 0 20px rgba(0,0,0,0.6)"
+>
           <Flex justify="space-between" mb={2} align="center">
             <Box fontWeight="bold">ForgeUI Flash Console</Box>
 
@@ -429,20 +429,20 @@ const Header = () => {
           </Flex>
 
           <Box
-            as="pre"
-            whiteSpace="pre-wrap"
-            overflowY="auto"
-            height="300px"
-            fontSize="11px"
-            fontFamily="monospace"
-            bg="#020304"
-            p={2}
-            borderRadius="md"
-          >
-            {flashLog || 'Waiting for flash output...'}
-          </Box>
-        </Box>
-      )}
+  as="pre"
+  whiteSpace="pre-wrap"
+  overflowY="auto"
+  height="62px"
+  fontSize="11px"
+  fontFamily="monospace"
+  bg="#020304"
+  p={2}
+  borderRadius="md"
+>
+  {flashLog || 'Waiting for flash output...'}
+</Box>
+</Box>
+)}
 
             {previewOpen && (
         <Box
