@@ -77,6 +77,164 @@ const buildLvglBlock = (
         lines.push(``)
         break
       }
+      
+            case 'Button': {
+        const text = esc(
+          child.props.children ||
+            child.props.text ||
+            child.props.label ||
+            'Button'
+        )
+
+        lines.push(`lv_obj_t * ${varName} = lv_button_create(${parentVar});`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_obj_set_style_radius(${varName}, 12, 0);`)
+        lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+        lines.push(`lv_obj_set_style_bg_opa(${varName}, LV_OPA_COVER, 0);`)
+        lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+        lines.push(`lv_obj_set_style_border_width(${varName}, 2, 0);`)
+
+        lines.push(`lv_obj_t * ${varName}_label = lv_label_create(${varName});`)
+        lines.push(`lv_label_set_text(${varName}_label, "${text}");`)
+        lines.push(`lv_obj_set_style_text_color(${varName}_label, lv_color_hex(${palette.text}), 0);`)
+        lines.push(`lv_obj_center(${varName}_label);`)
+        lines.push(``)
+        break
+      }
+
+            case 'Input': {
+        const text = esc(child.props.placeholder || child.props.value || 'Input')
+
+        lines.push(`lv_obj_t * ${varName} = lv_textarea_create(${parentVar});`)
+        lines.push(`lv_textarea_set_one_line(${varName}, true);`)
+        lines.push(`lv_textarea_set_placeholder_text(${varName}, "${text}");`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+        lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
+        lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+        lines.push(``)
+        break
+      }
+
+      case 'Textarea': {
+        const text = esc(child.props.placeholder || child.props.value || 'Textarea')
+
+        lines.push(`lv_obj_t * ${varName} = lv_textarea_create(${parentVar});`)
+        lines.push(`lv_textarea_set_placeholder_text(${varName}, "${text}");`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+        lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
+        lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+        lines.push(``)
+        break
+      }
+      case 'Switch': {
+        lines.push(`lv_obj_t * ${varName} = lv_switch_create(${parentVar});`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(``)
+        break
+      }
+
+      case 'Checkbox': {
+        const text = esc(
+          child.props.children ||
+            child.props.text ||
+            child.props.label ||
+            'Checkbox'
+        )
+
+        lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
+        lines.push(`lv_checkbox_set_text(${varName}, "${text}");`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
+        lines.push(``)
+        break
+      }
+
+            case 'Slider': {
+        lines.push(`lv_obj_t * ${varName} = lv_slider_create(${parentVar});`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_slider_set_value(${varName}, ${lv(child.props.value, 50)}, LV_ANIM_OFF);`)
+        lines.push(``)
+        break
+      }
+
+      case 'Radio': {
+        const text = esc(
+          child.props.children ||
+            child.props.text ||
+            child.props.label ||
+            'Radio'
+        )
+
+        lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
+        lines.push(`lv_checkbox_set_text(${varName}, "${text}");`)
+        lines.push(`lv_obj_add_state(${varName}, LV_STATE_CHECKED);`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
+        lines.push(``)
+        break
+      }
+
+      case 'Progress': {
+        lines.push(`lv_obj_t * ${varName} = lv_bar_create(${parentVar});`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_bar_set_range(${varName}, 0, 100);`)
+        lines.push(`lv_bar_set_value(${varName}, ${lv(child.props.value, 65)}, LV_ANIM_OFF);`)
+        lines.push(``)
+        break
+      }
+
+            case 'CircularProgress': {
+        lines.push(`lv_obj_t * ${varName} = lv_arc_create(${parentVar});`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_arc_set_range(${varName}, 0, 100);`)
+        lines.push(`lv_arc_set_value(${varName}, ${lv(child.props.value, 65)});`)
+        lines.push(``)
+        break
+      }
+
+      case 'NumberInput': {
+        const text = esc(String(child.props.value || '123'))
+
+        lines.push(`lv_obj_t * ${varName} = lv_textarea_create(${parentVar});`)
+        lines.push(`lv_textarea_set_one_line(${varName}, true);`)
+        lines.push(`lv_textarea_set_text(${varName}, "${text}");`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+        lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
+        lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+        lines.push(``)
+        break
+      }
+
+      case 'Select': {
+        lines.push(`lv_obj_t * ${varName} = lv_dropdown_create(${parentVar});`)
+        lines.push(`lv_dropdown_set_options(${varName}, "Option 1\\nOption 2\\nOption 3");`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(``)
+        break
+      }
+
+      case 'Image': {
+        lines.push(`lv_obj_t * ${varName} = lv_obj_create(${parentVar});`)
+        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+        lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+        lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+        lines.push(`lv_obj_set_style_border_width(${varName}, 2, 0);`)
+        lines.push(``)
+        break
+      }
 
       case 'Box':
         lines.push(`lv_obj_t * ${varName} = lv_obj_create(${parentVar});`)
