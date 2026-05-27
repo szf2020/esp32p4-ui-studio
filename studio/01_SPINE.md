@@ -116,7 +116,7 @@ esp32p4-ui-studio/
 * Image export is currently placeholder-level only; real asset conversion pipeline is deferred.
 * Several LVGL widgets are interactive on hardware already.
 
-### Browser Preview V1 Contract
+### Browser Preview V1 Contract.
 
 * **Status:** ALIVE / PROVEN V1.
 * **Purpose:** Allow the user to preview the designed ESP32-P4 screen in the browser before running ESP-IDF build and flash.
