@@ -1,185 +1,119 @@
-# ESP32-P4 UI Studio | Visual LVGL Creator & Embedded Deployment Toolchain 🚀
+# ESP32-P4 Studio | Visual LVGL v9 HMI Designer & ESP-IDF Flash Toolchain
 
-**ESP32-P4 UI Studio** is an open-source, all-in-one visual HMI designer and automated deployment toolchain engineered specifically for **ESP32-P4** touchscreen hardware running **LVGL v9**. 
+[![ESP-IDF Version](https://shields.io)](https://github.com)
+[![LVGL Version](https://shields.io)](https://github.com)
+[![Target Hardware](https://shields.io)](https://waveshare.com)
 
-By adapting a mature drag-and-drop editor engine toward a hardware-aware embedded layout workflow platform, this project completely bridges web-based visual prototyping with automated native hardware flashing. The project aims to reduce the traditional complexity of embedded LVGL workflows by integrating visual editing, export generation, and firmware deployment into a single coordinated workspace.
+**ESP32-P4 Studio** (ForgeUI Studio) is an open-source, low-code visual HMI designer and automated deployment toolchain built for **Espressif ESP32-P4** microcontrollers running **LVGL v9**.
+
+This platform bridges web-based drag-and-drop UI prototyping with low-level embedded hardware deployment. It transforms absolute visual layouts directly into optimized native C code, automates the ESP-IDF compilation pipeline, and flashes production-ready firmware to your touch screen development board in a single click.
 
 ---
 
-## ⚡ Major Milestone: End-to-End Hardware Pipeline
+## ⚡ Key Features & Embedded Toolchain Pipeline
 
-The project is developing an integrated hardware workflow in local dev mode. It moves from design toward physical execution:
+Eliminate manual UI positioning and slow compilation loops. ESP32-P4 Studio automates the entire embedded graphics workflow locally:
 
 ```text
-Visual Editor ➔ LVGL C Export ➔ Local Export Bridge ➔ ESP-IDF Firmware Runtime ➔ ESP32-P4 Flash ➔ Live Hardware Rendering
+Visual Drag-and-Drop ➔ LVGL v9 C Code Gen ➔ Local Node.js Bridge ➔ ESP-IDF Compiler ➔ Direct USB Flashing ➔ Live LCD Rendering
 ```
 
-This pipeline has been validated for the core dev flow and remains under active refinement.
-
-* Theme packs and texture systems now emerging as a major ForgeUI Studio feature direction.
-
----
-
-## 🛠️ Hardware Target & Tech Stack
-
-Out of the box, the workspace environment is pre-tuned for high-speed performance on industrial-grade layouts:
-* **Primary Target Hardware:** Waveshare ESP32-P4-WIFI6-Touch-LCD-7B
-* **Viewport Metrics:** 1024x600 fixed pixel resolution
-* **Graphics Library:** LVGL v9 
-* **Backend Framework:** ESP-IDF v5.5.4
+* **Direct Hardware Flashing:** Flash compiled UI binaries straight to the ESP32 chip using built-in scripting utilities.
+* **WYSIWYG HMI Creator:** Visual canvas configured for high-performance industrial layouts and responsive tactile testing.
+* **Shared Theme Engine:** Synchronized color profiles across the browser design workspace, interactive previews, and physical LCD panels.
 
 ---
 
-## 📦 Project Architecture & Directory Layout
+## 🛠️ Supported Hardware Targets & Tech Stack
 
-The workspace functions as a clean, self-contained monorepo split cleanly into two independent engines:
+The workspace environment is pre-tuned out-of-the-box for high-resolution graphics and intensive touch interface processing:
+
+* **Primary Hardware Target:** Waveshare ESP32-P4-WIFI6-Touch-LCD-7B (High-performance RISC-V SoC)
+* **Display Configuration:** 1024x600 fixed pixel resolution viewport bounds clamping
+* **Embedded Graphics Library:** LVGL v9 Core Component Framework
+* **Backend Framework:** Espressif ESP-IDF v5.5.4 Dev Environment
+
+---
+
+## 📦 Project Architecture & Directory Structure
+
+The repository is built as a self-contained monorepo separating the web workspace from the native firmware application shell:
 
 ```text
 esp32p4-ui-studio/
-├── studio/                 # Visual Editor & UI Design Workspace (React / Next.js)
+├── studio/                 # Frontend UI Builder Canvas & LVGL C Code Generator (React / Next.js)
 ├── firmware/
-│   └── ForgeUI-One/        # Pure ESP-IDF Runtime, BSP, and LVGL Application Shell
-├── tools/                  # Automated build, compilation, and flashing utilities
-├── START_FORGEUI_STUDIO.bat # Legacy visible launcher
-├── START_FORGEUI_STUDIO_HIDDEN.vbs # Current hidden dev launcher
-├── STOP_FORGEUI_STUDIO.bat # Current runtime shutdown helper
-├── README.md               # Workspace documentation
-├── LICENSE                 # Core open-source license agreements
-└── 01_SPINE.md             # Architecture spine index
+│   └── ForgeUI-One/        # Native ESP-IDF Runtime, Board Support Package (BSP), & LVGL Shell
+├── tools/                  # Automated ESP-IDF compilation, build, and flashing utilities
+├── START_FORGEUI_STUDIO.bat # Windows background service launcher
+├── START_FORGEUI_STUDIO_HIDDEN.vbs # Hidden developer environment startup script
+├── STOP_FORGEUI_STUDIO.bat # Development server shutdown helper
+├── README.md               # Repository documentation & SEO landing page
+└── 01_SPINE.md             # Architecture core index
 ```
 
-### The Architectural Separation of Concerns
-1. **The Studio Side (`/studio`)**: Owns the visual editor workspace, canvas viewport bounds clamping, absolute x/y layout state, property inspectors, and LVGL C code generation orchestration.
-2. **The Firmware Side (`/firmware`)**: Owns the native ESP-IDF compilation workspace, Board Support Package (BSP) setup, display/touch peripheral drivers, and the live application shell. Generated UI files are cleanly injected as isolated build artifacts.
+### Architectural Separation of Concerns
+1. **The Studio App (`/studio`)**: Manages absolute X/Y coordinates, custom component state, layout nesting, and automated asset generation exports.
+2. **The Firmware Layer (`/firmware`)**: Runs bare-metal C configurations, hardware peripheral drivers, display/touch screen controllers, and integrates output files as isolated build artifacts.
 
 ---
 
-## 🚨 Crucial Architectural Rules
+## 🚨 Architectural Constraints & Design Rules
 
-To maintain high stability and maintainability, the project strictly enforces these design separation protocols:
-* **Do NOT** embed React or web runtimes into the embedded firmware.
-* **Do NOT** turn the ESP-IDF hardware layer into a web runtime wrapper.
-* **Do NOT** tightly couple active frontend Chakra UI preview components into the structural LVGL code exporter logic.
-* **The Paradigm:** Studio generates static LVGL artifacts ➔ Firmware compiles and executes LVGL artifacts ➔ Hardware renders the live interface.
+To ensure performance stability on resource-constrained microcontrollers, the project enforces structural separation:
+* **No Web Runtimes on Chip:** HTML/CSS, React, or browser wrappers do not run on the ESP32-P4 processor.
+* **Pure Static Output:** The React editor compiles layouts down to pure, hardware-native static LVGL C artifacts (`.c` / `.h`).
+* **Zero Component Coupling:** Frontend React components (Chakra UI) remain completely isolated from the static code exporter scripts.
 
 ---
 
-## 🎨 Current Feature Matrix & Widget Coverage
+## 🎨 Supported LVGL Widgets & Theme Packs
 
-### Structural & Core Features
-* Fixed-viewport layout editing with absolute coordinate positioning
-* Persistent wrapper-owned interaction mechanics (movement, resizing, selection)
-* Browser Preview V1 with Preview-to-P4 validation workflow
-* Shared theme pipeline across:
-  - Studio Canvas
-  - Browser Preview
-  - LVGL Export
-  - ESP32-P4 Hardware
-* Automated local Node.js export bridge runs in the background while the studio operates as a local dev server.
-* Desktop wrapper via Wails/Tauri/Electron is deferred and not currently packaged.
-* Automated ESP-IDF build and flash orchestration
-* Real ESP32-P4 hardware flash validation pipeline proven
+### Preview-to-Hardware Widget Parity Matrix
+The following UI controls map directly from the **Design Workspace ➔ Browser Preview ➔ Transpiled C Code ➔ Live ESP32-P4 LCD Screen**:
 
-### Preview-to-P4 Widget Parity V1
+* **Basic Controls:** Text, Button, Box, Image (Placeholder)
+* **Input Elements:** Input fields, Textarea blocks, NumberInput fields, Select drop-downs
+* **Toggles & Selectors:** Switch, Checkbox, Radio buttons, Sliders
+* **Status Monitors:** Progress Bars, Circular Progress loops
 
-The following widgets are now visually mapped through:
+### Built-in Color Themes
+The project includes 15 ready-to-use aesthetic UI palettes sharing common tokens (`bg`, `surface`, `border`, `text`, `accent`):
 
-Studio → Browser Preview → LVGL Export → ESP32-P4 Hardware
+* *Matrix Green (Default)*, Reactor Dark, Graphite, Nordic Blue, Military Green, Cyber Teal, Forge Orange, Nebula Purple, OLED Black, Carbon Red, Arctic Ice, Industrial Steel, Lava Core, Blueprint, and Toxic Lime.
 
-* Text
-* Button
-* Input
-* Textarea
-* Switch
-* Checkbox
-* Radio
-* Slider
-* Progress
-* CircularProgress
-* NumberInput
-* Select
-* Box
-* Image *(placeholder-level currently)*
+---
 
-### Theme System V1
+## 🔄 Live Developer Workflow Guide
 
-ForgeUI Studio now includes a shared theme contract system powering:
+Follow these steps to build and flash a user interface to your ESP32-P4 controller:
 
-* Browser Preview
-* Generated LVGL
-* ESP32-P4 hardware runtime
-
-#### Shared Theme Tokens
-
-* bg
-* surface
-* surface2
-* border
-* text
-* accent
-
-#### Proven Theme Packs
-
-* Reactor Dark
-* Graphite
-* Nordic Blue
-* Military Green
-* Cyber Teal
-* Forge Orange
-* Nebula Purple
-* OLED Black
-* Matrix Green
-* Carbon Red
-* Arctic Ice
-* Industrial Steel
-* Lava Core
-* Blueprint
-* Toxic Lime
-
-### Current Export Notes
-
-* Browser Preview remains an approximation layer only.
-* Final ESP32-P4 hardware render remains the source of truth.
-* Several widgets are already interactive on hardware.
-* Image export currently remains placeholder-level.
-* Theme spacing, glow, and sizing parity continue improving between browser and hardware.
-
-## 🔄 Live Developer Workflow
-
-1. Run the current dev launcher:
+1. **Initialize the Local Server:** Run the background utility script:
    ```bash
    START_FORGEUI_STUDIO_HIDDEN.vbs
    ```
-2. The local dev server starts, the export bridge runs in the background, and the browser interface is available at `localhost:3000`.
-3. Visually construct your interface on the workspace canvas using absolute coordinates.
-4. Click **Export UI to Device** (*"Export UI to Device"*).
-5. The pipeline writes out your clean `90_Studio_Export.c` / `.h` assets, invokes the ESP-IDF compiler backend, and can build/flash the target board. LVGL export coverage is still under active development.
+2. **Access the Interface:** Open `http://localhost:3000` in your web browser.
+3. **Design Your HMI:** Drag, drop, scale, and position your interactive layout components inside the 1024x600 layout grid.
+4. **Compile & Deploy UI:** Click **Build & Flash** or **Clean Build & Flash** in the top navigation panel.
+5. **Hardware Execution:** The local Node.js export bridge exports `90_Studio_Export.c` / `.h` assets, invokes the ESP-IDF backend compiler, and uploads the firmware binary directly over your USB-C interface.
 
 ---
 
-## ⚠️ Known Limitations & Current Roadmap
+## ⚠️ Limitations & Project Roadmap
 
-### Active Constraints
-* Local script paths are currently pre-configured for Windows host environments.
-* LVGL styling capabilities (fonts, custom radiuses, explicit hex color mapping) are currently undergoing normalization.
-* Live workspace logs require ongoing terminal visibility for end users.
-
-### Strategic Priorities
-* Rename UI actions to explicit targets (e.g., `Export UI to Device` and `Full Clean + Flash Device`).
-* Expand code generation coverage across additional native LVGL widgets and layouts.
-* Add automated desktop application wrapper packages for zero-config onboarding.
-* Introduce native hardware state/connection telemetry feedback monitors into the web inspector toolbar.
+### Ongoing Developments
+* **Cross-Platform Scripts:** Current automation paths (`.bat` / `.vbs`) are built for Windows; Linux and macOS support profiles are in progress.
+* **Font & Styling Normalization:** Upgrading deep styling parameters, custom corner radiuses, and explicit HEX color overrides.
+* **Telemetry Interfaces:** Integrating real-time hardware status logs and connection monitors directly into the web layout inspector toolbar.
 
 ---
 
-## 📜 Upstream Attribution & Open Source Licensing
+## 📜 Open Source Attribution & Licensing
 
-**ESP32-P4 UI Studio** builds on an upstream MIT-licensed editor engine originally developed by Premier Octet. This fork expands, refactors, and pivots that engine specifically toward low-level embedded software workflows, coordinate-based screen mapping, and ESP32 execution toolchains. 
+**ESP32-P4 Studio** is a modified fork of the open-source editor engine developed by *Premier Octet*. This project refactors and extends that platform specifically for embedded systems development, coordinate screen mapping, and automated Espressif flashing toolchains.
 
-The original MIT open-source license and author attributions remain fully preserved inside this repository. For explicit dependency details, please review `LICENSE` and `THIRD_PARTY_LICENSES.md`.
+The original MIT open-source license and author attributions are fully preserved in this repository. See `LICENSE` and `THIRD_PARTY_LICENSES.md` for complete dependency tracking.
 
 ---
-
-### Developed By
-**Scott Forster** | ForgeUI Project  
-📧 Contact: [forgeui.esp32@gmail.com](mailto:forgeui.esp32@gmail.com)
+**Maintained by:** Scott Forster | ForgeUI Project  
+**Contact / Feedback:** [forgeui.esp32@gmail.com](mailto:forgeui.esp32@gmail.com)

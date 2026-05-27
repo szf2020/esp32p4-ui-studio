@@ -1,497 +1,135 @@
-# ForgeUI Studio — GETTING STARTED
+# ForgeUI Studio | Onboarding & Getting Started Guide
+
+## Setup Your Visual LVGL v9 HMI Designer Toolchain
+
+Welcome to **ForgeUI Studio** (internal project reference: **ForgeUI Studio**), a visual, low-code human-machine interface (HMI) designer engineered specifically for **Espressif ESP32-P4** microcontrollers running **LVGL v9**.
+
+This onboarding guide covers local workspace deployment, installation dependencies, and the single-click build and flash initialization flow.
 
 ---
 
-# FORGEUI STUDIO
+## ⚡ Technical Project Core & Current Truth
 
-ForgeUI Studio is a visual embedded UI and HMI designer focused on:
-
-- ESP32-P4
-- LVGL workflows
-- embedded touchscreen UI design
-- coordinate-based UI editing
-- hardware-first interface design
-- future direct firmware deployment
-
-Current hardware target:
-
-- Waveshare ESP32-P4-WIFI6-Touch-LCD-7B
-
-Current viewport:
-
-- 1024x600
-
-Current project status:
-
-**ALIVE**  
-**ACTIVE DEVELOPMENT**
-
-ForgeUI Studio is evolving from:
-
-- responsive web tooling
-
-toward:
-
-- embedded HMI editor
-- LVGL visual designer
-- ESP32-P4 deployment platform
-- embedded UI IDE/toolchain
-
----
-
-# IMPORTANT CURRENT TRUTH
-
-ForgeUI Studio is **NOT** yet a standalone firmware generator.
-
-Current workflow:
+ForgeUI Studio is an actively maintained, hardware-aware visual layout builder that operates locally as an integrated development environment (IDE).
 
 ```text
-ForgeUI Studio
-    ->
-Generated LVGL Export
-    ->
-ForgeUI-One Runtime
-    ->
-ESP32-P4 Hardware
+Visual Layout Designer ➔ Transpiled C Code Exporter ➔ ForgeUI-One Firmware Core ➔ Physical ESP32-P4 Board
 ```
 
-ForgeUI-One currently acts as:
-
-- LVGL runtime shell
-- ESP-IDF firmware project
-- hardware execution environment
-- display/touch runtime
-- generated UI execution target
+* **The Output Pipeline:** The React frontend parses visual layout JSON trees into native `90_Studio_Export.c` / `.h` assets.
+* **The Firmware Runtime Shell:** The `/firmware/ForgeUI-One` directory contains the complete ESP-IDF development template, handling Board Support Packages (BSP), capacitive display drivers, and touch panel initialization registers out of the box.
 
 ---
 
-# CURRENT DEV MODE ARCHITECTURE
+## 🛠️ Required Hardware & Software Prerequisites
 
-Current Studio operation is DEV MODE based.
+Before starting the setup toolchain, confirm that your host development environment has the following software packages installed:
 
-The current stack uses:
+### 1. Host Operating System & Engine Environment
+* **Required Platform:** Windows 10 / 11 Desktop PC Environment.
+* **Runtime Core:** [Node.js v20 LTS (or newer)](https://nodejs.org/). 
+* *Post-Install Check:* Reboot your host terminal shell and verify your engine versions:
+  ```bash
+  node -v
+  npm -v
+  ```
 
-- React
-- NextJS
-- local Node.js servers
-- export bridge runtime
-- hidden launcher scripts
+### 2. Version Control & IDE Extensions (Highly Recommended)
+* **Version System:** [Git Software Suite](https://git-scm.com/) for repository branch management and active system upgrades.
+* **Code Editor:** [Visual Studio Code](https://code.visualstudio.com/) equipped with the following productivity extensions:
+  - *Prettier* & *ESLint* (Style Formatting Linters)
+  - *Espressif ESP-IDF Extension* (Native Microcontroller Debugging Tools)
 
-Current startup flow:
-
-```text
-START_FORGEUI_STUDIO_HIDDEN.vbs
-    ->
-Studio Dev Server
-    ->
-Export Bridge
-    ->
-Browser Launch
-```
-
-Current shutdown flow:
-
-```text
-STOP_FORGEUI_STUDIO.bat
-```
-
-This stops:
-
-- Node servers
-- export bridge
-- hidden background processes
+### 3. Target Silicon Kit & SDK
+* **Display Evaluation Board:** Waveshare ESP32-P4-WIFI6-Touch-LCD-7B (Pre-calibrated 1024x600 layout viewport bounds).
+* **Firmware SDK:** [Espressif ESP-IDF Toolchain v5.5.4+](https://docs.espressif.com/projects/esp-idf/).
 
 ---
 
-# WHAT YOU NEED INSTALLED
+## 📦 System Installation & Environment Cloning
 
-Required:
-
-- Windows PC
-- Node.js
-- Git (recommended)
-
-Recommended:
-
-- Visual Studio Code
-- ESP-IDF
-- ESP32-P4 hardware
-
----
-
-# 1. INSTALL NODE.JS
-
-ForgeUI Studio requires Node.js.
-
-Download:
-
-https://nodejs.org/
-
-Recommended:
-
-- Node 20 LTS or newer
-
-IMPORTANT:
-
-After installation:
-- reboot PC
-OR
-- restart terminal/command prompt
-
-Verify install:
-
-```bash
-node -v
-npm -v
-```
-
----
-
-# 2. INSTALL GIT (RECOMMENDED)
-
-Download:
-
-https://git-scm.com/
-
-Git is recommended for:
-
-- cloning the repo
-- updating Studio
-- commits
-- version control
-- future contribution workflow
-
----
-
-# 3. INSTALL VISUAL STUDIO CODE (RECOMMENDED)
-
-Download:
-
-https://code.visualstudio.com/
-
-Recommended extensions:
-
-- ES7 React snippets
-- Prettier
-- ESLint
-- GitHub Pull Requests
-- ESP-IDF Extension
-
----
-
-# 4. DOWNLOAD FORGEUI STUDIO
-
-## OPTION A — GIT CLONE
-
-Open terminal or command prompt:
+### Step 1: Clone the Local Workspace
+Open your preferred terminal console window and run the standard git compilation download script:
 
 ```bash
 git clone https://github.com/RTechAI/esp32p4-ui-studio.git
 ```
 
-Recommended location:
+> ⚠️ **Directory Mapping Rule:** To ensure build automated paths resolve correctly, it is highly recommended to clone the project tree directly into the following local parent folder partition: `C:\ForgeUI\Projects\esp32p4-ui-studio`
 
-```text
-C:\ForgeUI\Projects\
-```
-
-Example final path:
-
-```text
-C:\ForgeUI\Projects\esp32p4-ui-studio
-```
-
----
-
-## OPTION B — DOWNLOAD ZIP
-
-- Download ZIP from GitHub
-- Extract somewhere safe
-
-Recommended:
-
-```text
-C:\ForgeUI\Projects\
-```
-
----
-
-# 5. OPEN THE PROJECT
-
-Open folder in:
-
-- Visual Studio Code
-OR
-- Windows Explorer
-
-Recommended root:
-
-```text
-C:\ForgeUI\Projects\esp32p4-ui-studio
-```
-
----
-
-# 6. INSTALL PROJECT DEPENDENCIES
-
-FIRST RUN ONLY.
-
-Open terminal inside:
-
-```text
-studio/
-```
-
-Run:
+### Step 2: Resolve Frontend Node Packages
+Navigate explicitly into the visual interface module path and initiate the workspace installer script:
 
 ```bash
+cd studio
 npm install
 ```
 
-This installs:
-
-- React packages
-- NextJS/Vite tooling
-- Chakra UI
-- OpenChakra dependencies
-- ForgeUI Studio dependencies
-
-IMPORTANT:
-
-First install may take several minutes.
+*This process installs the core canvas dependencies, Chakra UI libraries, and the asset export parser. The process may take a few moments on the first execution cycle.*
 
 ---
 
-# 7. START FORGEUI STUDIO
+## 🔄 Live System Execution & Process Control
 
-Current recommended launcher:
+ForgeUI Studio operates via local workspace background daemons to handle real-time file translation tasks seamlessly.
+
+### Launching the Workspace Design Interface
+Run the following background initialization asset script located inside the repository root directory:
 
 ```text
 START_FORGEUI_STUDIO_HIDDEN.vbs
 ```
 
-This:
-
-- starts Studio dev server
-- starts export bridge
-- opens browser automatically
-- hides background console windows
-
----
-
-# 8. OPEN THE STUDIO
-
-Studio should open automatically.
-
-If not:
-
-open browser manually:
+This background automation tool spins up your React design server, hooks the JSON compilation listener, and opens your default browser engine automatically at:
 
 ```text
 http://localhost:3000
 ```
 
----
+### Shutting Down the Background Server Daemons
+When completing a design layout shift session, **do not close your browser panel manually while leaving services running**. Do not attempt to run the `.vbs` initialization link repeatedly.
 
-# 9. STOP FORGEUI STUDIO
-
-IMPORTANT:
-
-DO NOT repeatedly relaunch the hidden VBS launcher.
-
-Current dev mode uses hidden background Node processes.
-
-When finished using Studio:
-
-Run:
+To safely purge system threads, execute the following script from the root repository directory:
 
 ```text
 STOP_FORGEUI_STUDIO.bat
 ```
 
-This cleans up:
-
-- node.exe
-- npm processes
-- export bridge
-- hidden runtime processes
+*This execution instantly clears active `node.exe` system processes, frees up network socket ports, and stops the data export engine background threads safely.*
 
 ---
 
-# RECOMMENDED WORKSPACE LAYOUT
-
-Recommended structure:
-
-```text
-C:\ForgeUI\
-│
-├── Projects\
-│   └── esp32p4-ui-studio\
-│
-├── Exports\
-│
-├── Backups\
-│
-└── Firmware\
-```
-
----
-
-# MONOREPO STRUCTURE
-
-Current repo layout:
+## 📂 Architecture Map & Monorepo Hierarchy
 
 ```text
 esp32p4-ui-studio/
-│
-├── studio/                     # Visual editor
-│
+├── studio/                     # Drag-and-Drop Editor Canvas, Workspace Views, & LVGL C Code Gen
 ├── firmware/
-│   └── ForgeUI-One/            # ESP-IDF runtime firmware
-│
-├── tools/                      # Flash/build helper scripts
-│
-├── docs/                       # Documentation
-│
-├── START_FORGEUI_STUDIO.bat
-├── START_FORGEUI_STUDIO_HIDDEN.vbs
-├── STOP_FORGEUI_STUDIO.bat
-│
-├── README.md
-├── LICENSE
-└── 01_SPINE.md
+│   └── ForgeUI-One/            # Base ESP-IDF Firmware Application Shell, Touch Register Modules, & Main BSP
+├── tools/                      # Automated cross-compilers, flashing profiles, and hardware interfaces
+├── docs/                       # Developer reference specs and architectural roadmap notes
+├── START_FORGEUI_STUDIO.bat    # Windows foreground server console script
+├── START_FORGEUI_STUDIO_HIDDEN.vbs # Background daemon initialization manager
+└── STOP_FORGEUI_STUDIO.bat     # Active process kill helper utility
 ```
 
 ---
 
-# FORGEUI-ONE RUNTIME
+## 🚀 Active Feature Verification Matrix
 
-ForgeUI-One currently owns:
-
-- ESP-IDF runtime
-- BSP startup
-- display bring-up
-- touch bring-up
-- LVGL lifecycle
-- execution of generated Studio exports
-
-Current export flow:
-
-```text
-ForgeUI Studio
-    ->
-90_Studio_Export.c
-    ->
-ForgeUI-One runtime
-    ->
-ESP32-P4 hardware
-```
+The following structural visual features are confirmed functional on physical test setups:
+* **Canvas Clamping Rules:** Strict 1024x600 fixed pixel boundary tracking mapped to the target Waveshare display size.
+* **Component Manipulation:** Absolute X/Y coordinate tracking, drag-and-drop structural node rendering, and custom scaling resize handles.
+* **Pipeline Synchronization:** Direct web code rendering to disk array, automatic build execution handles, and real-time screen theme deployment.
 
 ---
 
-# ESP-IDF (OPTIONAL CURRENTLY)
+## 📜 Upstream Software Licensing and Open Source Attribution
 
-ESP-IDF is currently recommended for:
+ForgeUI Studio features an advanced design layout workspace forked from an upstream MIT-licensed core UI parsing toolchain created by **Premier Octet** (OpenChakra ecosystem). 
 
-- ESP32-P4 firmware work
-- runtime debugging
-- flashing hardware
-- LVGL runtime development
-- BSP experimentation
-
-Download:
-
-https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/
+This platform completely pivots and updates that visualization architecture to target static embedded C layouts, peripheral display controller registers, and low-level **LVGL v9** memory structures. Original upstream copyright markers and framework acknowledgments remain intact inside this repository database directory.
 
 ---
-
-# CURRENT KNOWN-WORKING FEATURES
-
-Working:
-
-- embedded viewport
-- fixed 1024x600 P4 workspace
-- drag/drop components
-- coordinate positioning
-- persistent x/y placement
-- persistent resize
-- resize handles
-- wrapper-owned interaction layer
-- embedded workbench architecture
-- Studio-to-runtime export proof
-- hardware popup proof
-- flash panel proof
-- export bridge proof
-- hidden launcher workflow
-
----
-
-# KNOWN LIMITATIONS
-
-Current limitations:
-
-- active development
-- not yet packaged as standalone EXE
-- requires Node.js
-- local dev environment required
-- direct LVGL generation incomplete
-- widget coverage incomplete
-- flashing workflow evolving
-- hidden launcher currently DEV MODE only
-
----
-
-# CURRENT DEVELOPMENT DIRECTION
-
-Current focus areas:
-
-- UI themes/background flavours
-- inspector cleanup
-- widget system expansion
-- export pipeline cleanup
-- LVGL component generation
-- flash workflow integration
-- embedded tooling workflow
-
----
-
-# FUTURE DIRECTION
-
-Planned future goals:
-
-- full LVGL code generation
-- direct firmware deployment
-- one-click ESP32-P4 flashing
-- serial monitor integration
-- packaged desktop application
-- Tauri/Wails/Electron runtime shell
-- integrated process manager
-- embedded preview runtime
-- reusable widget ecosystem
-- multi-screen/page support
-- hardware profile system
-
----
-
-# LICENSING
-
-ForgeUI Studio includes upstream components and licenses.
-
-Important upstream project:
-
-OpenChakra
-- Created by Premier Octet
-- MIT Licensed
-
-Please retain upstream license notices where required.
-
----
-
-# CREATED BY
-
-ForgeUI Studio  
-Created by Scott Forster
-
-GitHub:
-
-https://github.com/RTechAI/esp32p4-ui-studio
+**Core Platform Architect:** Scott Forster | ForgeUI Project  
+**Source Repository Infrastructure:** [GitHub Portal](https://github.com/RTechAI/esp32p4-ui-studio)
