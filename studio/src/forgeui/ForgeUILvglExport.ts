@@ -5,26 +5,227 @@ const ACTIVE_BACKGROUND_FLAVOUR = 'graphite'
 const FG_PALETTES: Record<string, any> = {
   reactor_dark: {
     name: 'Reactor Dark',
+
     bg: '0x08111F',
+
     surface: '0x101B2B',
+    surface2: '0x162436',
+
     border: '0x42E8FF',
+
     text: '0xFFFFFF',
+
+    accent: '0x42E8FF',
   },
 
   graphite: {
     name: 'Carbon Graphite',
+
     bg: '0x121417',
+
     surface: '0x1E2328',
+    surface2: '0x2A3138',
+
     border: '0xF2A900',
+
     text: '0xF5F5F5',
+
+    accent: '0xF2A900',
   },
 
   nordic_blue: {
     name: 'Nordic Blue',
+
     bg: '0xDDE7EF',
+
     surface: '0xF4F8FB',
+    surface2: '0xD7E5EF',
+
     border: '0x1B6CA8',
+
     text: '0x102030',
+
+    accent: '0x1B6CA8',
+  },
+
+  military_green: {
+    name: 'Military Green',
+
+    bg: '0x1B2416',
+
+    surface: '0x2D3A25',
+    surface2: '0x3D4D33',
+
+    border: '0x84CC16',
+
+    text: '0xF7FEE7',
+
+    accent: '0x84CC16',
+  },
+
+  cyber_teal: {
+    name: 'Cyber Teal',
+
+    bg: '0x071A1D',
+
+    surface: '0x0F2A30',
+    surface2: '0x153942',
+
+    border: '0x14B8A6',
+
+    text: '0xCCFBF1',
+
+    accent: '0x14B8A6',
+  },
+
+  forge_orange: {
+    name: 'Forge Orange',
+
+    bg: '0x1A120B',
+
+    surface: '0x2B1D14',
+    surface2: '0x3A281D',
+
+    border: '0xF97316',
+
+    text: '0xFFF7ED',
+
+    accent: '0xF97316',
+  },
+
+  nebula_purple: {
+    name: 'Nebula Purple',
+
+    bg: '0x140F1F',
+
+    surface: '0x221A33',
+    surface2: '0x302347',
+
+    border: '0xA855F7',
+
+    text: '0xF3E8FF',
+
+    accent: '0xA855F7',
+  },
+
+  oled_black: {
+    name: 'OLED Black',
+
+    bg: '0x000000',
+
+    surface: '0x0A0A0A',
+    surface2: '0x1A1A1A',
+
+    border: '0xFFFFFF',
+
+    text: '0xFFFFFF',
+
+    accent: '0xFFFFFF',
+  },
+
+  matrix_green: {
+    name: 'Matrix Green',
+
+    bg: '0x000A00',
+
+    surface: '0x001A00',
+    surface2: '0x003300',
+
+    border: '0x00FF66',
+
+    text: '0xCCFFDD',
+
+    accent: '0x00FF66',
+  },
+
+  carbon_red: {
+    name: 'Carbon Red',
+
+    bg: '0x140809',
+
+    surface: '0x2A1012',
+    surface2: '0x3A181C',
+
+    border: '0xEF4444',
+
+    text: '0xFEE2E2',
+
+    accent: '0xEF4444',
+  },
+
+  arctic_ice: {
+    name: 'Arctic Ice',
+
+    bg: '0xE6F4F9',
+
+    surface: '0xF8FCFE',
+    surface2: '0xDDEEF5',
+
+    border: '0x38BDF8',
+
+    text: '0x082F49',
+
+    accent: '0x38BDF8',
+  },
+
+  industrial_steel: {
+    name: 'Industrial Steel',
+
+    bg: '0x1F2937',
+
+    surface: '0x374151',
+    surface2: '0x4B5563',
+
+    border: '0x9CA3AF',
+
+    text: '0xF3F4F6',
+
+    accent: '0x9CA3AF',
+  },
+
+  lava_core: {
+    name: 'Lava Core',
+
+    bg: '0x140404',
+
+    surface: '0x260909',
+    surface2: '0x3A1010',
+
+    border: '0xFF4500',
+
+    text: '0xFFE5D9',
+
+    accent: '0xFF4500',
+  },
+
+  blueprint: {
+    name: 'Blueprint',
+
+    bg: '0x0A1A33',
+
+    surface: '0x10264A',
+    surface2: '0x18345F',
+
+    border: '0x60A5FA',
+
+    text: '0xDBEAFE',
+
+    accent: '0x60A5FA',
+  },
+
+  toxic_lime: {
+    name: 'Toxic Lime',
+
+    bg: '0x101A00',
+
+    surface: '0x1F2D00',
+    surface2: '0x2E4200',
+
+    border: '0xA3E635',
+
+    text: '0xF7FEE7',
+
+    accent: '0xA3E635',
   },
 }
 
@@ -131,76 +332,84 @@ const buildLvglBlock = (
         lines.push(``)
         break
       }
+      
       case 'Switch': {
-        lines.push(`lv_obj_t * ${varName} = lv_switch_create(${parentVar});`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
-        lines.push(``)
-        break
-      }
+  const checked = Boolean(child.props.isChecked)
+
+  lines.push(`lv_obj_t * ${varName} = lv_switch_create(${parentVar});`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+
+  if (checked) {
+    lines.push(`lv_obj_add_state(${varName}, LV_STATE_CHECKED);`)
+  }
+
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), LV_PART_MAIN);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.border}), LV_PART_INDICATOR);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.text}), LV_PART_KNOB);`)
+  lines.push(``)
+  break
+}
 
       case 'Checkbox': {
-        const text = esc(
-          child.props.children ||
-            child.props.text ||
-            child.props.label ||
-            'Checkbox'
-        )
+  const text = esc(
+    child.props.children ||
+      child.props.text ||
+      child.props.label ||
+      'Checkbox'
+  )
 
-        lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
-        lines.push(`lv_checkbox_set_text(${varName}, "${text}");`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
-        lines.push(``)
-        break
-      }
+  const checked = Boolean(child.props.isChecked)
 
-            case 'Slider': {
-        lines.push(`lv_obj_t * ${varName} = lv_slider_create(${parentVar});`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
-        lines.push(`lv_slider_set_value(${varName}, ${lv(child.props.value, 50)}, LV_ANIM_OFF);`)
-        lines.push(``)
-        break
-      }
+  lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
+  lines.push(`lv_checkbox_set_text(${varName}, "${text}");`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
 
-      case 'Radio': {
-        const text = esc(
-          child.props.children ||
-            child.props.text ||
-            child.props.label ||
-            'Radio'
-        )
+  if (checked) {
+    lines.push(`lv_obj_add_state(${varName}, LV_STATE_CHECKED);`)
+  }
 
-        lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
-        lines.push(`lv_checkbox_set_text(${varName}, "${text}");`)
-        lines.push(`lv_obj_add_state(${varName}, LV_STATE_CHECKED);`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
-        lines.push(``)
-        break
-      }
+  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), LV_PART_MAIN);`)
+  lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), LV_PART_INDICATOR);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), LV_PART_INDICATOR);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.accent}), LV_PART_INDICATOR | LV_STATE_CHECKED);`)
+  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), LV_PART_INDICATOR | LV_STATE_CHECKED);`)
+  lines.push(``)
+  break
+}
 
-      case 'Progress': {
-        lines.push(`lv_obj_t * ${varName} = lv_bar_create(${parentVar});`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
-        lines.push(`lv_bar_set_range(${varName}, 0, 100);`)
-        lines.push(`lv_bar_set_value(${varName}, ${lv(child.props.value, 65)}, LV_ANIM_OFF);`)
-        lines.push(``)
-        break
-      }
+        case 'Radio': {
+  const text = esc(
+    child.props.children ||
+      child.props.text ||
+      child.props.label ||
+      'Radio'
+  )
 
-            case 'CircularProgress': {
-        lines.push(`lv_obj_t * ${varName} = lv_arc_create(${parentVar});`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
-        lines.push(`lv_arc_set_range(${varName}, 0, 100);`)
-        lines.push(`lv_arc_set_value(${varName}, ${lv(child.props.value, 65)});`)
-        lines.push(``)
-        break
-      }
+  const checked = Boolean(child.props.isChecked)
 
+  lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
+  lines.push(`lv_checkbox_set_text(${varName}, "${text}");`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+
+  if (checked) {
+    lines.push(`lv_obj_add_state(${varName}, LV_STATE_CHECKED);`)
+  }
+
+  lines.push(`lv_obj_set_style_radius(${varName}, LV_RADIUS_CIRCLE, LV_PART_INDICATOR);`)
+
+  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), LV_PART_MAIN);`)
+
+  lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), LV_PART_INDICATOR);`)
+
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), LV_PART_INDICATOR);`)
+
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.accent}), LV_PART_INDICATOR | LV_STATE_CHECKED);`)
+
+  lines.push(``)
+  break
+}         
+        
       case 'NumberInput': {
         const text = esc(String(child.props.value || '123'))
 
@@ -217,13 +426,19 @@ const buildLvglBlock = (
       }
 
       case 'Select': {
-        lines.push(`lv_obj_t * ${varName} = lv_dropdown_create(${parentVar});`)
-        lines.push(`lv_dropdown_set_options(${varName}, "Option 1\\nOption 2\\nOption 3");`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
-        lines.push(``)
-        break
-      }
+  lines.push(`lv_obj_t * ${varName} = lv_dropdown_create(${parentVar});`)
+  lines.push(`lv_dropdown_set_options(${varName}, "Option 1\\nOption 2\\nOption 3");`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
+  lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+  lines.push(`lv_obj_set_style_border_width(${varName}, 2, 0);`)
+
+  lines.push(``)
+  break
+}
 
       case 'Image': {
         lines.push(`lv_obj_t * ${varName} = lv_obj_create(${parentVar});`)
@@ -235,6 +450,45 @@ const buildLvglBlock = (
         lines.push(``)
         break
       }
+
+     
+
+case 'Slider': {
+  lines.push(`lv_obj_t * ${varName} = lv_slider_create(${parentVar});`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+  lines.push(`lv_slider_set_value(${varName}, ${lv(child.props.value, 50)}, LV_ANIM_OFF);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), LV_PART_MAIN);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.border}), LV_PART_INDICATOR);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.text}), LV_PART_KNOB);`)
+  lines.push(``)
+  break
+}
+
+case 'Progress': {
+  lines.push(`lv_obj_t * ${varName} = lv_bar_create(${parentVar});`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+  lines.push(`lv_bar_set_range(${varName}, 0, 100);`)
+  lines.push(`lv_bar_set_value(${varName}, ${lv(child.props.value, 65)}, LV_ANIM_OFF);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), LV_PART_MAIN);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.border}), LV_PART_INDICATOR);`)
+  lines.push(``)
+  break
+}
+
+case 'CircularProgress': {
+  lines.push(`lv_obj_t * ${varName} = lv_arc_create(${parentVar});`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+  lines.push(`lv_arc_set_range(${varName}, 0, 100);`)
+  lines.push(`lv_arc_set_value(${varName}, ${lv(child.props.value, 65)});`)
+  lines.push(`lv_obj_set_style_arc_color(${varName}, lv_color_hex(${palette.surface}), LV_PART_MAIN);`)
+  lines.push(`lv_obj_set_style_arc_color(${varName}, lv_color_hex(${palette.border}), LV_PART_INDICATOR);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.bg}), LV_PART_KNOB);`)
+  lines.push(``)
+  break
+}
 
       case 'Box':
         lines.push(`lv_obj_t * ${varName} = lv_obj_create(${parentVar});`)
@@ -248,22 +502,7 @@ const buildLvglBlock = (
         lines.push(``)
         break
 
-      case 'Progress':
-        lines.push(`lv_obj_t * ${varName} = lv_bar_create(${parentVar});`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
-        lines.push(`lv_bar_set_value(${varName}, ${lv(child.props.value, 65)}, LV_ANIM_OFF);`)
-        lines.push(``)
-        break
-
-      case 'Radio':
-        lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
-        lines.push(`lv_checkbox_set_text(${varName}, "${esc(child.props.children || 'Radio')}");`)
-        lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-        lines.push(``)
-        break
-
-      default:
+        default:
         break
     }
 
@@ -273,10 +512,13 @@ const buildLvglBlock = (
   })
 }
 
-export const generateForgeUILvglCode = (components: IComponents) => {
+export const generateForgeUILvglCode = (
+  components: IComponents,
+  themeId: string = 'graphite',
+) => {
   const lines: string[] = []
   const palette =
-    FG_PALETTES[ACTIVE_BACKGROUND_FLAVOUR] || FG_PALETTES.reactor_dark
+  FG_PALETTES[themeId] || FG_PALETTES.reactor_dark
 
   lines.push(`#include "90_Studio_Export.h"`)
   lines.push(`#include "lvgl.h"`)

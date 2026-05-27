@@ -1,24 +1,25 @@
 import React, { memo, useState, useEffect } from 'react'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import { Box, Button, useClipboard } from '@chakra-ui/react'
-// import { generateCode } from '~utils/code'
 import theme from 'prism-react-renderer/themes/nightOwl'
 import { useSelector } from 'react-redux'
 import { getComponents } from '~core/selectors/components'
 import { generateForgeUILvglCode } from '~forgeui/ForgeUILvglExport'
+import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
 
 const CodePanel = () => {
   const components = useSelector(getComponents)
+  const { themeId } = useForgeTheme()
   const [code, setCode] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     const getCode = async () => {
-      const code = generateForgeUILvglCode(components)
+      const code = generateForgeUILvglCode(components, themeId)
       setCode(code)
     }
 
     getCode()
-  }, [components])
+  }, [components, themeId])
 
   const { onCopy, hasCopied } = useClipboard(code!)
 
@@ -48,6 +49,7 @@ const CodePanel = () => {
       >
         {hasCopied ? 'copied' : 'copy'}
       </Button>
+
       <Highlight
         {...defaultProps}
         theme={theme}

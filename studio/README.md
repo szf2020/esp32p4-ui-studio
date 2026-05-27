@@ -16,6 +16,8 @@ Visual Editor ➔ LVGL C Export ➔ Local Export Bridge ➔ ESP-IDF Firmware Run
 
 This pipeline has been validated for the core dev flow and remains under active refinement.
 
+* Theme packs and texture systems now emerging as a major ForgeUI Studio feature direction.
+
 ---
 
 ## 🛠️ Hardware Target & Tech Stack
@@ -67,18 +69,80 @@ To maintain high stability and maintainability, the project strictly enforces th
 ### Structural & Core Features
 * Fixed-viewport layout editing with absolute coordinate positioning
 * Persistent wrapper-owned interaction mechanics (movement, resizing, selection)
+* Browser Preview V1 with Preview-to-P4 validation workflow
+* Shared theme pipeline across:
+  - Studio Canvas
+  - Browser Preview
+  - LVGL Export
+  - ESP32-P4 Hardware
 * Automated local Node.js export bridge runs in the background while the studio operates as a local dev server.
 * Desktop wrapper via Wails/Tauri/Electron is deferred and not currently packaged.
 * Automated ESP-IDF build and flash orchestration
+* Real ESP32-P4 hardware flash validation pipeline proven
 
-### Active LVGL Code Export Mapping
-* **`Text`** (Labels)
-* **`Box`** (Containers & layout dividers)
-* **`Progress`** (Bars)
-* **`Radio`** (Checkbox / toggle-style elements)
-* *Note: Upstream Chakra components available in the workspace preview are actively being mapped to their corresponding native LVGL equivalents.*
+### Preview-to-P4 Widget Parity V1
 
----
+The following widgets are now visually mapped through:
+
+Studio → Browser Preview → LVGL Export → ESP32-P4 Hardware
+
+* Text
+* Button
+* Input
+* Textarea
+* Switch
+* Checkbox
+* Radio
+* Slider
+* Progress
+* CircularProgress
+* NumberInput
+* Select
+* Box
+* Image *(placeholder-level currently)*
+
+### Theme System V1
+
+ForgeUI Studio now includes a shared theme contract system powering:
+
+* Browser Preview
+* Generated LVGL
+* ESP32-P4 hardware runtime
+
+#### Shared Theme Tokens
+
+* bg
+* surface
+* surface2
+* border
+* text
+* accent
+
+#### Proven Theme Packs
+
+* Reactor Dark
+* Graphite
+* Nordic Blue
+* Military Green
+* Cyber Teal
+* Forge Orange
+* Nebula Purple
+* OLED Black
+* Matrix Green
+* Carbon Red
+* Arctic Ice
+* Industrial Steel
+* Lava Core
+* Blueprint
+* Toxic Lime
+
+### Current Export Notes
+
+* Browser Preview remains an approximation layer only.
+* Final ESP32-P4 hardware render remains the source of truth.
+* Several widgets are already interactive on hardware.
+* Image export currently remains placeholder-level.
+* Theme spacing, glow, and sizing parity continue improving between browser and hardware.
 
 ## 🔄 Live Developer Workflow
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
 import {
   Box,
   Text,
@@ -17,12 +18,10 @@ import {
   Select,
   Image,
 } from '@chakra-ui/react'
-import { getForgePreviewPalette } from './forgeThemeMap'
 
 const lv = (v: any, d: any = 0) =>
   v !== undefined && v !== null && v !== '' ? v : d
 
-const palette = getForgePreviewPalette()
 
 interface RenderProps {
   component: IComponent
@@ -33,6 +32,8 @@ export const renderForgePreview = ({
   component,
   components,
 }: RenderProps): React.ReactNode[] => {
+
+  const { palette } = useForgeTheme()
   const output: React.ReactNode[] = []
 
   ;(component.children || []).forEach((key: string) => {
@@ -176,82 +177,135 @@ export const renderForgePreview = ({
 
       case 'Switch': {
         output.push(
-          <Box key={child.id} {...commonStyle} display="flex" alignItems="center">
-            <Switch colorScheme="teal" isChecked={Boolean(child.props.isChecked)} />
-          </Box>,
-        )
-        break
-      }
+    <Box
+      key={child.id}
+      {...commonStyle}
+      display="flex"
+      alignItems="center"
+    >
+      <Switch
+        isChecked={Boolean(child.props.isChecked)}
+        sx={{
+          '.chakra-switch__track': {
+            bg: Boolean(child.props.isChecked)
+              ? palette.accent
+              : palette.surface2,
+          },
+          '.chakra-switch__thumb': {
+            bg: palette.text,
+          },
+        }}
+      />
+    </Box>,
+  )
+  break
+}
 
       case 'Checkbox': {
-        output.push(
-          <Checkbox
-            key={child.id}
-            position="absolute"
-            left={`${x}px`}
-            top={`${y}px`}
-            colorScheme="teal"
-            isChecked={Boolean(child.props.isChecked)}
-          >
-            {label || 'Checkbox'}
-          </Checkbox>,
-        )
-        break
-      }
+  output.push(
+    <Checkbox
+      key={child.id}
+      position="absolute"
+      left={`${x}px`}
+      top={`${y}px`}
+      isChecked={Boolean(child.props.isChecked)}
+      color={palette.text}
+      sx={{
+        '.chakra-checkbox__control': {
+          bg: palette.surface,
+          borderColor: palette.border,
+        },
+        '.chakra-checkbox__control[data-checked]': {
+          bg: palette.accent,
+          borderColor: palette.accent,
+        },
+      }}
+    >
+      {label || 'Checkbox'}
+    </Checkbox>,
+  )
+  break
+}
 
       case 'Radio': {
-        output.push(
-          <Checkbox
-            key={child.id}
-            position="absolute"
-            left={`${x}px`}
-            top={`${y}px`}
-            colorScheme="teal"
-            isChecked={Boolean(child.props.isChecked)}
-          >
-            {label || 'Radio'}
-          </Checkbox>,
-        )
-        break
-      }
+  output.push(
+    <Checkbox
+      key={child.id}
+      position="absolute"
+      left={`${x}px`}
+      top={`${y}px`}
+      isChecked={Boolean(child.props.isChecked)}
+      color={palette.text}
+      sx={{
+        '.chakra-checkbox__control': {
+          borderRadius: '999px',
+          bg: palette.surface,
+          borderColor: palette.border,
+        },
+
+        '.chakra-checkbox__control[data-checked]': {
+          bg: palette.accent,
+          borderColor: palette.accent,
+        },
+      }}
+    >
+      {label || 'Radio'}
+    </Checkbox>,
+  )
+  break
+}
 
       case 'Slider': {
-        output.push(
-          <Box key={child.id} {...commonStyle} display="flex" alignItems="center">
-            <Slider value={lv(child.props.value, 50)}>
-              <SliderTrack>
-                <SliderFilledTrack />
-              </SliderTrack>
-              <SliderThumb />
-            </Slider>
-          </Box>,
-        )
-        break
-      }
+  output.push(
+    <Box key={child.id} {...commonStyle} display="flex" alignItems="center">
+      <Slider value={lv(child.props.value, 50)}>
+        <SliderTrack bg={palette.surface2}>
+          <SliderFilledTrack bg={palette.accent} />
+        </SliderTrack>
+
+        <SliderThumb bg={palette.text} />
+      </Slider>
+    </Box>,
+  )
+  break
+}
 
       case 'Progress': {
-        output.push(
-          <Progress
-            key={child.id}
-            value={lv(child.props.value, 65)}
-            {...commonStyle}
-            borderRadius="md"
-          />,
-        )
-        break
-      }
+  output.push(
+    <Progress
+      key={child.id}
+      value={lv(child.props.value, 65)}
+      {...commonStyle}
+      borderRadius="md"
+      bg={palette.surface2}
+      sx={{
+        '& > div': {
+          background: palette.accent,
+        },
+      }}
+    />,
+  )
+  break
+}
 
-      case 'CircularProgress': {
-        output.push(
-          <Box key={child.id} {...commonStyle} display="flex" alignItems="center">
-            <CircularProgress
-              value={lv(child.props.value, 65)}
-              color="teal.300"
-            />
-          </Box>,
-        )
-        break
-      }
+     case 'CircularProgress': {
+  output.push(
+    <Box
+      key={child.id}
+      {...commonStyle}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <CircularProgress
+        value={lv(child.props.value, 65)}
+        color={palette.accent}
+        trackColor={palette.surface2}
+      />
+    </Box>,
+  )
+  break
+}
 
       case 'Image': {
         output.push(

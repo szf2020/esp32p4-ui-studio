@@ -6,7 +6,8 @@
 * **Project Name:** ESP32-P4 UI Studio
 * **Internal Branding:** ForgeUI Studio
 * **Repository Name:** `esp32p4-ui-studio`
-* **Current Status:** ALIVE / STUDIO-TO-HARDWARE PIPELINE PROVEN / PREVIEW-TO-P4 WIDGET PARITY V1 PROVEN
+* * **Theme System Status:** THEME PIPELINE V1 PROVEN ON REAL ESP32-P4 HARDWARE.
+* **Theme Direction:** Browser Preview, LVGL export, and flashed P4 runtime now share a common theme contract architecture.
 * **Active Save Point:** `FORGEUI_STUDIO_WIDGET_EXPORT_PIPELINE_PROVEN__PREVIEW_TO_P4_PARITY_V1__TEXTURE_THEME_SYSTEM_NEXT__2026-05-27`
 
 ### Project Goal
@@ -118,13 +119,75 @@ esp32p4-ui-studio/
 
 ### Browser Preview V1 Contract.
 
-* **Status:** ALIVE / PROVEN V1.
+* **Status:** ALIVE / PREVIEW-TO-P4 PARITY V1 PROVEN / REAL HARDWARE THEME PIPELINE PROVEN.
 * **Purpose:** Allow the user to preview the designed ESP32-P4 screen in the browser before running ESP-IDF build and flash.
 * **Entry Point:** `Header.tsx` owns the Preview button and preview overlay.
 * **Preview Shell:** `studio/src/forgeui/preview/DevicePreview.tsx`.
 * **Preview Renderer:** `studio/src/forgeui/preview/forgePreviewRenderer.tsx`.
 * **Preview Theme Map:** `studio/src/forgeui/preview/forgeThemeMap.ts`.
 * **Device Source of Truth:** `studio/src/forgeui/ForgeUIDeviceConfig.ts`.
+
+#### Preview Rules
+* Browser Preview is a visual approximation only.
+* Final LVGL hardware render may differ slightly.
+* Preview must reuse the same Studio component graph as LVGL export.
+* Do not create a separate preview-only schema.
+* Keep preview code isolated under `studio/src/forgeui/preview/`.
+* Preview must not modify firmware files.
+* Preview exists to reduce wasted build/flash cycles and catch obvious layout, spacing, colour, and widget issues early.
+
+#### Preview V1 Supported Components
+* Button
+* Text
+* Input
+* Textarea
+* Switch
+* Checkbox
+* Radio
+* Slider
+* Progress
+* CircularProgress
+* NumberInput
+* Select
+* Image
+* Box
+
+#### Theme Pipeline V1
+* Browser Preview, LVGL export, and flashed ESP32-P4 hardware now share a common theme contract architecture.
+* Shared theme tokens:
+  - bg
+  - surface
+  - surface2
+  - border
+  - text
+  - accent
+* Theme-aware widget parity significantly improved across Preview and LVGL export layers.
+* Matrix Green theme successfully proven on real ESP32-P4 hardware.
+
+#### Proven Theme Packs
+* Reactor Dark
+* Graphite
+* Nordic Blue
+* Military Green
+* Cyber Teal
+* Forge Orange
+* Nebula Purple
+* OLED Black
+* Matrix Green
+* Carbon Red
+* Arctic Ice
+* Industrial Steel
+* Lava Core
+* Blueprint
+* Toxic Lime
+
+#### Current Preview Limitations
+* Browser Preview is not a true LVGL renderer.
+* Nested layout parity is still early.
+* Flex/Grid behaviour may not exactly match final LVGL output.
+* Image source handling is basic.
+* Some widget sizing/glow/spacing still differs slightly on real hardware.
+* Hardware validation by flash remains the final truth.
 
 #### Preview Rules
 * Browser Preview is a visual approximation only.

@@ -1,6 +1,7 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import DevicePreview from '~forgeui/preview/DevicePreview'
 import { generateForgeUILvglCode } from '~forgeui/ForgeUILvglExport'
+import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
 import {
   Box,
   Switch,
@@ -111,6 +112,7 @@ const CodeSandboxButton = () => {
 }
 
 const Header = () => {
+  const { themeId } = useForgeTheme()
   const showLayout = useSelector(getShowLayout)
   const showCode = useSelector(getShowCode)
   const dispatch = useDispatch()
@@ -121,6 +123,14 @@ const Header = () => {
   const [flashRunning, setFlashRunning] = useState(false)
 
   const [previewOpen, setPreviewOpen] = useState(false)
+  const flashLogRef = useRef<HTMLPreElement | null>(null)
+
+useEffect(() => {
+  if (!flashLogRef.current) return
+
+  flashLogRef.current.scrollTop =
+    flashLogRef.current.scrollHeight
+}, [flashLog])
 
   useEffect(() => {
     if (!flashPanelOpen) return
@@ -157,7 +167,10 @@ const Header = () => {
   }, [])
 
   const exportToForgeUIOne = async () => {
-    const code = generateForgeUILvglCode(components)
+    const code = generateForgeUILvglCode(
+  components,
+  themeId,
+)
 
     setFlashPanelOpen(true)
     setFlashLog('Starting Build & Flash...\n')
@@ -174,7 +187,10 @@ const Header = () => {
   }
 
   const cleanBuildFlashForgeUIOne = async () => {
-    const code = generateForgeUILvglCode(components)
+    const code = generateForgeUILvglCode(
+  components,
+  themeId,
+)
 
     setFlashPanelOpen(true)
     setFlashLog('Starting Clean Build & Flash...\n')
@@ -297,12 +313,12 @@ const Header = () => {
               </Box>
               
               <Button
-                size="xs"
-                variant="outline"
+              size="xs"
+               variant="outline"
                 colorScheme="cyan"
-                onClick={() => setPreviewOpen(true)}
-            >
-               Preview
+                  onClick={() => setPreviewOpen(prev => !prev)}
+>
+                    {previewOpen ? 'Close Preview' : 'Preview'}
               </Button>
 
               <Button
@@ -391,7 +407,7 @@ const Header = () => {
             {flashPanelOpen && (
         <Box
   position="fixed"
-  left="18rem"
+  left="17rem"
   right="18rem"
   bottom="14px"
   height="118px"
@@ -429,6 +445,7 @@ const Header = () => {
           </Flex>
 
           <Box
+  ref={flashLogRef}
   as="pre"
   whiteSpace="pre-wrap"
   overflowY="auto"
