@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useState } from 'react'
+import DevicePreview from '~forgeui/preview/DevicePreview'
 import { generateForgeUILvglCode } from '~forgeui/ForgeUILvglExport'
 import {
   Box,
@@ -118,6 +119,8 @@ const Header = () => {
   const [flashLog, setFlashLog] = useState('')
   const [flashPanelOpen, setFlashPanelOpen] = useState(false)
   const [flashRunning, setFlashRunning] = useState(false)
+
+  const [previewOpen, setPreviewOpen] = useState(false)
 
   useEffect(() => {
     if (!flashPanelOpen) return
@@ -292,6 +295,15 @@ const Header = () => {
               >
                 ESP32-P4-WIFI6-Touch-LCD-7B
               </Box>
+              
+              <Button
+                size="xs"
+                variant="outline"
+                colorScheme="cyan"
+                onClick={() => setPreviewOpen(true)}
+            >
+               Preview
+              </Button>
 
               <Button
                 size="xs"
@@ -376,7 +388,7 @@ const Header = () => {
         </Stack>
       </Flex>
 
-      {flashPanelOpen && (
+            {flashPanelOpen && (
         <Box
           position="fixed"
           right="20px"
@@ -395,18 +407,11 @@ const Header = () => {
             <Box fontWeight="bold">ForgeUI Flash Console</Box>
 
             <HStack spacing={2}>
-              <Box
-                fontSize="11px"
-                color={flashRunning ? 'orange.300' : 'green.300'}
-              >
+              <Box fontSize="11px" color={flashRunning ? 'orange.300' : 'green.300'}>
                 {flashRunning ? 'RUNNING' : 'IDLE'}
               </Box>
 
-              <Button
-                size="xs"
-                variant="outline"
-                onClick={() => setFlashLog('')}
-              >
+              <Button size="xs" variant="outline" onClick={() => setFlashLog('')}>
                 Clear
               </Button>
 
@@ -414,10 +419,7 @@ const Header = () => {
                 size="xs"
                 colorScheme="red"
                 onClick={async () => {
-                  await fetch('http://localhost:3030/flash-stop', {
-                    method: 'POST',
-                  })
-
+                  await fetch('http://localhost:3030/flash-stop', { method: 'POST' })
                   setFlashPanelOpen(false)
                 }}
               >
@@ -439,6 +441,35 @@ const Header = () => {
           >
             {flashLog || 'Waiting for flash output...'}
           </Box>
+        </Box>
+      )}
+
+            {previewOpen && (
+        <Box
+          position="fixed"
+          left="20px"
+          top="70px"
+          right="20px"
+          bottom="20px"
+          bg="#070b12"
+          color="white"
+          border="1px solid #2dd4bf"
+          borderRadius="md"
+          zIndex={9998}
+          overflow="auto"
+          boxShadow="0 0 24px rgba(0,0,0,0.65)"
+        >
+          <Flex justify="flex-end" p={3}>
+            <Button
+             size="xs"
+              colorScheme="red"
+               onClick={() => setPreviewOpen(false)}
+  >
+               Close Preview
+               </Button>
+                </Flex>
+
+          <DevicePreview components={components} />
         </Box>
       )}
     </DarkMode>
