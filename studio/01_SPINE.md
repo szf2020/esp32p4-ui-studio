@@ -6,8 +6,8 @@
 * **Project Name:** ESP32-P4 UI Studio
 * **Internal Branding:** ForgeUI Studio
 * **Repository Name:** `esp32p4-ui-studio`
-* ** Current Status:** ALIVE / STUDIO-TO-HARDWARE PIPELINE PROVEN / DEV MODE RUNTIME ACTIVE
-* ** Active Save Point:** `FORGEUI_STUDIO_BROWSER_PREVIEW_V1__MULTI_WIDGET_RENDERER_OK__2026-05-27
+* **Current Status:** ALIVE / STUDIO-TO-HARDWARE PIPELINE PROVEN / PREVIEW-TO-P4 WIDGET PARITY V1 PROVEN
+* **Active Save Point:** `FORGEUI_STUDIO_WIDGET_EXPORT_PIPELINE_PROVEN__PREVIEW_TO_P4_PARITY_V1__TEXTURE_THEME_SYSTEM_NEXT__2026-05-27`
 
 ### Project Goal
 * **Definition:** Visual embedded UI designer and deployment toolchain.
@@ -87,6 +87,34 @@ esp32p4-ui-studio/
 * **Runtime Insertion Point:** `ForgeUI-One/main/01_FG_Runtime.c`.
 * **Execution Call:** `fg_studio_export_create(scr);`.
 * **Status:** Treat generated files purely as replaceable artifacts. Never hand-edit them.
+
+### Widget Export Pipeline V1
+
+* **Status:** PROVEN ON REAL ESP32-P4 HARDWARE.
+* **Proof Path:** Studio Canvas -> Browser Preview -> Generated LVGL C -> ESP-IDF Build/Flash -> ESP32-P4 Render.
+* **Meaning:** ForgeUI Studio is now a functional embedded UI generation and deployment pipeline, not only a visual editor prototype.
+
+#### Widget Export V1 Hardware-Proven Components
+* Button
+* Text
+* Input
+* Textarea
+* Switch
+* Checkbox
+* Radio
+* Slider
+* Progress
+* CircularProgress
+* NumberInput
+* Select
+* Box
+* Image placeholder
+
+#### Current Widget Export Notes
+* Some widget sizing, spacing, and styling still need polish.
+* Browser preview is close, but final ESP32-P4 hardware remains the source of truth.
+* Image export is currently placeholder-level only; real asset conversion pipeline is deferred.
+* Several LVGL widgets are interactive on hardware already.
 
 ### Browser Preview V1 Contract
 
@@ -172,6 +200,10 @@ themes, icon sets, or app UI layout.
 * Polish the README, themes, and inspector UI.
 * Clean up the export code pipeline and flash automation.
 * Create visual screenshot and GIF user documentation.
+
+* Build Theme / Background / Texture system.
+* Add theme selector that drives Studio canvas, Browser Preview, generated LVGL, and flashed hardware.
+* Polish preview-to-P4 widget parity sizing, colours, and spacing.
 
 ### Mid-Term Roadmap
 * Expand the LVGL widget coverage and add ForgeUI-native components.
