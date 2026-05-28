@@ -6,6 +6,7 @@ import {
   Box,
   Switch,
   Button,
+  useToast,
   Flex,
   Link,
   Stack,
@@ -37,7 +38,11 @@ import { getShowLayout, getShowCode } from '~core/selectors/app'
 import HeaderMenu from '~components/headerMenu/HeaderMenu'
 import { FaReact } from 'react-icons/fa'
 
-const CodeSandboxButton = () => {
+const CodeSandboxButton = ({
+  exportEspIdfProject,
+}: {
+  exportEspIdfProject: () => Promise<void>
+}) => {
   const components = useSelector(getComponents)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -102,6 +107,20 @@ const CodeSandboxButton = () => {
                 >
                   TSX
                 </Button>
+
+                <Button
+  size="sm"
+  ml={2}
+  variant="ghost"
+  colorScheme="purple"
+  onClick={async () => {
+    await exportEspIdfProject()
+    if (onClose) onClose()
+  }}
+>
+  ESP-IDF
+</Button>
+
               </PopoverFooter>
             </PopoverContent>
           </LightMode>
@@ -116,6 +135,7 @@ const Header = () => {
   const showLayout = useSelector(getShowLayout)
   const showCode = useSelector(getShowCode)
   const dispatch = useDispatch()
+  const toast = useToast()
   const components = useSelector(getComponents)
 
   const [flashLog, setFlashLog] = useState('')
@@ -192,22 +212,34 @@ useEffect(() => {
     themeId,
   )
 
-  setFlashPanelOpen(true)
-  setFlashLog('Exporting ESP-IDF project...\n')
+  setFlashPanelOpen(false)
+  setFlashLog(
+  'Standalone ESP-IDF project exported successfully.\n' +
+  'Move the exported project to a clean workspace.\n' +
+  'Close this window when finished.\n'
+)
 
   await fetch('http://localhost:3030/export-idf-project', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      code,
-      projectName: 'ForgeUI_Export_001',
-    }),
-  })
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    code,
+    projectName: 'ForgeUI_Export_001',
+  }),
+})
 
-  setFlashLog(prev =>
-    prev + '\nESP-IDF project export complete.\n'
-  )
-}
+  
+  toast({
+  title: 'Standalone ESP-IDF Project Exported',
+  description:
+    'Move the exported folder to a clean workspace before opening in ESP-IDF. Do not build it inside the ForgeUI Studio project tree.',
+  status: 'success',
+  duration: 7000,
+  isClosable: true,
+})
+  }
+
+
 
   const cleanBuildFlashForgeUIOne = async () => {
         const code = generateForgeUILvglCode(
@@ -318,7 +350,7 @@ useEffect(() => {
           </HStack>
 
           <Stack direction="row">
-            <CodeSandboxButton />
+            <CodeSandboxButton exportEspIdfProject={exportEspIdfProject} />
 
             <HStack spacing={2}>
               <Box
@@ -343,16 +375,7 @@ useEffect(() => {
 >
                     {previewOpen ? 'Close Preview' : 'Preview'}
               </Button>
-
-              <Button
-  size="xs"
-  variant="outline"
-  colorScheme="purple"
-  onClick={exportEspIdfProject}
->
-  Export ESP-IDF
-</Button>
-
+              
               <Button
                 size="xs"
                 variant="solid"
