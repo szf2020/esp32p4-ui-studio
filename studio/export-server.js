@@ -68,20 +68,119 @@ app.use((req, res, next) => {
 app.post('/export', (req, res) => {
   try {
     const code = req.body.code || ''
+    const header =
+`#pragma once
 
-    const target = path.resolve(
+#include "lvgl.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void fg_studio_export_create(lv_obj_t *parent);
+
+#ifdef __cplusplus
+}
+#endif
+`
+
+    const mainDir = path.resolve(
       __dirname,
-      '../firmware/ForgeUI-One/main/90_Studio_Export.c'
+      '../firmware/ForgeUI-One/main'
     )
 
-    fs.writeFileSync(target, code, 'utf8')
+    const cTarget = path.join(mainDir, '90_Studio_Export.c')
+    const hTarget = path.join(mainDir, '90_Studio_Export.h')
 
-    console.log('Exported to:', target)
+    fs.writeFileSync(cTarget, code, 'utf8')
+    fs.writeFileSync(hTarget, header, 'utf8')
 
-    res.json({ ok: true, target })
+    console.log('Exported C to:', cTarget)
+    console.log('Exported H to:', hTarget)
+
+    res.json({
+      ok: true,
+      cTarget,
+      hTarget,
+    })
   } catch (err) {
     console.error(err)
     res.status(500).json({ ok: false, error: String(err) })
+  }
+})
+
+app.post('/export-idf-project', (req, res) => {
+  try {
+    const code = req.body.code || ''
+    const projectName = req.body.projectName || 'ForgeUI_Export'
+
+    const sourceDir = path.resolve(
+      __dirname,
+      '../firmware/ForgeUI-One'
+    )
+
+    const exportsRoot = path.resolve(
+      __dirname,
+      '../exports'
+    )
+
+    const exportDir = path.join(exportsRoot, projectName)
+
+    fs.mkdirSync(exportsRoot, { recursive: true })
+
+    fs.cpSync(sourceDir, exportDir, {
+  recursive: true,
+  force: true,
+
+  filter: (src) => {
+    const name = path.basename(src).toLowerCase()
+
+    const blocked = [
+      'build',
+      '.vscode',
+      '.vs',
+      'managed_components',
+    ]
+
+    return !blocked.includes(name)
+  },
+})
+
+    const header =
+`#pragma once
+
+#include "lvgl.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void fg_studio_export_create(lv_obj_t *parent);
+
+#ifdef __cplusplus
+}
+#endif
+`
+
+    const cTarget = path.join(exportDir, 'main', '90_Studio_Export.c')
+    const hTarget = path.join(exportDir, 'main', '90_Studio_Export.h')
+
+    fs.writeFileSync(cTarget, code, 'utf8')
+    fs.writeFileSync(hTarget, header, 'utf8')
+
+    console.log('ESP-IDF project exported to:', exportDir)
+
+    res.json({
+      ok: true,
+      exportDir,
+    })
+  } catch (err) {
+    console.error(err)
+
+    res.status(500).json({
+      ok: false,
+      error: String(err),
+    })
   }
 })
 
@@ -110,8 +209,6 @@ app.post('/flash-stop', (req, res) => {
 
   res.json({ ok: true, stopped: true })
 })
-
-
 
 app.get('/flash-log', (req, res) => {
   res.json({

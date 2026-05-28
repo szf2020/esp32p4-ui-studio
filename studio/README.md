@@ -22,9 +22,72 @@ Visual Drag-and-Drop ➔ LVGL v9 C Code Gen ➔ Local Node.js Bridge ➔ ESP-IDF
 * **WYSIWYG HMI Creator:** Visual canvas configured for high-performance industrial layouts and responsive tactile testing.
 * **Shared Theme Engine:** Synchronized color profiles across the browser design workspace, interactive previews, and physical LCD panels.
 
+
+## 🚀 Standalone ESP-IDF Export Pipeline V1
+
+ForgeUI Studio now supports exporting fully standalone ESP-IDF firmware projects directly from the visual editor environment.
+
+This means generated projects can:
+* build independently from ForgeUI Studio
+* open directly in Visual Studio Code
+* rebuild from a clean state
+* flash independently to ESP32-P4 hardware
+* function as portable/shareable embedded firmware projects
+
+### Proven Export Validation Flow
+
+```text
+ForgeUI Studio
+  ↓
+Generate Native LVGL Runtime
+  ↓
+Export Standalone ESP-IDF Project
+  ↓
+Open Independently In VS Code
+  ↓
+ESP-IDF Reconfigure
+  ↓
+Full Clean Build
+  ↓
+Flash
+  ↓
+Boot Successfully On Physical ESP32-P4 Hardware
+```
+
+### Export Architecture Separation
+
+ForgeUI Studio intentionally separates:
+* visual editor logic
+* browser preview rendering
+* export orchestration
+
+from:
+* BSP ownership
+* LVGL runtime lifecycle
+* ESP-IDF infrastructure
+* display/touch/audio runtime systems
+
+Generated projects inject only:
+
+```text
+90_Studio_Export.c
+90_Studio_Export.h
+```
+
+into the ForgeUI-One runtime shell.
+
+This architecture keeps exports:
+* lightweight
+* reproducible
+* portable
+* hardware-focused
+* rebuild-safe
+
 ---
 
 ## 🛠️ Supported Hardware Targets & Tech Stack
+
+* **Validated Export Baseline:** ESP-IDF v5.5.4 / UART flashing / standalone exported rebuilds proven
 
 The workspace environment is pre-tuned out-of-the-box for high-resolution graphics and intensive touch interface processing:
 
@@ -41,15 +104,19 @@ The repository is built as a self-contained monorepo separating the web workspac
 
 ```text
 esp32p4-ui-studio/
-├── studio/                 # Frontend UI Builder Canvas & LVGL C Code Generator (React / Next.js)
+├── studio/                             # Frontend UI Builder Canvas & LVGL Code Generator (React / Next.js)
 ├── firmware/
-│   └── ForgeUI-One/        # Native ESP-IDF Runtime, Board Support Package (BSP), & LVGL Shell
-├── tools/                  # Automated ESP-IDF compilation, build, and flashing utilities
-├── START_FORGEUI_STUDIO.bat # Windows background service launcher
-├── START_FORGEUI_STUDIO_HIDDEN.vbs # Hidden developer environment startup script
-├── STOP_FORGEUI_STUDIO.bat # Development server shutdown helper
-├── README.md               # Repository documentation & SEO landing page
-└── 01_SPINE.md             # Architecture core index
+│   └── ForgeUI-One/                    # Native ESP-IDF Runtime, BSP, Display/Touch Drivers, & LVGL Runtime Shell
+├── exports/                            # Generated Standalone ESP-IDF Firmware Export Projects
+├── tools/                              # Automated ESP-IDF Compilation, Build, Flashing, & Utility Scripts
+├── docs/                               # Project Documentation, Architecture Notes, and Historical Save Records
+├── START_FORGEUI_STUDIO.bat            # Windows Foreground Runtime Launcher
+├── START_FORGEUI_STUDIO_HIDDEN.vbs     # Hidden Background Developer Startup Script
+├── STOP_FORGEUI_STUDIO.bat             # Graceful Development Environment Shutdown Utility
+├── README.md                           # Repository Documentation & SEO Landing Page
+├── LICENSE                             # Primary Open-Source License
+├── THIRD_PARTY_LICENSES.md             # Upstream Attribution & Dependency Licensing
+└── 01_SPINE.md                         # Core Architecture Spine & System Truth Document
 ```
 
 ### Architectural Separation of Concerns

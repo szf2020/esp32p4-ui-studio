@@ -186,8 +186,31 @@ useEffect(() => {
     })
   }
 
+  const exportEspIdfProject = async () => {
+  const code = generateForgeUILvglCode(
+    components,
+    themeId,
+  )
+
+  setFlashPanelOpen(true)
+  setFlashLog('Exporting ESP-IDF project...\n')
+
+  await fetch('http://localhost:3030/export-idf-project', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      code,
+      projectName: 'ForgeUI_Export_001',
+    }),
+  })
+
+  setFlashLog(prev =>
+    prev + '\nESP-IDF project export complete.\n'
+  )
+}
+
   const cleanBuildFlashForgeUIOne = async () => {
-    const code = generateForgeUILvglCode(
+        const code = generateForgeUILvglCode(
   components,
   themeId,
 )
@@ -320,6 +343,15 @@ useEffect(() => {
 >
                     {previewOpen ? 'Close Preview' : 'Preview'}
               </Button>
+
+              <Button
+  size="xs"
+  variant="outline"
+  colorScheme="purple"
+  onClick={exportEspIdfProject}
+>
+  Export ESP-IDF
+</Button>
 
               <Button
                 size="xs"

@@ -27,8 +27,68 @@ ForgeUI Studio accelerates the traditional embedded development loop by establis
 
 ```text
 Visual UI Designer ➔ Real-Time Preview ➔ Clean LVGL C Export ➔ Automated ESP-IDF Build ➔ Native USB Flashing ➔ Physical LCD Rendering
+``
+
+
+
+## Standalone ESP-IDF Export Pipeline V1
+
+ForgeUI Studio now supports exporting fully standalone ESP-IDF firmware projects directly from the visual editor environment.
+
+This allows generated projects to:
+* build independently from ForgeUI Studio
+* open directly in Visual Studio Code with the ESP-IDF extension
+* rebuild from a clean state
+* flash independently to ESP32-P4 hardware
+* function as portable/shareable firmware projects
+
+### Proven Runtime Export Flow
+
+```text
+ForgeUI Studio
+  ↓
+Generate Native LVGL Runtime
+  ↓
+Export Standalone ESP-IDF Project
+  ↓
+Open Independently In VS Code
+  ↓
+ESP-IDF Reconfigure
+  ↓
+Full Clean Build
+  ↓
+Flash
+  ↓
+Boot Successfully On Physical ESP32-P4 Hardware
 ```
 
+### Export Architecture Separation
+
+ForgeUI Studio intentionally separates:
+* visual UI generation
+* preview rendering
+* export orchestration
+
+from:
+* BSP ownership
+* hardware runtime ownership
+* LVGL lifecycle management
+* ESP-IDF infrastructure
+
+Generated projects inject only:
+```text
+90_Studio_Export.c
+90_Studio_Export.h
+```
+
+into the ForgeUI-One runtime shell.
+
+This architecture keeps exports:
+* lightweight
+* portable
+* reproducible
+* hardware-focused
+* stable across rebuilds
 ---
 
 ## Core Technical Features
@@ -74,6 +134,12 @@ Out-of-the-box configuration files are pre-calibrated to deliver immediate compa
 * **Embedded Graphics Framework:** LVGL v9 Graphics Stack
 * **Microcontroller SDK:** Espressif ESP-IDF v5.5.4 (or newer)
 
+### Proven Export Validation Baseline
+* **ESP-IDF Version:** `v5.5.4`
+* **Target MCU:** `esp32p4`
+* **UART/JTAG Mode:** `UART`
+* **Validation Method:** `Full Clean → Build → Flash`
+* **Standalone Export Build Status:** VERIFIED
 ---
 
 ## Vision and Project Direction
