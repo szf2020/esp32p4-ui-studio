@@ -95,7 +95,7 @@ The workspace environment is pre-tuned out-of-the-box for high-resolution graphi
 The repository is built as a self-contained monorepo separating the web workspace from the native firmware application shell:
 
 ```text
-esp32p4-ui-studio/
+eesp32p4-ui-studio/
 ├── studio/                             # Frontend UI Builder Canvas & LVGL Code Generator (React / Next.js)
 ├── firmware/
 │   └── ForgeUI-One/                    # Native ESP-IDF Runtime, BSP, Display/Touch Drivers, & LVGL Runtime Shell
@@ -111,7 +111,6 @@ esp32p4-ui-studio/
 
 C:\
 └── ForgeUI-Exports\                    # Global Standalone ESP-IDF Export Workspace
-```
                     # Core Architecture Spine & System Truth Document
 ```
 

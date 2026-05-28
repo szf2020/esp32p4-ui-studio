@@ -63,12 +63,11 @@ Current focus has shifted toward:
 
 ```text
 esp32p4-ui-studio/
-├── studio/                             # Visual IDE Frontend & LVGL Code Generation Workspace
+├── studio/                             # Visual IDE frontend, preview, LVGL generator, export bridge
 ├── firmware/
-│   └── ForgeUI-One/                    # Production ESP-IDF Runtime Shell
-├── exports/                            # Generated Standalone ESP-IDF Projects
-├── tools/                              # Build, Flash & Automation Utilities
-├── docs/                               # Documentation & History
+│   └── ForgeUI-One/                    # Live ESP-IDF runtime used by Studio Build & Flash
+├── tools/                              # Build, flash, export, and helper scripts
+├── docs/                               # Documentation, Spine, history, save records
 │   └── history/
 ├── START_FORGEUI_STUDIO.bat
 ├── START_FORGEUI_STUDIO_HIDDEN.vbs
@@ -79,7 +78,7 @@ esp32p4-ui-studio/
 └── 01_SPINE.md
 
 C:\
-└── ForgeUI-Exports\
+└── ForgeUI-Exports\                    # Detached standalone ESP-IDF project exports
 ```
 
 ---
@@ -556,6 +555,7 @@ Physical hardware remains the source of truth.
 
 ## Current State
 
+Detached standalone export now builds and flashes independently from C:\ForgeUI-Exports\<project>\ with copied assets and restored CMake parity.
 Proven:
 
 * Asset discovery operational

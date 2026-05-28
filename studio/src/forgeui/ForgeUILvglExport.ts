@@ -463,6 +463,14 @@ case 'Image': {
 
   lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
   lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+
+  // Image touch / press feedback V1
+  lines.push(`lv_obj_add_flag(${varName}, LV_OBJ_FLAG_CLICKABLE);`)
+  lines.push(`lv_obj_set_style_transform_pivot_x(${varName}, ${Math.floor(w / 2)}, 0);`)
+  lines.push(`lv_obj_set_style_transform_pivot_y(${varName}, ${Math.floor(h / 2)}, 0);`)
+  lines.push(`lv_obj_set_style_transform_scale(${varName}, 256, 0);`)
+  lines.push(`lv_obj_set_style_transform_scale(${varName}, 235, LV_STATE_PRESSED);`)
+
   lines.push(``)
   break
 }
