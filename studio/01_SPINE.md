@@ -42,12 +42,12 @@
 
 ## Workspace Structural Tree
 
+
 ```text
 esp32p4-ui-studio/
 ├── studio/                             # Visual IDE Frontend & LVGL Code Generation Workspace (React / Next.js)
 ├── firmware/
 │   └── ForgeUI-One/                    # Production-ready ESP-IDF Firmware Application Shell & Driver Runtime
-├── exports/                            # Generated standalone ESP-IDF export projects
 ├── tools/                              # Automation scripts, compilation helpers, and hardware flashing utilities
 ├── docs/                               # Developer documentation and markdown system specs
 │   └── history/                        # Version migration logs and legacy architectural records
@@ -58,6 +58,9 @@ esp32p4-ui-studio/
 ├── LICENSE                             # Primary open-source software license agreement
 ├── THIRD_PARTY_LICENSES.md             # Core upstream software dependency attributions
 └── 01_SPINE.md                         # Structural Architecture Spine (This File)
+
+C:\
+└── ForgeUI-Exports\                    # Global standalone ESP-IDF export workspace
 ```
 
 ## Strict Area Ownership & Separation Protocols

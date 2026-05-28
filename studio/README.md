@@ -99,7 +99,6 @@ esp32p4-ui-studio/
 ├── studio/                             # Frontend UI Builder Canvas & LVGL Code Generator (React / Next.js)
 ├── firmware/
 │   └── ForgeUI-One/                    # Native ESP-IDF Runtime, BSP, Display/Touch Drivers, & LVGL Runtime Shell
-├── exports/                            # Generated Standalone ESP-IDF Firmware Export Projects
 ├── tools/                              # Automated ESP-IDF Compilation, Build, Flashing, & Utility Scripts
 ├── docs/                               # Project Documentation, Architecture Notes, and Historical Save Records
 ├── START_FORGEUI_STUDIO.bat            # Windows Foreground Runtime Launcher
@@ -109,6 +108,11 @@ esp32p4-ui-studio/
 ├── LICENSE                             # Primary Open-Source License
 ├── THIRD_PARTY_LICENSES.md             # Upstream Attribution & Dependency Licensing
 └── 01_SPINE.md                         # Core Architecture Spine & System Truth Document
+
+C:\
+└── ForgeUI-Exports\                    # Global Standalone ESP-IDF Export Workspace
+```
+                    # Core Architecture Spine & System Truth Document
 ```
 
 ### Architectural Separation of Concerns

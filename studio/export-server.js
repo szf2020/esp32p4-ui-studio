@@ -215,8 +215,15 @@ app.post('/open-exports', (req, res) => {
   try {
     const exportsRoot = 'C:\\ForgeUI-Exports'
 
-    spawn('explorer.exe', [exportsRoot], {
-      detached: true,
+    fs.mkdirSync(exportsRoot, { recursive: true })
+
+    spawn('powershell.exe', [
+      '-NoProfile',
+      '-ExecutionPolicy',
+      'Bypass',
+      '-Command',
+      `Start-Process explorer.exe "${exportsRoot}"`
+    ], {
       windowsHide: true,
     })
 

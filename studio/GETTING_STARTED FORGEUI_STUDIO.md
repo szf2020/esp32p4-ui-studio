@@ -22,7 +22,7 @@ ForgeUI Studio bridges high-level web prototyping with bare-metal micro-controll
   [ Emits Pure Static: 90_Studio_Export.c / .h ]
                        │
                        ▼
-  [ Injects Files Automatically into /firmware/ForgeUI-One Shell ]
+  [ Injects Runtime Files into /firmware/ForgeUI-One Shell ]
                        │
                        ▼
   [ Links ESP-IDF Hardware Drivers, OPI PSRAM Registers, & MIPI-DSI BSP ]
@@ -118,12 +118,12 @@ STOP_FORGEUI_STUDIO.bat
 
 ## 📂 Repository Architecture & File Hierarchy
 
+
 ```text
 esp32p4-ui-studio/
 ├── studio/                             # Visual IDE Frontend, Browser Canvas Grid, & LVGL C Code Generator
 ├── firmware/
 │   └── ForgeUI-One/                    # ESP-IDF Embedded Firmware Template Shell (Drivers, BSP, UI Inject Points)
-├── exports/                            # Out-of-the-box Independent, Standalone Decoupled ESP-IDF Project Snapshots
 ├── tools/                              # Automated Compile, Clean, Flash, and Project Packaging Utilities
 ├── docs/                               # Internal Platform Documentation, Architecture Rules, & Technical Specs
 │   └── history/                        # Historical Database Save Points and Migration Trace Profiles
@@ -134,6 +134,11 @@ esp32p4-ui-studio/
 ├── LICENSE                             # Primary Open Source Software License Manifesto
 ├── THIRD_PARTY_LICENSES.md             # Upstream Framework Dependencies & Licensing Profiles
 └── 01_SPINE.md                         # Core Architecture Spine and System Truth Reference
+
+C:\
+└── ForgeUI-Exports\                    # Standalone Generated ESP-IDF Export Projects
+```
+   # Core Architecture Spine and System Truth Reference
 ```
 
 ---
