@@ -454,9 +454,12 @@ case 'Image': {
       usedAssetSources.add(asset.cFile)
     }
 
+    const imageScale = Number(child.props.imageScale || 256)
+
     lines.push(`LV_IMAGE_DECLARE(${asset.lvgl});`)
     lines.push(`lv_obj_t * ${varName} = lv_image_create(${parentVar});`)
     lines.push(`lv_image_set_src(${varName}, &${asset.lvgl});`)
+    lines.push(`lv_image_set_scale(${varName}, ${imageScale});`)
   } else {
     lines.push(`lv_obj_t * ${varName} = lv_obj_create(${parentVar});`)
   }

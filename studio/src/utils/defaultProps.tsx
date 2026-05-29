@@ -243,8 +243,9 @@ export const DEFAULT_PROPS: PreviewDefaultProps = {
     size: 'md',
   },
   Image: {
-    height: '100px',
-    width: '100px',
+  height: '100px',
+  width: '100px',
+  imageScale: 256,
   },
   InputLeftAddon: { children: 'left' },
   InputRightAddon: {

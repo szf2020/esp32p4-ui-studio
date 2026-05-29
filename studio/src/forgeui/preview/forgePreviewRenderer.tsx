@@ -307,26 +307,34 @@ export const renderForgePreview = ({
   break
 }
 
-      case 'Image': {
-        output.push(
-          <Image
-            key={child.id}
-            {...commonStyle}
-            src={child.props.src || child.props.url || ''}
-            alt={child.props.alt || 'Image'}
-            objectFit="contain"
-            border={`1px solid ${palette.border}`}
-          />,
-        )
-        break
-      }
+    case 'Image': {
+  const imageScale = Number(child.props.imageScale || 256)
+  const imageSize = Math.round((48 * imageScale) / 256)
+
+  output.push(
+    <Image
+      key={child.id}
+      position="absolute"
+      left={`${x}px`}
+      top={`${y}px`}
+      width={`${imageSize}px`}
+      height={`${imageSize}px`}
+      src={child.props.src || child.props.url || ''}
+      alt={child.props.alt || 'Image'}
+      objectFit="contain"
+      border={`1px solid ${palette.border}`}
+    />,
+  )
+  break
+}
 
       default:
         break
     }
 
     if (child.children?.length) {
-      output.push(
+
+            output.push(
         ...renderForgePreview({
           component: child,
           components,

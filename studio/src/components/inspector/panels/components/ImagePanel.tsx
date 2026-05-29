@@ -15,6 +15,7 @@ const ImagePanel = () => {
   const htmlHeight = usePropsSelector('htmlHeight')
   const htmlWidth = usePropsSelector('htmlWidth')
   const objectFit = usePropsSelector('objectFit')
+  const imageScale = usePropsSelector('imageScale')
 
   return (
    <>
@@ -88,6 +89,21 @@ const ImagePanel = () => {
     <option value="contain">contain</option>
     <option value="cover">cover</option>
     <option value="fill">fill</option>
+  </Select>
+</FormControl>
+
+<FormControl label="LVGL image scale" htmlFor="imageScale">
+  <Select
+    value={imageScale || 256}
+    size="sm"
+    name="imageScale"
+    onChange={setValueFromEvent}
+  >
+    <option value="128">128 - half size</option>
+    <option value="256">256 - normal</option>
+    <option value="384">384 - 1.5x</option>
+    <option value="512">512 - 2x</option>
+    <option value="768">768 - 3x</option>
   </Select>
 </FormControl>
 
