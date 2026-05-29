@@ -1,7 +1,9 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
 import DevicePreview from '~forgeui/preview/DevicePreview'
+import { ForgeUIAssetManager } from '~forgeui/assets/ForgeUIAssetManager'
 import { generateForgeUILvglCode } from '~forgeui/ForgeUILvglExport'
 import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
+
 import {
   Box,
   Switch,
@@ -164,6 +166,10 @@ const Header = () => {
   const [flashRunning, setFlashRunning] = useState(false)
 
   const [previewOpen, setPreviewOpen] = useState(false)
+
+  const [assetManagerOpen, setAssetManagerOpen] = useState(false)
+  const [themeManagerOpen, setThemeManagerOpen] = useState(false)
+
   const flashLogRef = useRef<HTMLPreElement | null>(null)
 
 useEffect(() => {
@@ -204,6 +210,24 @@ useEffect(() => {
 
   return () => {
     window.removeEventListener('beforeunload', handleClose)
+  }
+}, [])
+
+useEffect(() => {
+  const openAssetManager = () => {
+    setAssetManagerOpen(true)
+  }
+
+  const openThemeManager = () => {
+    setThemeManagerOpen(true)
+  }
+
+  window.addEventListener('forgeui-open-asset-manager', openAssetManager)
+  window.addEventListener('forgeui-open-theme-manager', openThemeManager)
+
+  return () => {
+    window.removeEventListener('forgeui-open-asset-manager', openAssetManager)
+    window.removeEventListener('forgeui-open-theme-manager', openThemeManager)
   }
 }, [])
 
@@ -584,8 +608,50 @@ await fetch('http://localhost:3030/clean-flash', {
           <DevicePreview components={components} />
         </Box>
       )}
-    </DarkMode>
-  )
+
+      {assetManagerOpen && (
+  <ForgeUIAssetManager
+    onClose={() => setAssetManagerOpen(false)}
+  />
+)}
+    {themeManagerOpen && (
+  <Box
+    position="fixed"
+    left="20px"
+    top="70px"
+    right="20px"
+    bottom="20px"
+    bg="#070b12"
+    color="white"
+    border="1px solid #805ad5"
+    borderRadius="md"
+    zIndex={9999}
+    overflow="auto"
+    boxShadow="0 0 24px rgba(0,0,0,0.65)"
+    p={4}
+  >
+    <Flex justify="space-between" align="center" mb={4}>
+      <Box fontWeight="bold" fontSize="lg">
+        ForgeUI Theme Manager
+      </Box>
+
+      <Button
+        size="xs"
+        colorScheme="red"
+        onClick={() => setThemeManagerOpen(false)}
+      >
+        Close
+      </Button>
+    </Flex>
+
+    <Box color="gray.300">
+      Theme Manager V1 Scaffold
+    </Box>
+  </Box>
+)}
+
+</DarkMode>
+)
 }
 
 export default memo(Header)
