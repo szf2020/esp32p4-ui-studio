@@ -1144,7 +1144,7 @@ export const onboarding: IComponents = {
     id: 'comp-K6H1XZB37JTJ4',
     props: {
       children:
-        'Toggle the code panel for viewing the JSX/React code of your components. You can even export your code directly to CodeSandbox!',
+        'Toggle the code panel to inspect generated ForgeUI and LVGL output before export.',
       color: 'gray.600',
     },
     children: [],
