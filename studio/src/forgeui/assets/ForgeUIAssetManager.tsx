@@ -4,12 +4,21 @@ import { useDropzone } from 'react-dropzone'
 import {
   ForgeUIUploadedAsset,
   forgeUIAddUploadedAssets,
+  forgeUICreateUploadedAsset,
   forgeUIDeleteUploadedAsset,
   forgeUIGetUploadedAssets,
 } from '../ForgeUIUploadedAssetRegistry'
 
 type ForgeUIAssetManagerProps = {
   onClose: () => void
+}
+
+const forgeUIAssetStatusLabel = (
+  status: ForgeUIUploadedAsset['exportStatus'],
+) => {
+  if (status === 'lvgl_ready') return 'LVGL Ready'
+  if (status === 'pending_conversion') return 'Pending LVGL Conversion'
+  return 'Browser Only'
 }
 
 export function ForgeUIAssetManager({
@@ -20,19 +29,12 @@ export function ForgeUIAssetManager({
   )
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const uploadedAssets: ForgeUIUploadedAsset[] = acceptedFiles.map(
-      (file) => ({
-        id: crypto.randomUUID(),
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        file,
-        createdAt: Date.now(),
-      }),
-    )
+  const uploadedAssets: ForgeUIUploadedAsset[] = acceptedFiles.map(
+    (file) => forgeUICreateUploadedAsset(file),
+  )
 
-    setAssets(forgeUIAddUploadedAssets(uploadedAssets))
-  }, [])
+  setAssets(forgeUIAddUploadedAssets(uploadedAssets))
+}, [])
 
   const {
     getRootProps,
@@ -114,7 +116,7 @@ export function ForgeUIAssetManager({
                   <HStack spacing={3}>
                     <Box
                       as="img"
-                      src={URL.createObjectURL(asset.file)}
+                      src={asset.browserSrc}
                       alt={asset.name}
                       width="48px"
                       height="48px"
@@ -127,13 +129,21 @@ export function ForgeUIAssetManager({
 
                     <Box>
                       <Text fontWeight="semibold">
-                        {asset.name}
-                      </Text>
+                      {asset.name}
+                   </Text>
 
-                      <Text fontSize="12px" opacity={0.65}>
-                        {asset.type || 'unknown'} • {asset.size} bytes
-                      </Text>
-                    </Box>
+                     <Text fontSize="12px" opacity={0.65}>
+                           {asset.type || 'unknown'} • {asset.size} bytes
+                       </Text>
+
+                           <Text
+                           fontSize="12px"
+                            mt={1}
+                             color="#2dd4bf"
+  >
+                                 {forgeUIAssetStatusLabel(asset.exportStatus)}
+                                     </Text>
+                                              </Box>
                   </HStack>
 
                   <Button

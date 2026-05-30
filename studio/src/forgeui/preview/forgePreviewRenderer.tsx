@@ -308,17 +308,14 @@ export const renderForgePreview = ({
 }
 
     case 'Image': {
-  const imageScale = Number(child.props.imageScale || 256)
-  const imageSize = Math.round((48 * imageScale) / 256)
-
   output.push(
     <Image
       key={child.id}
       position="absolute"
       left={`${x}px`}
       top={`${y}px`}
-      width={`${imageSize}px`}
-      height={`${imageSize}px`}
+      width={`${w}px`}
+      height={`${h}px`}
       src={child.props.src || child.props.url || ''}
       alt={child.props.alt || 'Image'}
       objectFit="contain"

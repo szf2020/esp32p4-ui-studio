@@ -454,14 +454,31 @@ case 'Image': {
       usedAssetSources.add(asset.cFile)
     }
 
-    const imageScale = Number(child.props.imageScale || 256)
+        const imageScale = Number(child.props.imageScale || 256)
 
     lines.push(`LV_IMAGE_DECLARE(${asset.lvgl});`)
     lines.push(`lv_obj_t * ${varName} = lv_image_create(${parentVar});`)
     lines.push(`lv_image_set_src(${varName}, &${asset.lvgl});`)
     lines.push(`lv_image_set_scale(${varName}, ${imageScale});`)
   } else {
-    lines.push(`lv_obj_t * ${varName} = lv_obj_create(${parentVar});`)
+    const uploadName = esc(
+      child.props.alt ||
+      child.props.assetName ||
+      'Uploaded Asset'
+    )
+
+    lines.push(`lv_obj_t * ${varName} = lv_button_create(${parentVar});`)
+    lines.push(`lv_obj_set_style_radius(${varName}, 12, 0);`)
+    lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+    lines.push(`lv_obj_set_style_bg_opa(${varName}, LV_OPA_COVER, 0);`)
+    lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+    lines.push(`lv_obj_set_style_border_width(${varName}, 2, 0);`)
+
+    lines.push(`lv_obj_t * ${varName}_label = lv_label_create(${varName});`)
+    lines.push(`lv_label_set_text(${varName}_label, "${uploadName}\\nPending LVGL Export");`)
+    lines.push(`lv_obj_set_style_text_color(${varName}_label, lv_color_hex(${palette.text}), 0);`)
+    lines.push(`lv_obj_set_style_text_align(${varName}_label, LV_TEXT_ALIGN_CENTER, 0);`)
+    lines.push(`lv_obj_center(${varName}_label);`)
   }
 
   lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
@@ -477,9 +494,7 @@ case 'Image': {
   lines.push(``)
   break
 }
-
-     
-
+    
 case 'Slider': {
   lines.push(`lv_obj_t * ${varName} = lv_slider_create(${parentVar});`)
   lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)

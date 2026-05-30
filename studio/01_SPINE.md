@@ -1,3 +1,4 @@
+````markdown
 # ESP32-P4 UI Studio Architecture Spine
 
 ## 1. Project Overview & Product Core
@@ -8,10 +9,8 @@
 * **Internal Framework Branding:** ForgeUI Studio
 * **Monorepo Repository Name:** `esp32p4-ui-studio`
 * **Theme System Status:** THEME PIPELINE V1 PROVEN ON PHYSICAL ESP32-P4 DISPLAY HARDWARE
-* **Theme Direction:** Synchronized token contract system unifying Browser Preview, native LVGL C export, and flashed firmware runtime
-* **Active Architectural Save Point:** `FORGEUI_STUDIO_ASSET_MANAGER_PHASE3_IMAGE_PICKER_PREVIEW_OK__2026-05-30`
-
-sandbox removed Asset Manager V2 thumbnails, delete support, and Studio cleanup
+* **Asset System Status:** ASSET MANAGER V1 / UPLOADED ASSET CONTRACT V1 PROVEN IN BROWSER + EXPORT PLACEHOLDER PROVEN ON P4
+* **Active Architectural Save Point:** `FORGEUI_STUDIO_UPLOADED_ASSET_CONTRACT_V1__PREVIEW_SIZE_FIXED__EXPORT_PLACEHOLDER_PROVEN__2026-05-30`
 
 ### Technical Project Mission
 
@@ -19,6 +18,7 @@ sandbox removed Asset Manager V2 thumbnails, delete support, and Studio cleanup
 * WYSIWYG LVGL screen builder
 * Automated ESP-IDF export and deployment workflow
 * Browser Preview → LVGL Export → Build & Flash → Physical Hardware
+* User-uploaded/snipped image workflow toward clickable embedded UI elements
 
 ### Target Platform
 
@@ -43,15 +43,22 @@ The following are now proven:
 * Clean Build & Flash workflow
 * Standalone ESP-IDF export generation
 * Export folder collision protection
-* Asset-aware export generation
+* Asset-aware export generation for preset registered LVGL C assets
 * Asset-aware CMake generation
 * Theme pipeline hardware validation
+* Asset Manager upload/drop/delete/thumbnail flow
+* Uploaded image selection in Image widget
+* Builder image sizing
+* Browser Preview image sizing aligned with Builder
+* Uploaded asset export placeholder/stub on P4 hardware
 
 Current focus has shifted toward:
 
+* uploaded asset export completion
+* PNG/JPG/SVG to LVGL C conversion
+* image-as-button action scaffolding
 * widget parity
 * export fidelity
-* asset pipeline completion
 * runtime stabilization
 * property editor improvements
 * component behavior support
@@ -81,7 +88,7 @@ esp32p4-ui-studio/
 
 C:\
 └── ForgeUI-Exports\                    # Detached standalone ESP-IDF project exports
-```
+````
 
 ---
 
@@ -100,6 +107,8 @@ Owns:
 * Component tree
 * Inspector
 * Browser Preview
+* Asset Manager
+* Uploaded asset registry
 * Export orchestration
 * LVGL generation
 
@@ -126,7 +135,7 @@ Owns:
 ### Exports
 
 ```text
-exports/
+C:\ForgeUI-Exports\
 ```
 
 Owns:
@@ -162,10 +171,46 @@ studio/public/assets/
 
 Owns:
 
-* PNG assets
-* SVG assets
+* Preset PNG assets
+* Preset SVG assets
 * Source artwork
 * Source icon files
+
+---
+
+### Uploaded Browser Asset Registry
+
+```text
+studio/src/forgeui/ForgeUIUploadedAssetRegistry.ts
+```
+
+Owns:
+
+* Uploaded browser-side asset records
+* Object URL browser preview source
+* Uploaded asset ID/name/type/size/file
+* Future LVGL export identity scaffolding
+* Export status tracking
+
+Uploaded assets are browser-side only until conversion exists.
+
+---
+
+### Preset LVGL Asset Registry
+
+```text
+studio/src/forgeui/ForgeUIAssetRegistry.ts
+```
+
+Owns:
+
+* Preset asset records
+* `src`
+* `lvgl`
+* `cFile`
+* width/height metadata
+
+Preset registered LVGL assets are the current proven hardware-safe image path.
 
 ---
 
@@ -179,14 +224,14 @@ Owns:
 
 * LVGL image assets
 * Runtime icon assets
-* Generated image source files
+* Generated/copied image source files
 
 ---
 
 ### Export Asset Target
 
 ```text
-exports/<project>/main/assets/
+C:\ForgeUI-Exports\<project>\main\assets\
 ```
 
 Owns:
@@ -198,16 +243,20 @@ Owns:
 
 ### Hard Rule
 
-Studio assets must never be compiled directly by ESP-IDF.
+Studio/browser assets must never be compiled directly by ESP-IDF.
 
-Required flow:
+Required flow for hardware images:
 
 ```text
-studio/public/assets
+browser/source asset
     ↓
-export bridge
+conversion/export bridge
+    ↓
+LVGL C image asset
     ↓
 firmware/ForgeUI-One/main/assets
+    ↓
+CMake assetSources
     ↓
 ESP-IDF build
 ```
@@ -239,11 +288,13 @@ Treat these paths as architecture drift and accidental junk.
 * React
 * Next.js
 * Chakra UI
+* react-dropzone
 
 ## Export Layer
 
 * ForgeUI LVGL Generator
 * Native LVGL C Export
+* Node/Express export bridge
 
 ## Firmware
 
@@ -312,7 +363,7 @@ Generated files are disposable build artifacts.
 
 Never manually edit them.
 
-All changes originate from the visual canvas.
+All changes originate from the visual canvas and export generator.
 
 ---
 
@@ -334,6 +385,9 @@ main.c
 30_WIFI.c
 40_SD.c
 90_Studio_Export.c
+```
+
+---
 
 ## Export Status
 
@@ -347,48 +401,61 @@ The standalone ESP-IDF export path is operational.
 
 ```text
 POST /export-idf-project
-
-Reason
+```
 
 Studio Build & Flash works because it builds inside:
 
+```text
 firmware/ForgeUI-One/
+```
 
 Detached export builds inside:
 
+```text
 C:\ForgeUI-Exports\<project>\
+```
 
-If /export-idf-project only generates:
+If `/export-idf-project` only generates:
 
+```text
 main.c
 90_Studio_Export.c
+```
 
-the project will configure and build the bootloader, but fail at final link with errors such as:
+the project may configure and build the bootloader, but fail at final link with errors such as:
 
+```text
 undefined reference to fg_runtime_init
 undefined reference to fg_rtc_init
 undefined reference to fg_wifi_init
 undefined reference to fg_sd_init
 undefined reference to fg_wifi_pump
 undefined reference to fg_sd_test
-Hard Rule
+```
 
-Never update the live /export CMake generation without checking the detached /export-idf-project CMake generation.
+### Hard Rule
+
+Never update the live `/export` CMake generation without checking the detached `/export-idf-project` CMake generation.
 
 They must stay aligned unless there is a deliberate, documented reason.
 
-Current Fix
+### Current Fix
 
 In:
 
+```text
 studio/export-server.js
+```
 
 inside:
 
+```text
 app.post('/export-idf-project')
+```
 
-the cmakeSources block must match the live export route:
+the `cmakeSources` block must match the live export route:
 
+```js
 const cmakeSources = [
   '"main.c"',
   '"01_FG_Runtime.c"',
@@ -398,9 +465,11 @@ const cmakeSources = [
   '"40_SD.c"',
   '"90_Studio_Export.c"',
 ]
+```
 
 Asset sources are appended after this:
 
+```js
 assetSources.forEach((src) => {
   cmakeSources.push(`"${src}"`)
 })
@@ -478,6 +547,30 @@ Physical hardware remains the source of truth.
 
 ---
 
+## Image Preview Fix
+
+Previous bug:
+
+```text
+Image Preview used fixed 48px base sizing.
+```
+
+Fixed behavior:
+
+```text
+Image Preview now respects widget width/height.
+Builder image size now matches Browser Preview image size.
+```
+
+Current truth:
+
+```text
+Builder size = Preview size
+P4 placeholder size = Exported LVGL object size
+```
+
+---
+
 # 7. Theme System
 
 ## Shared Token Contract
@@ -548,212 +641,475 @@ Physical hardware remains the source of truth.
 
 ### Images
 
-* Preset image pipeline operational
-* Uploaded asset pipeline operational
-* Image widget asset picker operational
-* Browser Preview asset rendering operational
-* Uploaded asset export integration pending
----
+#### Preset Registered Assets
 
-# 9. Asset Pipeline Status
+Status:
 
-## Current State
+```text
+PROVEN
+```
 
-**PROVEN**
+Preset image flow:
 
-Asset Manager Phase 3 is now working.
+```text
+ForgeUIAssetRegistry
+    ↓
+FORGEUI_IMAGE_ASSETS
+    ↓
+asset.lvgl
+    ↓
+asset.cFile
+    ↓
+generateForgeUILvglCode()
+    ↓
+assetSources[]
+    ↓
+/export
+    ↓
+copy .c asset into firmware
+    ↓
+generated CMake
+    ↓
+LV_IMAGE_DECLARE
+    ↓
+P4 render
+```
 
-Uploaded assets can now flow from Asset Manager into the Image widget and Browser Preview.
+#### Uploaded Asset Manager Images
 
-### Proven Data Flow
+Status:
+
+```text
+BROWSER PIPELINE PROVEN
+EXPORT PLACEHOLDER PROVEN
+REAL LVGL IMAGE CONVERSION NOT YET BUILT
+```
+
+Uploaded image flow currently:
 
 ```text
 Asset Manager Upload
     ↓
 ForgeUIUploadedAssetRegistry
     ↓
-Image Widget Inspector
+browserSrc object URL
     ↓
-Uploaded Asset Dropdown
+Image Widget Inspector dropdown
     ↓
-Image src blob URL
+Builder render
     ↓
-Canvas Render
-    ↓
-Browser Preview Render
-Proven Features
-Asset Manager opens from Editor menu
-PNG upload works
-JPG/JPEG upload works
-SVG upload works
-Drag/drop upload works
-Click-to-browse upload works
-Uploaded asset registry works
-Asset survives Asset Manager close/reopen
-Thumbnail preview works
-File name/type/size display works
-Delete asset works
-Image widget Inspector shows Uploaded Asset dropdown
-Uploaded asset can be selected from Image widget
-Image widget canvas updates immediately
-Browser Preview renders selected uploaded asset
-Current Limit
-
-Image sizing is not yet fully aligned between:
-
-Canvas selection box
 Browser Preview render
-Future LVGL hardware render
+    ↓
+LVGL export placeholder/stub
+    ↓
+P4 clickable placeholder
+```
 
-This is expected and will be handled later as an image sizing/alignment pass.
+Current P4 result:
 
-Not Started Yet
+```text
+P4 does not yet show the uploaded PNG/SVG artwork.
+P4 shows a meaningful placeholder/stub with text such as:
+Uploaded Asset / Pending LVGL Export
+```
 
-Do not start these yet:
-
-uploaded asset persistence after browser refresh
-uploaded asset manifest save/load
-uploaded asset export integration
-LVGL conversion for uploaded assets
-physical P4 flash path for uploaded runtime assets
-Hard Rule
-
-Do not touch these proven paths during the next asset pass:
-
-Build & Flash
-Clean Build & Flash
-ESP-IDF Export
-Export server
-LVGL export core
-existing preset asset copy pipeline
+This is expected until uploaded image conversion exists.
 
 ---
 
-## Proven Data Flow
+# 9. Asset Pipeline Status
+
+## LVGL Image Converter Status
+
+Status:
+
+PROVEN
+
+The official LVGL v9 offline image converter is now integrated into the ForgeUI Studio toolchain.
+
+Location:
+
+tools/lvgl/LVGLImage.py
+
+Dependencies proven:
+
+* pypng
+* lz4
+
+Bench proof:
+
+* Python environment verified
+* LVGLImage.py executes successfully
+* Help output verified
+* PNG → LVGL C conversion verified
+* ARGB8888 output verified
+* Generated .c asset created successfully
+
+Proof command:
+
+python LVGLImage.py --ofmt C --cf ARGB8888 --output output --name fg_test_image test.png
+
+Result:
+
+done 1 files
+
+Current truth:
+
+ForgeUI Studio now possesses a proven local/offline LVGL image conversion capability.
+
+The remaining work is pipeline integration, not image conversion research.
+
+## Current State
+
+**PROVEN WITH LIMITS**
+
+Asset Manager V1 is working.
+
+Uploaded assets can flow from Asset Manager into the Image widget, Builder, and Browser Preview.
+
+Uploaded assets can now also safely export as a visible placeholder/stub on P4 hardware.
+
+---
+
+## Asset Manager Proven Features
+
+* Asset Manager opens from Editor menu
+* PNG upload works
+* JPG/JPEG upload works
+* SVG upload works
+* Drag/drop upload works
+* Click-to-browse upload works
+* Uploaded asset registry works
+* Asset survives Asset Manager close/reopen during current browser session
+* Thumbnail preview works
+* File name/type/size display works
+* Delete asset works
+* Image widget Inspector shows Uploaded Asset dropdown
+* Uploaded asset can be selected from Image widget
+* Image widget canvas updates immediately
+* Browser Preview renders selected uploaded asset
+* Browser Preview image sizing now matches Builder
+* Build & Flash still runs
+* P4 receives exported placeholder object
+* P4 placeholder object position/size aligns with Builder/Preview
+
+---
+
+## Uploaded Asset Contract V1
+
+Current uploaded asset type includes:
+
+```ts
+export type ForgeUIUploadedAsset = {
+  id: string
+  name: string
+  type: string
+  size: number
+  file: File
+  createdAt: number
+
+  browserSrc: string
+  kind: 'uploaded'
+  exportStatus: 'browser_only' | 'pending_conversion' | 'lvgl_ready'
+
+  lvgl: string
+  cFile: string
+}
+```
+
+Current meaning:
 
 ```text
-ForgeUIAssetRegistry
-        ↓
+browserSrc = browser-only preview source
+lvgl = future LVGL symbol name
+cFile = future generated LVGL C asset path
+exportStatus = current conversion/export state
+```
+
+Current status value for normal uploaded assets:
+
+```text
+browser_only
+```
+
+---
+
+## Current Uploaded Asset Limitation
+
+Uploaded image files are not yet automatically converted to LVGL C data.
+
+Manual LVGL conversion is now proven via tools/lvgl/LVGLImage.py.
+
+The remaining gap is automatic integration between Asset Manager and the LVGL conversion pipeline.
+
+Therefore:
+
+```text
+uploaded PNG/JPG/SVG
+    ↓
+works in browser
+    ↓
+does not yet become a real LVGL image asset
+    ↓
+P4 receives placeholder/stub instead of artwork
+```
+
+This is not a bug.
+
+This is the next missing feature.
+
+---
+
+## Export Placeholder Behavior
+
+When `ForgeUILvglExport.ts` sees an Image widget whose `src` does not match a registered preset asset in:
+
+```text
 FORGEUI_IMAGE_ASSETS
-        ↓
-asset.cFile
-        ↓
-generateForgeUILvglCode()
-        ↓
-assetSources[]
-        ↓
-Header.tsx
-        ↓
-/export
-        ↓
-Generated CMakeLists.txt
-        ↓
-idf_component_register(SRCS ...)
+```
+
+it now exports a styled clickable placeholder instead of a blank white object.
+
+Placeholder behavior:
+
+```text
+lv_button_create(parent)
+styled with current theme surface/border/text
+center label:
+Uploaded Asset
+Pending LVGL Export
+clickable flag enabled
+press transform feedback enabled
+```
+
+This gives detached exports a real visible object instead of a confusing white box.
+
+---
+
+## Current Split
+
+### Browser Side
+
+```text
+Uploaded image artwork visible
+Builder visible
+Preview visible
+Sizing aligned
+```
+
+### Firmware/P4 Side
+
+```text
+Uploaded image artwork not visible yet
+Placeholder visible
+Position/size aligned
+Build/flash stable
 ```
 
 ---
 
-## Proven Progress
+## Do Not Touch Without Reason
 
-Old failure:
+Do not break or rewrite:
 
-```text
-undefined reference to fg_icon_add_users_48px
-```
-
-Advanced to:
-
-```text
-Cannot find source file:
-main/assets/icons/fg_icon_add_users_48px.c
-```
-
-This proves:
-
-* asset discovery works
-* asset transport works
-* export route works
-* generated CMake works
-* ESP-IDF sees expected asset references
+* Build & Flash
+* Clean Build & Flash
+* ESP-IDF Export
+* Export server routing
+* Existing preset asset copy pipeline
+* Existing preset LVGL C asset path
+* Current working preview sizing
+* Current uploaded asset registry scaffold
 
 ---
 
-## Current Blocker
+# 10. Image Handler Product Direction
 
-Physical icon asset copy not yet complete.
+## Original Product Goal
 
-Required target:
-
-```text
-firmware/ForgeUI-One/main/assets/icons/
-```
-
----
-
-## Next Proof Required
-
-Build log should show:
+The image handler exists so users can:
 
 ```text
-fg_icon_add_users_48px.c.obj
-```
-
-instead of:
-
-```text
-Cannot find source file
-```
-
----
-
-## Next Mission
-
-Trace:
-
-```text
-ForgeUIAssetRegistry
+snip/upload an image
     ↓
-FORGEUI_IMAGE_ASSETS
+use it as a UI object
     ↓
-asset.cFile
+attach a function/action
     ↓
-/export route
+export detached ESP-IDF project
     ↓
-firmware/ForgeUI-One/main/assets/icons/
+flash and continue development
 ```
 
-Implement physical icon copy.
+This is bigger than simply displaying a picture.
 
-Then validate:
+The intended path is:
 
-* Build success
-* Flash success
-* Icon render on physical ESP32-P4
+```text
+Uploaded image
+    ↓
+image button / image tile
+    ↓
+action stub
+    ↓
+later custom user logic
+```
 
 ---
 
-# 10. Immediate Roadmap
+## Image Action Roadmap
+
+### Action V1
+
+Inspector should eventually allow:
+
+```text
+Action Type:
+- None
+- Show message
+- Change label text
+- Toggle state
+- Open panel
+- Go to screen
+- Custom C callback stub
+```
+
+### Export V1 Stub
+
+Initial P4 action behavior can be:
+
+```text
+tap uploaded-image placeholder
+    ↓
+show/change label:
+"Image button pressed"
+```
+
+or:
+
+```text
+tap uploaded-image placeholder
+    ↓
+call generated callback stub:
+fg_studio_image_action_<id>()
+```
+
+Purpose:
+
+```text
+Prove touch/action/export behavior before full image conversion exists.
+```
+
+---
+
+# 11. Required Future Image Conversion Pipeline
+
+## Required Goal
+
+Convert uploaded browser image files into LVGL-compatible firmware assets.
+
+Target flow:
+
+```text
+Uploaded PNG/JPG/SVG
+    ↓
+normalize/sanitize name
+    ↓
+convert to LVGL C image descriptor
+    ↓
+write generated .c file
+    ↓
+store under firmware/ForgeUI-One/main/assets/uploads/
+    ↓
+append to assetSources[]
+    ↓
+append to generated CMake
+    ↓
+LV_IMAGE_DECLARE(fg_upload_xxx)
+    ↓
+lv_image_set_src(img, &fg_upload_xxx)
+    ↓
+P4 renders actual uploaded artwork
+```
+
+---
+
+## Likely New Folder
+
+```text
+firmware/ForgeUI-One/main/assets/uploads/
+```
+
+Detached export target:
+
+```text
+C:\ForgeUI-Exports\<project>\main\assets\uploads\
+```
+
+---
+
+## Required Conversion Decisions
+
+Still to decide:
+
+* PNG to LVGL C converter approach
+* SVG support strategy
+* whether SVG converts to PNG first
+* asset size limits
+* max dimensions
+* transparency handling
+* color format
+* output naming rules
+* generated C file ownership
+* standalone export inclusion
+* live Build & Flash inclusion
+
+---
+
+## Preferred Direction
+
+Do not attempt to compile browser Blob URLs.
+
+Blob URLs are browser-only.
+
+Correct direction:
+
+```text
+File object / image bytes
+    ↓
+server-side or build-time converter
+    ↓
+LVGL C source
+```
+
+---
+
+# 12. Immediate Roadmap
 
 ## Near-Term
 
-* Complete icon asset copy
-* Physical icon rendering
-* Improve Button actions
-* Improve Switch actions
-* Improve Slider bindings
-* Improve Progress bindings
-* Improve Radio support
-* Improve Checkbox support
+* Verify uploaded asset scaffold remains stable after restart/reload limits are understood
+* Add visible export warnings/labels in Inspector for browser-only uploaded assets
+* Add Image Action Stub V1
+* Add generated callback stub for uploaded image placeholder/button
+* Design PNG/SVG to LVGL C conversion pipeline
+* Keep preset registered C assets as known-good hardware-safe path
 
 ---
 
 ## Mid-Term
 
+* Uploaded asset persistence after browser refresh
+* Uploaded asset manifest save/load
+* Uploaded image conversion to LVGL C
+* Uploaded asset copy into firmware assets/uploads
+* Uploaded asset CMake integration
+* Detached export support for uploaded converted assets
+* Real uploaded artwork render on P4
 * Theme editor
 * Surface editor
 * Background flavour editor
 * Component styling tools
-* Asset manager
 * Property panel improvements
 
 ---
@@ -769,6 +1125,46 @@ Then validate:
 
 ---
 
+# 13. Known-Good Save Point
+
+## Current Save Point
+
+```text
+FORGEUI_STUDIO_UPLOADED_ASSET_CONTRACT_V1__PREVIEW_SIZE_FIXED__EXPORT_PLACEHOLDER_PROVEN__2026-05-30
+```
+
+## Known-Good State
+
+```text
+Asset Manager upload works
+Asset Manager delete works
+Asset Manager thumbnail works
+Uploaded asset registry works
+Uploaded asset contract upgraded
+browserSrc introduced
+exportStatus introduced
+future lvgl/cFile fields introduced
+Image widget uploaded asset dropdown works
+Builder renders uploaded image
+Browser Preview renders uploaded image
+Browser Preview sizing fixed
+Build & Flash still works
+P4 receives exported object
+P4 placeholder position/size aligns with Builder/Preview
+P4 shows placeholder/stub instead of blank white box
+Export server not broken
+Preset asset path left intact
+```
+
+## Known Gap
+
+```text
+Uploaded image artwork does not yet render on P4.
+PNG/JPG/SVG to LVGL C conversion has not been built.
+```
+
+---
+
 # Source Of Truth Rule
 
 The Spine is the architecture authority.
@@ -776,3 +1172,6 @@ The Spine is the architecture authority.
 If code, documentation, exports, or discussions disagree:
 
 **The Spine wins.**
+
+```
+```

@@ -12,12 +12,22 @@ void fg_studio_export_create(lv_obj_t *parent)
     lv_obj_set_style_bg_color(parent, lv_color_hex(0x121417), 0);
     lv_obj_set_style_bg_opa(parent, LV_OPA_COVER, 0);
 
-    lv_obj_t * obj1 = lv_obj_create(parent);
-    lv_obj_set_pos(obj1, 111, 56);
-    lv_obj_set_size(obj1, 334, 213);
+    lv_obj_t * obj1 = lv_button_create(parent);
+    lv_obj_set_style_radius(obj1, 12, 0);
+    lv_obj_set_style_bg_color(obj1, lv_color_hex(0x1E2328), 0);
+    lv_obj_set_style_bg_opa(obj1, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_color(obj1, lv_color_hex(0xF2A900), 0);
+    lv_obj_set_style_border_width(obj1, 2, 0);
+    lv_obj_t * obj1_label = lv_label_create(obj1);
+    lv_label_set_text(obj1_label, "fg_icon_brightness_48px.png\nPending LVGL Export");
+    lv_obj_set_style_text_color(obj1_label, lv_color_hex(0xF5F5F5), 0);
+    lv_obj_set_style_text_align(obj1_label, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_center(obj1_label);
+    lv_obj_set_pos(obj1, 630, 362);
+    lv_obj_set_size(obj1, 240, 120);
     lv_obj_add_flag(obj1, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_set_style_transform_pivot_x(obj1, 167, 0);
-    lv_obj_set_style_transform_pivot_y(obj1, 106, 0);
+    lv_obj_set_style_transform_pivot_x(obj1, 120, 0);
+    lv_obj_set_style_transform_pivot_y(obj1, 60, 0);
     lv_obj_set_style_transform_scale(obj1, 256, 0);
     lv_obj_set_style_transform_scale(obj1, 235, LV_STATE_PRESSED);
 
