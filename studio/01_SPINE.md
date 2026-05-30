@@ -9,7 +9,7 @@
 * **Monorepo Repository Name:** `esp32p4-ui-studio`
 * **Theme System Status:** THEME PIPELINE V1 PROVEN ON PHYSICAL ESP32-P4 DISPLAY HARDWARE
 * **Theme Direction:** Synchronized token contract system unifying Browser Preview, native LVGL C export, and flashed firmware runtime
-* **Active Architectural Save Point:** `FORGEUI_STUDIO_EXPORT_ASSET_PIPELINE_LIVE_OK__EXPORT_CMAKE_ALIGNED__2026-05-29`
+* **Active Architectural Save Point:** `FORGEUI_STUDIO_ASSET_MANAGER_PHASE3_IMAGE_PICKER_PREVIEW_OK__2026-05-30`
 
 sandbox removed Asset Manager V2 thumbnails, delete support, and Studio cleanup
 
@@ -548,23 +548,84 @@ Physical hardware remains the source of truth.
 
 ### Images
 
-* Image placeholder path operational
-* Asset pipeline under active development
-
+* Preset image pipeline operational
+* Uploaded asset pipeline operational
+* Image widget asset picker operational
+* Browser Preview asset rendering operational
+* Uploaded asset export integration pending
 ---
 
 # 9. Asset Pipeline Status
 
 ## Current State
 
-Detached standalone export now builds and flashes independently from C:\ForgeUI-Exports\<project>\ with copied assets and restored CMake parity.
-Proven:
+**PROVEN**
 
-* Asset discovery operational
-* Asset transport operational
-* Asset-aware export operational
-* Asset-aware Build & Flash operational
-* Asset-aware CMake generation operational
+Asset Manager Phase 3 is now working.
+
+Uploaded assets can now flow from Asset Manager into the Image widget and Browser Preview.
+
+### Proven Data Flow
+
+```text
+Asset Manager Upload
+    ↓
+ForgeUIUploadedAssetRegistry
+    ↓
+Image Widget Inspector
+    ↓
+Uploaded Asset Dropdown
+    ↓
+Image src blob URL
+    ↓
+Canvas Render
+    ↓
+Browser Preview Render
+Proven Features
+Asset Manager opens from Editor menu
+PNG upload works
+JPG/JPEG upload works
+SVG upload works
+Drag/drop upload works
+Click-to-browse upload works
+Uploaded asset registry works
+Asset survives Asset Manager close/reopen
+Thumbnail preview works
+File name/type/size display works
+Delete asset works
+Image widget Inspector shows Uploaded Asset dropdown
+Uploaded asset can be selected from Image widget
+Image widget canvas updates immediately
+Browser Preview renders selected uploaded asset
+Current Limit
+
+Image sizing is not yet fully aligned between:
+
+Canvas selection box
+Browser Preview render
+Future LVGL hardware render
+
+This is expected and will be handled later as an image sizing/alignment pass.
+
+Not Started Yet
+
+Do not start these yet:
+
+uploaded asset persistence after browser refresh
+uploaded asset manifest save/load
+uploaded asset export integration
+LVGL conversion for uploaded assets
+physical P4 flash path for uploaded runtime assets
+Hard Rule
+
+Do not touch these proven paths during the next asset pass:
+
+Build & Flash
+Clean Build & Flash
+ESP-IDF Export
+Export server
+LVGL export core
+existing preset asset copy pipeline
 
 ---
 
