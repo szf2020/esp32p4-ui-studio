@@ -44,6 +44,81 @@ Eliminate manual UI coordinate positioning and slow compilation loops. ESP32-P4 
 
 ForgeUI Studio supports exporting **fully standalone, decoupled ESP-IDF firmware projects** directly from the visual editor environment. Your generated graphics layout becomes completely independent of the studio framework.
 
+## 🖼️ LVGL Image Pipeline Status
+
+ForgeUI Studio now includes a proven local offline LVGL v9 image conversion pipeline.
+
+Location:
+
+```text
+tools/lvgl/LVGLImage.py
+```
+
+Status:
+
+```text
+PROVEN
+```
+
+Bench validation completed:
+
+```text
+✓ Python 3.11 verified
+✓ LVGLImage.py executes successfully
+✓ pypng installed
+✓ lz4 installed
+✓ PNG → LVGL C conversion verified
+✓ ARGB8888 output verified
+✓ Generated .c image asset created successfully
+```
+
+Current architecture truth:
+
+```text
+PNG
+    ↓
+LVGLImage.py
+    ↓
+LVGL C Asset
+    ↓
+ESP-IDF Build
+    ↓
+ESP32-P4 Display
+
+PROVEN
+```
+
+Current limitation:
+
+```text
+Uploaded Asset Manager images are not yet
+automatically connected to the LVGL conversion pipeline.
+
+The image converter exists and works.
+
+The remaining work is automatic integration.
+```
+
+Current roadmap:
+
+```text
+Uploaded PNG
+    ↓
+Asset Manager
+    ↓
+LVGLImage.py
+    ↓
+Generated C Asset
+    ↓
+Firmware Assets/uploads
+    ↓
+Generated CMake
+    ↓
+Build & Flash
+    ↓
+Real Uploaded Image On P4
+```
+
 ### 📦 Portable Project Ecosystem
 * **Zero Framework Lock-in:** Open exported project bundles directly inside **Visual Studio Code (VS Code)** with the official ESP-IDF extension.
 * **Clean Rebuilds:** Code artifacts compile completely independently from the original studio engine from a pristine state.
@@ -95,11 +170,14 @@ The workspace environment is pre-tuned out-of-the-box for high-resolution graphi
 The repository is built as a self-contained monorepo separating the web workspace from the native firmware application shell:
 
 ```text
-eesp32p4-ui-studio/
+```text
+esp32p4-ui-studio/
 ├── studio/                             # Frontend UI Builder Canvas & LVGL Code Generator (React / Next.js)
 ├── firmware/
 │   └── ForgeUI-One/                    # Native ESP-IDF Runtime, BSP, Display/Touch Drivers, & LVGL Runtime Shell
-├── tools/                              # Automated ESP-IDF Compilation, Build, Flashing, & Utility Scripts
+├── tools/
+│   └── lvgl/
+│       └── LVGLImage.py                # Official LVGL v9 Offline Image Converter
 ├── docs/                               # Project Documentation, Architecture Notes, and Historical Save Records
 ├── START_FORGEUI_STUDIO.bat            # Windows Foreground Runtime Launcher
 ├── START_FORGEUI_STUDIO_HIDDEN.vbs     # Hidden Background Developer Startup Script
@@ -111,7 +189,8 @@ eesp32p4-ui-studio/
 
 C:\
 └── ForgeUI-Exports\                    # Global Standalone ESP-IDF Export Workspace
-                    # Core Architecture Spine & System Truth Document
+```
+
 ```
 
 ### Architectural Separation of Concerns
@@ -134,7 +213,8 @@ To ensure performance stability on resource-constrained microcontrollers, the pr
 ### Preview-to-Hardware Widget Parity Matrix
 The following UI controls map directly from the **Design Workspace ➔ Browser Preview ➔ Transpiled C Code ➔ Live ESP32-P4 LCD Screen**:
 
-* **Basic Controls:** Text, Button, Box, Image (Placeholder)
+* **Basic Controls:** Text, Button, Box, Image (Preset Assets Proven)
+Image (Uploaded Assets In Progress)
 * **Input Elements:** Input fields, Textarea blocks, NumberInput fields, Select drop-downs
 * **Toggles & Selectors:** Switch, Checkbox, Radio buttons, Sliders
 * **Status Monitors:** Progress Bars, Circular Progress loops

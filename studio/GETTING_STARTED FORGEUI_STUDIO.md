@@ -1,167 +1,492 @@
-# 📦 ForgeUI Studio | Onboarding & Getting Started Guide
+# 🚀 ForgeUI Studio | First-Time Setup & Getting Started Guide
 
-## Visual LVGL v9 HMI Designer Platform
+## Visual LVGL v9 HMI Designer for ESP32-P4
 
-Welcome to **ForgeUI Studio**, an integrated visual development environment (IDE) and low-code human-machine interface (HMI) layout engine engineered specifically for **Espressif ESP32-P4** microcontrollers running **LVGL v9** and **ESP-IDF**.
+Welcome to **ForgeUI Studio**.
 
-This guide covers local workspace deployment, software dependencies, directory layouts, and execution routines.
+ForgeUI Studio is a visual drag-and-drop LVGL v9 designer built specifically for the **ESP32-P4** platform using **ESP-IDF**.
 
----
-
-## ⚡ System Architecture & Pipeline Dataflow
-
-ForgeUI Studio bridges high-level web prototyping with bare-metal micro-controller execution loops.
+The goal is simple:
 
 ```text
-  [ Drag-and-Drop Visual Studio Layout Canvas ]
-                       │
-                       ▼
-  [ React Transpiler Parses UI State JSON Tree ]
-                       │
-                       ▼
-  [ Emits Pure Static: 90_Studio_Export.c / .h ]
-                       │
-                       ▼
-  [ Injects Runtime Files into /firmware/ForgeUI-One Shell ]
-                       │
-                       ▼
-  [ Links ESP-IDF Hardware Drivers, OPI PSRAM Registers, & MIPI-DSI BSP ]
-                       │
-                       ▼
-  [ Local Compiler Script Triggers Unified Binary Upload Loop ]
-                       │
-                       ▼
-  [ Native 60 FPS Interface Boots Natively on Physical Target Screen ]
+Design UI
+    ↓
+Preview UI
+    ↓
+Build & Flash
+    ↓
+ESP32-P4 Hardware
+```
+
+No manual LVGL coding required.
+
+---
+
+# 🎯 Current Project Status
+
+Current status:
+
+```text
+PROVEN
+```
+
+The following are working:
+
+```text
+✓ Browser Preview
+✓ Theme System
+✓ Build & Flash
+✓ Clean Build & Flash
+✓ Standalone ESP-IDF Export
+✓ Asset Manager
+✓ Uploaded Asset Selection
+✓ Builder Image Rendering
+✓ Browser Preview Image Rendering
+✓ Offline LVGL v9 Image Converter
+✓ PNG → LVGL C Conversion
+```
+
+Current limitation:
+
+```text
+Uploaded images do not yet automatically
+flow into the firmware asset pipeline.
+
+The image converter is proven.
+
+Automatic integration is the next milestone.
 ```
 
 ---
 
-## 🛠️ System Prerequisites & Host Environment Setup
+# 🛠️ Required Software
 
-Ensure your development computer houses the following hardware configurations and software packages before deploying the toolchain workspace:
+Install the following software before using ForgeUI Studio.
 
-### 1. Host Operating System & Engine Core
-*   **Operating System Requirement:** Windows 10 / 11 Desktop PC Environment.
-*   **Javascript Engine Core:** [Node.js v20 LTS (or newer)](https://nodejs.org).
-*   **Post-Installation Engine Verification Checklist:**
-    Open your terminal shell and query active version maps to verify paths:
-    ```bash
-    node -v
-    npm -v
-    ```
+## Node.js
 
-### 2. Version Control & Recommended IDE Stack
-*   **Version Control Protocol:** [Git SCM Software Suite](https://git-scm.com) for system branch sync loops and framework tracking.
-*   **Primary Development IDE:** [Visual Studio Code](https://visualstudio.com).
-*   **Essential VS Code Extensions:**
-    *   `Prettier - Code formatter` & `ESLint` (Maintains layout component parity profiles).
-    *   `Espressif ESP-IDF Extension` (Provides low-level serial trace telemetry tools).
+Required:
 
-### 3. Silicon Target Platform & Compiler Framework
-*   **Target Development Board Kit:** Waveshare ESP32-P4-WIFI6-Touch-LCD-7B *(Defaults to locked 1024×600 viewport canvas space)*.
-*   **Microcontroller SDK Target:** [Espressif ESP-IDF Toolchain Core v5.5.4+](https://espressif.com).
+```text
+Node.js 20 LTS or newer
+```
 
----
+Download:
 
-## 📦 Workspace Installation & Environment Cloning
+```text
+https://nodejs.org
+```
 
-### Step 1: Clone the Project Repository Tree
-Open your target command terminal environment and run the workspace retrieval block:
+Verify:
 
 ```bash
-git clone https://github.com
+node -v
+npm -v
 ```
 
-> ⚠️ **CRITICAL DIRECTORY MAPPING RULE:** To guarantee background compiler execution hooks and path parameters resolve perfectly, you must clone the workspace into this precise root partition folder track: `C:\ForgeUI\Projects\esp32p4-ui-studio`
+---
 
-### Step 2: Bootstrap the UI Studio Node Modules
-Navigate directly into the canvas rendering interface subdirectory path and trigger the package compilation sequence:
+## Git
+
+Required:
+
+```text
+Git SCM
+```
+
+Download:
+
+```text
+https://git-scm.com
+```
+
+Verify:
+
+```bash
+git --version
+```
+
+---
+
+## Visual Studio Code
+
+Required:
+
+```text
+Visual Studio Code
+```
+
+Download:
+
+```text
+https://code.visualstudio.com
+```
+
+Recommended extensions:
+
+```text
+ESLint
+Prettier
+Espressif ESP-IDF Extension
+```
+
+---
+
+## ESP-IDF
+
+Required:
+
+```text
+ESP-IDF 5.5.4
+```
+
+Target:
+
+```text
+ESP32-P4
+```
+
+Recommended installation:
+
+```text
+Espressif VS Code Extension
+```
+
+Verify:
+
+```text
+ESP-IDF PowerShell opens successfully
+```
+
+---
+
+# 🖼️ LVGL Image Converter
+
+ForgeUI Studio now includes a proven offline LVGL v9 image converter.
+
+Location:
+
+```text
+tools/lvgl/LVGLImage.py
+```
+
+Status:
+
+```text
+PROVEN
+```
+
+Bench validation:
+
+```text
+✓ Python 3.11 verified
+✓ LVGLImage.py executes
+✓ pypng installed
+✓ lz4 installed
+✓ PNG → LVGL C conversion verified
+✓ ARGB8888 output verified
+✓ Generated .c asset created successfully
+```
+
+Current required packages:
+
+```text
+pypng
+lz4
+```
+
+Install:
+
+```powershell
+pip install pypng lz4
+```
+
+Future goal:
+
+```text
+START_FORGEUI_STUDIO.bat
+    ↓
+Auto-check dependencies
+    ↓
+Auto-install missing packages
+    ↓
+Launch Studio
+```
+
+---
+
+# 📦 Clone The Repository
+
+Clone the repository into:
+
+```text
+C:\ForgeUI\Projects\
+```
+
+Example:
+
+```bash
+git clone <repository-url>
+```
+
+Expected folder:
+
+```text
+C:\ForgeUI\Projects\esp32p4-ui-studio
+```
+
+---
+
+# 📦 Install Studio Dependencies
+
+Open a terminal:
 
 ```bash
 cd studio
 npm install
 ```
-*This resolves front-end dependencies, Chakra UI libraries, and parsing elements. Run cycles can take several minutes on your initial execution pass.*
+
+This installs:
+
+```text
+React
+Next.js
+Chakra UI
+react-dropzone
+Studio dependencies
+```
 
 ---
 
-## 🔄 Live Toolchain Execution & Background Daemon Control
+# 🚀 Start ForgeUI Studio
 
-ForgeUI Studio runs automated processes in the background to handle data synchronization across the runtime shell instantly.
-
-### 🏁 1. Booting the Interactive Visual Canvas
-To fire up the visual design system, locate the workspace root folder and run this automation script file:
+From the project root:
 
 ```text
 START_FORGEUI_STUDIO_HIDDEN.vbs
 ```
 
-**What this script handles automatically:**
-1. Spins up the background React web host loop.
-2. Registers file-system change listeners for instant canvas-to-C code synchronization.
-3. Spawns your operating system's default internet browser panel locked to the interface console:
-   ```text
-   http://localhost:3000
-   ```
+Expected result:
 
-### 🛑 2. Graceful Workspace Environment Teardown
-> ⚠️ **CRITICAL DEVELOPER PROCESS RULE:** Do not simply close your browser window when you finish an interface editing session! This leaves background Node threads running, blocking connection port definitions. Do not re-run the initialization script while processes remain alive.
+```text
+Node backend starts
+Studio frontend starts
+Browser opens automatically
+```
 
-To clear active workspace processes cleanly, return to your project root folder directory and trigger this utility:
+Default address:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# 🛑 Stop ForgeUI Studio
+
+When finished:
 
 ```text
 STOP_FORGEUI_STUDIO.bat
 ```
-*This completely removes active `node.exe` engine allocations, clears local server sockets, and purges the file-watching loops securely.*
+
+This:
+
+```text
+Stops node processes
+Closes local servers
+Releases ports
+Stops file watchers
+```
 
 ---
 
-## 📂 Repository Architecture & File Hierarchy
-
+# 📂 Repository Structure
 
 ```text
 esp32p4-ui-studio/
-├── studio/                             # Visual IDE Frontend, Browser Canvas Grid, & LVGL C Code Generator
+├── studio/
+│   ├── src/
+│   ├── public/
+│   └── export-server.js
+│
 ├── firmware/
-│   └── ForgeUI-One/                    # ESP-IDF Embedded Firmware Template Shell (Drivers, BSP, UI Inject Points)
-├── tools/                              # Automated Compile, Clean, Flash, and Project Packaging Utilities
-├── docs/                               # Internal Platform Documentation, Architecture Rules, & Technical Specs
-│   └── history/                        # Historical Database Save Points and Migration Trace Profiles
-├── START_FORGEUI_STUDIO.bat            # Standard Interactive Foreground UI Terminal Script
-├── START_FORGEUI_STUDIO_HIDDEN.vbs     # Optimized Background Daemon Service & Export Bridge Initialization Hook
-├── STOP_FORGEUI_STUDIO.bat             # Graceful Developer Thread Cleanup and Process Purge Utility
-├── README.md                           # Public Component Overview & Developer Presentation Manifesto
-├── LICENSE                             # Primary Open Source Software License Manifesto
-├── THIRD_PARTY_LICENSES.md             # Upstream Framework Dependencies & Licensing Profiles
-└── 01_SPINE.md                         # Core Architecture Spine and System Truth Reference
+│   └── ForgeUI-One/
+│
+├── tools/
+│   └── lvgl/
+│       └── LVGLImage.py
+│
+├── docs/
+│   └── history/
+│
+├── START_FORGEUI_STUDIO.bat
+├── START_FORGEUI_STUDIO_HIDDEN.vbs
+├── STOP_FORGEUI_STUDIO.bat
+├── README.md
+├── LICENSE
+├── THIRD_PARTY_LICENSES.md
+└── 01_SPINE.md
 
 C:\
-└── ForgeUI-Exports\                    # Standalone Generated ESP-IDF Export Projects
-```
-   # Core Architecture Spine and System Truth Reference
+└── ForgeUI-Exports\
 ```
 
 ---
 
-## 🚀 Validated Feature Status Matrix
+# 🔄 Current UI Workflow
 
-The following operational pipelines are verified functional across physical hardware validation checks:
+```text
+Drag Components
+    ↓
+Builder Canvas
+    ↓
+Browser Preview
+    ↓
+Generate LVGL
+    ↓
+Build & Flash
+    ↓
+ESP32-P4 Hardware
+```
 
-*   **Canvas Grid Lock Constraints:** Enforces hard boundary checking locked to the target Waveshare 1024×600 canvas framework.
-*   **Coordinate Generation Execution:** Precision absolute X/Y coordinate placement data arrays map correctly to hardware pixel matrices.
-*   **Instant Pipeline Code Sync:** Real-time visual panel additions trigger direct file updates on the target disk space.
-*   **Decoupled Standalone Exports:** Independent export projects extract cleanly, passing isolated `Full Clean → Rebuild → Flash` passes inside VS Code.
-*   **File-Write Crash Interventions:** Built-in collision defenses isolate project save points, blocking unexpected system overwrite cycles.
-*   **Hardware Baseline Verification:** Verified loop functionality across: **Web Canvas Layout ➔ Live Preview Simulation ➔ Pure C Asset Export ➔ Flash Command Execution ➔ Physical Display Execution**.
+---
+
+# 🖼️ Current Image Workflow
+
+### Browser Side
+
+Working:
+
+```text
+Upload PNG
+Upload JPG
+Upload SVG
+Thumbnail Preview
+Builder Preview
+Browser Preview
+```
+
+### Hardware Side
+
+Current status:
+
+```text
+Preset LVGL assets render correctly.
+
+Uploaded assets currently export as
+placeholders until automatic conversion
+integration is completed.
+```
+
+Current architecture:
+
+```text
+Uploaded PNG
+    ↓
+Asset Manager
+    ↓
+Builder
+    ↓
+Preview
+
+WORKING
+```
+
+Future architecture:
+
+```text
+Uploaded PNG
+    ↓
+Asset Manager
+    ↓
+LVGLImage.py
+    ↓
+Generated .c Asset
+    ↓
+Firmware Assets
+    ↓
+Generated CMake
+    ↓
+Build & Flash
+    ↓
+Real Image On P4
+```
 
 ---
 
-## 📜 Upstream Software Licensing and Open Source Attribution
+# ⚠️ White Box Explanation
 
-ForgeUI Studio is developed as a heavily customized, embedded hardware-focused fork of the open-source user interface parser engine originally designed by **Premier Octet** (OpenChakra ecosystem).
+Current white-box behavior is expected.
 
-This platform thoroughly redesigns, overhauls, and extends the visual canvas layout logic to handle static embedded low-level C component arrays, peripheral device control registers, and memory tracking pipelines mapped explicitly to **LVGL v9** and the **ESP32-P4** architecture. All upstream MIT license parameters, copyright flags, and framework credits are preserved within this workspace.
+The white box is:
+
+```text
+NOT a rendering bug
+NOT a Build & Flash bug
+NOT a CMake bug
+```
+
+Root cause:
+
+```text
+Uploaded browser assets are not yet
+automatically converted into LVGL C assets.
+```
+
+Current truth:
+
+```text
+Preset LVGL assets render correctly.
+
+LVGLImage.py conversion is proven.
+
+Automatic integration is the remaining task.
+```
 
 ---
-**Core Platform Architect:** Scott Forster | ForgeUI Project  
-**Repository Access Portal:** [GitHub Repository Interface](https://github.com)
+
+# 📍 Current Save Point
+
+```text
+FORGEUI_STUDIO_LVGL9_OFFLINE_IMAGE_CONVERTER_PROVEN__PNG_TO_C_WORKING__2026-05-30
+```
+
+Meaning:
+
+```text
+✓ LVGLImage.py added
+✓ pypng installed
+✓ lz4 installed
+✓ Converter executes
+✓ PNG conversion proven
+✓ ARGB8888 output generated
+✓ Offline workflow proven
+✓ White-box root cause confirmed
+```
+
+---
+
+# 🎯 Next Major Milestone
+
+```text
+Asset Manager
+    ↓
+Auto-run LVGLImage.py
+    ↓
+Generate .c Asset
+    ↓
+Firmware Assets/uploads
+    ↓
+assetSources[]
+    ↓
+Generated CMake
+    ↓
+Build & Flash
+    ↓
+Real Uploaded Image On P4
+```
+
+The image conversion problem is solved.
+
+The remaining work is integration.
