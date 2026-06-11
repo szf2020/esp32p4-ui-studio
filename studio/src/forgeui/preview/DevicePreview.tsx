@@ -12,6 +12,11 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ components }) => {
   const palette = getForgePreviewPalette()
   const root = components.root
 
+  const textureUrl =
+    palette.texture && palette.texture !== 'none'
+      ? `/textures/${palette.texture}.png`
+      : undefined
+
   return (
     <Box px={3} pt={0} pb={1}>
       <HStack mb={0} justify="space-between">
@@ -35,6 +40,9 @@ const DevicePreview: React.FC<DevicePreviewProps> = ({ components }) => {
           minWidth={`${FORGEUI_ACTIVE_DEVICE.width}px`}
           minHeight={`${FORGEUI_ACTIVE_DEVICE.height}px`}
           bg={palette.bg}
+          backgroundImage={textureUrl ? `url(${textureUrl})` : undefined}
+          backgroundRepeat="repeat"
+          backgroundSize="auto"
           border={`2px solid ${palette.border}`}
           borderRadius="12px"
           overflow="hidden"

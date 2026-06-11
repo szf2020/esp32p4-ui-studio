@@ -26,6 +26,7 @@ import {
   PopoverFooter,
   Tooltip,
   HStack,
+  Select,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, SmallCloseIcon, CheckIcon } from '@chakra-ui/icons'
 import { DiGithubBadge } from 'react-icons/di'
@@ -111,7 +112,7 @@ const ExportProjectButton = ({
 }
 
 const Header = () => {
-  const { themeId } = useForgeTheme()
+  const { themeId, setThemeId } = useForgeTheme()
   const showLayout = useSelector(getShowLayout)
   const showCode = useSelector(getShowCode)
   const dispatch = useDispatch()
@@ -305,6 +306,47 @@ await fetch('http://localhost:3030/clean-flash', {
             <Box>
               <HeaderMenu />
             </Box>
+
+            <FormControl display="flex" flexDirection="row" alignItems="center">
+  <FormLabel
+    color="gray.200"
+    fontSize="xs"
+    mr={2}
+    mb={0}
+    whiteSpace="nowrap"
+  >
+    Theme
+  </FormLabel>
+
+  <LightMode>
+  <Select
+    size="xs"
+    width="170px"
+    value={themeId}
+    onChange={(e) => setThemeId(e.target.value as any)}
+    bg="#202938"
+    color="white"
+    borderColor="gray.600"
+    sx={{
+      option: {
+        background: '#202938',
+        color: '#ffffff',
+      },
+    }}
+  >
+    <option value="graphite">Carbon Graphite</option>
+    <option value="reactor_dark">Reactor Dark</option>
+    <option value="industrial_steel">Industrial Steel</option>
+    <option value="matrix_green">Matrix Green</option>
+    <option value="cyber_teal">Cyber Teal</option>
+    <option value="forge_orange">Forge Orange</option>
+    <option value="military_green">Military Green</option>
+    <option value="carbon_red">Carbon Red</option>
+    <option value="oled_black">OLED Black</option>
+    <option value="nordic_blue">Nordic Blue</option>
+  </Select>
+</LightMode>
+</FormControl>
 
             <FormControl flexDirection="row" display="flex" alignItems="center">
               <Tooltip

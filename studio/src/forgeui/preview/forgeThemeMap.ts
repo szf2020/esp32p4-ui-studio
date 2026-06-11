@@ -1,3 +1,19 @@
+export type ForgeTextureId =
+  | 'none'
+  | 'dark_noise'
+  | 'carbon_fiber'
+  | 'brushed_steel'
+  | 'hex_mesh'
+  | 'blueprint_grid'
+  | 'industrial_panel'
+
+export type ForgeBorderStyle =
+  | 'flat'
+  | 'industrial'
+  | 'glow'
+  | 'soft'
+  | 'terminal'
+  
 export const ACTIVE_BACKGROUND_FLAVOUR = 'graphite'
 
 export const FG_PREVIEW_PALETTES = {
@@ -17,19 +33,22 @@ export const FG_PREVIEW_PALETTES = {
   },
 
   graphite: {
-    name: 'Carbon Graphite',
+  name: 'Carbon Graphite',
 
-    bg: '#121417',
+  bg: '#121417',
 
-    surface: '#1E2328',
-    surface2: '#2A3138',
+  surface: '#1E2328',
+  surface2: '#2A3138',
 
-    border: '#F2A900',
+  border: '#F2A900',
 
-    text: '#F5F5F5',
+  text: '#F5F5F5',
 
-    accent: '#F2A900',
-  },
+  accent: '#F2A900',
+
+  texture: 'carbon_fiber',
+  borderStyle: 'industrial',
+},
 
   nordic_blue: {
     name: 'Nordic Blue',
