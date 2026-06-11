@@ -3,8 +3,10 @@
 ## Current Save Point
 
 ```text
-FORGEUI_STUDIO_LVGL9_OFFLINE_IMAGE_CONVERTER_PROVEN__PNG_TO_C_WORKING__2026-05-30
+FORGEUI_STUDIO_UPLOADED_IMAGE_PIPELINE_V1_PROVEN__LVGL_CONVERSION_CMAKE_FLASH_SUCCESS__2026-06-11
 ```
+
+---
 
 ## Current State
 
@@ -17,8 +19,9 @@ Uploaded asset registry works
 
 browserSrc implemented
 exportStatus implemented
-future lvgl symbol scaffold implemented
-future cFile scaffold implemented
+
+LVGL symbol generation implemented
+cFile generation implemented
 
 Image widget uploaded asset dropdown works
 
@@ -27,99 +30,137 @@ Browser Preview renders uploaded image
 
 Builder sizing matches Browser Preview sizing
 
-Build & Flash still works
-Clean Build & Flash still works
+Build & Flash works
+Clean Build & Flash works
 
-Detached ESP-IDF Export still works
-
-P4 receives exported object
-
-P4 placeholder position/size aligns with Builder/Preview
-
-P4 shows placeholder/stub instead of blank white box
+Detached ESP-IDF Export works
 
 Preset asset pipeline remains intact
 
 Export server remains intact
 
-LVGLImage.py installed
+LVGLImage.py integrated
 
 pypng installed
 lz4 installed
 
-Official LVGL v9 image converter proven
+Official LVGL v9 image converter integrated
 
-PNG → LVGL C conversion proven
+PNG → LVGL C conversion works
 
-ARGB8888 conversion proven
+ARGB8888 conversion works
 
-Generated .c asset creation proven
+Generated .c asset creation works
 
-Offline image conversion workflow proven
+Automatic assetSources generation works
+
+Automatic CMake injection works
+
+Automatic LV_IMAGE_DECLARE generation works
+
+Automatic lv_image_set_src generation works
+
+ESP-IDF compiles generated uploaded assets
+
+Physical ESP32-P4 renders uploaded images
+
+End-to-end uploaded image pipeline proven
 ```
+
+---
 
 ## Current Architecture Truth
 
 ```text
 The image conversion problem is solved.
 
-The remaining work is integration.
+The image integration problem is solved.
+
+Uploaded image assets now complete a full end-to-end path from ForgeUI Studio to physical ESP32-P4 hardware.
+
+Remaining work is refinement, scaling, asset management, and multi-image validation.
 ```
 
 ---
 
-## White Box Explanation
+## Updated Uploaded Image Pipeline
 
-The current white box / placeholder behavior is expected.
-
-This is NOT:
-
-```text
-NOT a rendering bug
-NOT an LVGL bug
-NOT a Build & Flash bug
-NOT an Export bug
-NOT a CMake bug
-```
-
-Root cause:
-
-```text
-Uploaded browser assets are not yet automatically converted into LVGL C assets.
-```
-
-Current flow:
+Current proven flow:
 
 ```text
 Uploaded Asset
     ↓
-Browser Registry
-    ↓
-Builder
-    ↓
-Preview
-    ↓
-Placeholder Export
-    ↓
-P4 Placeholder
-```
-
-Future flow:
-
-```text
-Uploaded Asset
+Asset Manager
     ↓
 LVGLImage.py
     ↓
 Generated LVGL C Asset
     ↓
-Firmware Assets
+Firmware Assets/uploads
+    ↓
+Asset Registry
+    ↓
+assetSources[]
     ↓
 Generated CMake
     ↓
+LV_IMAGE_DECLARE(...)
+    ↓
+lv_image_set_src(...)
+    ↓
 Build & Flash
     ↓
-Real Uploaded Image On P4
+Physical ESP32-P4 Image Rendering
+```
+
+---
+
+## Uploaded Image Pipeline Status
+
+Status:
+
+```text
+PROVEN
+```
+
+Capabilities:
+
+```text
+PNG upload
+
+Drag & Drop
+
+Thumbnail Preview
+
+Uploaded Asset Registry
+
+Builder Rendering
+
+Browser Preview Rendering
+
+Builder/Preview Size Alignment
+
+LVGLImage.py Auto Conversion
+
+Generated LVGL C Asset Creation
+
+Generated Asset Symbol Registration
+
+Generated Asset Source Registration
+
+Automatic assetSources Generation
+
+Automatic CMake Injection
+
+Automatic LV_IMAGE_DECLARE Generation
+
+Automatic lv_image_set_src Generation
+
+ESP-IDF Compilation
+
+Build & Flash
+
+Physical ESP32-P4 Rendering
 ```
 
 ---
@@ -150,39 +191,19 @@ Bench proof:
 ```text
 ✓ Python 3.11 verified
 ✓ LVGLImage.py executes successfully
-✓ Help output verified
 ✓ pypng dependency verified
 ✓ lz4 dependency verified
 ✓ PNG → LVGL C conversion verified
 ✓ ARGB8888 output verified
 ✓ Generated .c asset created successfully
-```
-
-Proof command:
-
-```powershell
-python LVGLImage.py --ofmt C --cf ARGB8888 --output output --name fg_test_image test.png
-```
-
-Proof result:
-
-```text
-done 1 files
-```
-
-Generated output:
-
-```text
-output/
-└── fg_test_image.c
+✓ Automatic ForgeUI integration verified
+✓ Physical ESP32-P4 rendering verified
 ```
 
 Current truth:
 
 ```text
-ForgeUI Studio now possesses a proven local/offline LVGL image conversion capability.
-
-The remaining work is pipeline integration.
+ForgeUI Studio possesses a fully integrated local/offline LVGL image conversion pipeline.
 
 No further image conversion research is required.
 ```
@@ -201,18 +222,23 @@ Owns:
 
 ```text
 Build scripts
+
 Flash scripts
+
 Runtime helpers
+
 Automation utilities
+
 LVGL image conversion
-Future asset conversion automation
+
+Uploaded asset conversion
+
+Future asset automation
 ```
 
 ---
 
-## Updated Asset Pipeline Status
-
-### Browser Side
+## Browser Side Status
 
 Status:
 
@@ -244,34 +270,34 @@ Builder/Preview Size Alignment
 
 ---
 
-### Firmware Side
+## Firmware Side Status
 
 Status:
 
 ```text
-PARTIALLY PROVEN
+PROVEN
 ```
 
 Capabilities:
 
 ```text
-Placeholder Export
+Generated LVGL Asset Compilation
 
-Placeholder Render
+Generated Asset Source Registration
 
-Builder Position Alignment
+Generated CMake Integration
 
-Preview Position Alignment
+LV_IMAGE_DECLARE Generation
 
-Build Stability
+lv_image_set_src Generation
+
+ESP-IDF Build Stability
 
 Flash Stability
-```
 
-Current limitation:
+Uploaded Asset Rendering
 
-```text
-Uploaded artwork does not yet render on P4.
+Physical P4 Image Rendering
 ```
 
 ---
@@ -301,39 +327,19 @@ Do not re-open image converter research unless a major technical issue is discov
 Current direction:
 
 ```text
-Asset Manager
+Uploaded Asset
     ↓
 LVGLImage.py
     ↓
-Generated C Asset
+Generated LVGL C Asset
     ↓
 Firmware Assets/uploads
+    ↓
+Asset Registry
     ↓
 assetSources[]
     ↓
 Generated CMake
-    ↓
-Build & Flash
-    ↓
-Real Uploaded Artwork
-```
-
----
-
-## Immediate Next Mission
-
-```text
-Asset Manager
-    ↓
-Auto-run LVGLImage.py
-    ↓
-Generate LVGL C Asset
-    ↓
-Copy Into Firmware Assets/uploads
-    ↓
-Append To assetSources[]
-    ↓
-Append To Generated CMake
     ↓
 LV_IMAGE_DECLARE(...)
     ↓
@@ -341,7 +347,68 @@ lv_image_set_src(...)
     ↓
 Build & Flash
     ↓
-Real Uploaded Image On P4
+Physical ESP32-P4 Image Rendering
+```
+
+---
+
+## New Proven Milestone
+
+### Uploaded Image Pipeline V1
+
+Status:
+
+```text
+PROVEN
+```
+
+Achievements:
+
+```text
+✓ Asset Manager uploads operational
+
+✓ LVGLImage.py integrated into Studio backend
+
+✓ Auto PNG → LVGL C conversion
+
+✓ Generated assets written to:
+  firmware/ForgeUI-One/main/assets/uploads
+
+✓ Uploaded asset registry integration
+
+✓ Automatic assetSources generation
+
+✓ Automatic CMake source injection
+
+✓ Automatic LV_IMAGE_DECLARE generation
+
+✓ Automatic lv_image_set_src generation
+
+✓ ESP-IDF build integration
+
+✓ Physical ESP32-P4 rendering confirmed
+```
+
+---
+
+## Immediate Next Mission
+
+```text
+UPLOADED_IMAGE_PIPELINE_V2
+
+Multiple Uploaded Images
+    ↓
+Builder Size Preservation
+    ↓
+Preview Size Preservation
+    ↓
+Hardware Size Preservation
+    ↓
+Image Scaling Controls
+    ↓
+Asset Cleanup Management
+    ↓
+Multi-Asset Project Validation
 ```
 
 ---
@@ -382,6 +449,7 @@ Goal:
 
 ```text
 User installs Node.js
+
 User installs ESP-IDF
 
 Everything else is handled by ForgeUI Studio.
@@ -406,8 +474,18 @@ LVGLImage.py = Proven
 
 PNG → LVGL C = Proven
 
+Uploaded Asset Integration = Proven
+
+Generated Asset Compilation = Proven
+
+Physical ESP32-P4 Rendering = Proven
+
 Remaining Work:
-Asset Manager → LVGLImage.py Integration
+
+Image sizing parity
+Multi-image validation
+Asset cleanup
+Asset management improvements
 ```
 
 Future chats should treat this as the active architecture truth.

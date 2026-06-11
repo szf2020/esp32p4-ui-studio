@@ -1,5 +1,6 @@
 // const ACTIVE_BACKGROUND_FLAVOUR = 'reactor_dark'
 // const ACTIVE_BACKGROUND_FLAVOUR = 'nordic_blue'
+import { forgeUIGetUploadedAssets } from './ForgeUIUploadedAssetRegistry'
 import { FORGEUI_IMAGE_ASSETS } from './ForgeUIAssetRegistry'
 const ACTIVE_BACKGROUND_FLAVOUR = 'graphite'
 
@@ -444,21 +445,42 @@ const buildLvglBlock = (
 
 case 'Image': {
   const src = child.props.src || ''
+  const uploadedAssets = forgeUIGetUploadedAssets()
 
-  const asset = FORGEUI_IMAGE_ASSETS.find(
+  console.log('LVGL EXPORT IMAGE DEBUG', {
+  src,
+  alt: child.props.alt,
+  assetName: child.props.assetName,
+  uploadedAssets,
+})
+
+  const presetAsset = FORGEUI_IMAGE_ASSETS.find(
     (a: any) => a.src === src
   )
 
-  if (asset?.lvgl) {
-    if (asset.cFile) {
-      usedAssetSources.add(asset.cFile)
+  const uploadedAsset = uploadedAssets.find((a: any) =>
+  a.src === src ||
+  a.name === child.props.assetName ||
+  a.fileName === child.props.assetName ||
+  a.name === child.props.alt ||
+  a.fileName === child.props.alt
+)
+
+  const asset: any = presetAsset || uploadedAsset
+
+  if (asset?.lvgl || asset?.symbolName) {
+    const symbol = asset.lvgl || asset.symbolName
+    const cFile = asset.cFile || asset.assetSource
+
+    if (cFile) {
+      usedAssetSources.add(cFile)
     }
 
-        const imageScale = Number(child.props.imageScale || 256)
+    const imageScale = Number(child.props.imageScale || 256)
 
-    lines.push(`LV_IMAGE_DECLARE(${asset.lvgl});`)
+    lines.push(`LV_IMAGE_DECLARE(${symbol});`)
     lines.push(`lv_obj_t * ${varName} = lv_image_create(${parentVar});`)
-    lines.push(`lv_image_set_src(${varName}, &${asset.lvgl});`)
+    lines.push(`lv_image_set_src(${varName}, &${symbol});`)
     lines.push(`lv_image_set_scale(${varName}, ${imageScale});`)
   } else {
     const uploadName = esc(
@@ -484,7 +506,6 @@ case 'Image': {
   lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
   lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
 
-  // Image touch / press feedback V1
   lines.push(`lv_obj_add_flag(${varName}, LV_OBJ_FLAG_CLICKABLE);`)
   lines.push(`lv_obj_set_style_transform_pivot_x(${varName}, ${Math.floor(w / 2)}, 0);`)
   lines.push(`lv_obj_set_style_transform_pivot_y(${varName}, ${Math.floor(h / 2)}, 0);`)

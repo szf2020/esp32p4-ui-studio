@@ -7,6 +7,7 @@ idf_component_register(
         "30_WIFI.c"
         "40_SD.c"
         "90_Studio_Export.c"
+        "assets/uploads/fg_upload_test1_4a46b867.c"
 
     INCLUDE_DIRS
         "."
@@ -25,4 +26,8 @@ idf_component_register(
 
     PRIV_REQUIRES
         bsp_extra
+)
+
+target_compile_definitions(${COMPONENT_LIB} PRIVATE
+    LV_LVGL_H_INCLUDE_SIMPLE
 )

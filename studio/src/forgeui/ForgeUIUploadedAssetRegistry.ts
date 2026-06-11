@@ -104,3 +104,19 @@ export function forgeUIDeleteUploadedAsset(id: string) {
 
   return forgeUIUploadedAssets
 }
+
+export function forgeUIUpdateUploadedAsset(
+  id: string,
+  patch: Partial<Pick<ForgeUIUploadedAsset, 'exportStatus' | 'lvgl' | 'cFile'>>,
+) {
+  forgeUIUploadedAssets = forgeUIUploadedAssets.map((asset) =>
+    asset.id === id
+      ? {
+          ...asset,
+          ...patch,
+        }
+      : asset,
+  )
+
+  return forgeUIUploadedAssets
+}

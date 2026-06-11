@@ -65,6 +65,152 @@ app.use((req, res, next) => {
   next()
 })
 
+
+function safeSymbolName(name) {
+  return String(name || 'fg_uploaded_image')
+    .trim()
+    .replace(/[^a-zA-Z0-9_]/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_+|_+$/g, '') || 'fg_uploaded_image'
+}
+
+app.post('/convert-lvgl-image', (req, res) => {
+  try {
+    const fileName = req.body.fileName || 'uploaded.png'
+    const symbolName = safeSymbolName(req.body.symbolName)
+    const base64 = req.body.base64
+
+    if (!base64) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Missing base64',
+      })
+    }
+
+    const converterPath = path.resolve(
+      __dirname,
+      '../tools/lvgl/LVGLImage.py'
+    )
+
+    console.log('Converter path:', converterPath)
+    console.log('Converter exists:', fs.existsSync(converterPath))
+
+    const tempInputDir = path.resolve(
+      __dirname,
+      '../firmware/ForgeUI-One/main/assets/uploads/_input'
+    )
+
+    const outputDir = path.resolve(
+      __dirname,
+      '../firmware/ForgeUI-One/main/assets/uploads'
+    )
+
+    fs.mkdirSync(tempInputDir, { recursive: true })
+    fs.mkdirSync(outputDir, { recursive: true })
+
+    const ext = path.extname(fileName).toLowerCase() || '.png'
+    const inputPath = path.join(tempInputDir, `${symbolName}${ext}`)
+
+    const cleanBase64 = String(base64).replace(/^data:image\/\w+;base64,/, '')
+
+    fs.writeFileSync(inputPath, Buffer.from(cleanBase64, 'base64'))
+
+    console.log('LVGL convert input:', inputPath)
+    console.log('LVGL converter:', converterPath)
+    console.log('LVGL output dir:', outputDir)
+
+    const child = spawn(
+  'C:\\Espressif\\python_env\\idf5.5_py3.11_env\\Scripts\\python.exe',
+  [
+    converterPath,
+    '--ofmt',
+    'C',
+    '--cf',
+    'ARGB8888',
+    '--output',
+    outputDir,
+    '--name',
+    symbolName,
+    inputPath,
+  ],
+  {
+    cwd: path.resolve(__dirname, '../tools/lvgl'),
+    windowsHide: true,
+  }
+)
+
+    let log = ''
+
+    child.stdout.on('data', (data) => {
+      log += data.toString()
+    })
+
+    child.stderr.on('data', (data) => {
+      log += data.toString()
+    })
+
+    child.on('error', (err) => {
+      console.error('LVGL converter spawn error:', err)
+
+      return res.status(500).json({
+        ok: false,
+        error: 'Failed to start Python/LVGLImage.py',
+        detail: String(err),
+        converterPath,
+        inputPath,
+        outputDir,
+      })
+    })
+
+    child.on('close', (code) => {
+      console.log('LVGL converter exited:', code)
+      console.log(log)
+
+      if (code !== 0) {
+        return res.status(500).json({
+          ok: false,
+          error: 'LVGL image conversion failed',
+          code,
+          log,
+          converterPath,
+          inputPath,
+          outputDir,
+        })
+      }
+
+      const cFile = path.join(outputDir, `${symbolName}.c`)
+      const assetSource = `assets/uploads/${symbolName}.c`
+
+      if (!fs.existsSync(cFile)) {
+        return res.status(500).json({
+          ok: false,
+          error: 'LVGL converter finished but .c file was not created',
+          cFile,
+          log,
+        })
+      }
+
+      res.json({
+        ok: true,
+        symbolName,
+        inputPath,
+        outputDir,
+        cFile,
+        assetSource,
+        log,
+      })
+    })
+  } catch (err) {
+    console.error(err)
+
+    res.status(500).json({
+      ok: false,
+      error: String(err),
+    })
+  }
+})
+
+
 app.post('/export', (req, res) => {
   try {
     const code = req.body.code || ''
@@ -162,6 +308,10 @@ const generatedCMake =
 
     PRIV_REQUIRES
         bsp_extra
+)
+
+target_compile_definitions(\${COMPONENT_LIB} PRIVATE
+    LV_LVGL_H_INCLUDE_SIMPLE
 )`
 
     fs.writeFileSync(cTarget, code, 'utf8')
@@ -305,6 +455,10 @@ const generatedCMake =
 
     PRIV_REQUIRES
         bsp_extra
+)
+
+target_compile_definitions(\${COMPONENT_LIB} PRIVATE
+    LV_LVGL_H_INCLUDE_SIMPLE
 )`
 
     fs.writeFileSync(cTarget, code, 'utf8')

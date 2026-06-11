@@ -7,6 +7,7 @@ import {
   forgeUICreateUploadedAsset,
   forgeUIDeleteUploadedAsset,
   forgeUIGetUploadedAssets,
+  forgeUIUpdateUploadedAsset,
 } from '../ForgeUIUploadedAssetRegistry'
 
 type ForgeUIAssetManagerProps = {
@@ -21,6 +22,16 @@ const forgeUIAssetStatusLabel = (
   return 'Browser Only'
 }
 
+const fileToBase64 = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onload = () => resolve(String(reader.result || ''))
+    reader.onerror = reject
+
+    reader.readAsDataURL(file)
+  })
+
 export function ForgeUIAssetManager({
   onClose,
 }: ForgeUIAssetManagerProps) {
@@ -28,13 +39,53 @@ export function ForgeUIAssetManager({
     forgeUIGetUploadedAssets(),
   )
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-  const uploadedAssets: ForgeUIUploadedAsset[] = acceptedFiles.map(
-    (file) => forgeUICreateUploadedAsset(file),
-  )
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const uploadedAssets: ForgeUIUploadedAsset[] = acceptedFiles.map(
+      (file) => forgeUICreateUploadedAsset(file),
+    )
 
-  setAssets(forgeUIAddUploadedAssets(uploadedAssets))
-}, [])
+    setAssets(forgeUIAddUploadedAssets(uploadedAssets))
+
+    for (const asset of uploadedAssets) {
+      if (asset.exportStatus !== 'pending_conversion') continue
+
+      try {
+        const base64 = await fileToBase64(asset.file)
+
+        const res = await fetch('http://localhost:3030/convert-lvgl-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fileName: asset.name,
+            symbolName: asset.lvgl,
+            base64,
+          }),
+        })
+
+        const data = await res.json()
+
+        if (!data.ok) {
+  console.error('LVGL conversion failed:', data)
+  alert(
+    'LVGL conversion failed:\n\n' +
+    (data.error || 'Unknown error') +
+    '\n\n' +
+    (data.log || data.detail || '')
+  )
+  continue
+}
+
+        setAssets(
+          forgeUIUpdateUploadedAsset(asset.id, {
+            exportStatus: 'lvgl_ready',
+            cFile: data.assetSource || asset.cFile,
+          }),
+        )
+      } catch (err) {
+        console.error('LVGL conversion error:', err)
+      }
+    }
+  }, [])
 
   const {
     getRootProps,
@@ -129,21 +180,21 @@ export function ForgeUIAssetManager({
 
                     <Box>
                       <Text fontWeight="semibold">
-                      {asset.name}
-                   </Text>
+                        {asset.name}
+                      </Text>
 
-                     <Text fontSize="12px" opacity={0.65}>
-                           {asset.type || 'unknown'} • {asset.size} bytes
-                       </Text>
+                      <Text fontSize="12px" opacity={0.65}>
+                        {asset.type || 'unknown'} • {asset.size} bytes
+                      </Text>
 
-                           <Text
-                           fontSize="12px"
-                            mt={1}
-                             color="#2dd4bf"
-  >
-                                 {forgeUIAssetStatusLabel(asset.exportStatus)}
-                                     </Text>
-                                              </Box>
+                      <Text
+                        fontSize="12px"
+                        mt={1}
+                        color="#2dd4bf"
+                      >
+                        {forgeUIAssetStatusLabel(asset.exportStatus)}
+                      </Text>
+                    </Box>
                   </HStack>
 
                   <Button
