@@ -2,14 +2,14 @@ import React from 'react'
 import { Box, Text, HStack } from '@chakra-ui/react'
 import { FORGEUI_ACTIVE_DEVICE } from '~forgeui/ForgeUIDeviceConfig'
 import { renderForgePreview } from './forgePreviewRenderer'
-import { getForgePreviewPalette } from './forgeThemeMap'
+import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
 
 interface DevicePreviewProps {
   components: IComponents
 }
 
 const DevicePreview: React.FC<DevicePreviewProps> = ({ components }) => {
-  const palette = getForgePreviewPalette()
+  const { palette } = useForgeTheme()
   const root = components.root
 
   const textureUrl =

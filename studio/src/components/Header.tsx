@@ -3,11 +3,13 @@ import DevicePreview from '~forgeui/preview/DevicePreview'
 import { ForgeUIAssetManager } from '~forgeui/assets/ForgeUIAssetManager'
 import { generateForgeUILvglCode } from '~forgeui/ForgeUILvglExport'
 import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
+import { FG_PREVIEW_PALETTES } from '~forgeui/preview/forgeThemeMap'
 
 import {
   Box,
   Switch,
   Button,
+  Badge,
   useToast,
   Flex,
   Link,
@@ -307,48 +309,7 @@ await fetch('http://localhost:3030/clean-flash', {
               <HeaderMenu />
             </Box>
 
-            <FormControl display="flex" flexDirection="row" alignItems="center">
-  <FormLabel
-    color="gray.200"
-    fontSize="xs"
-    mr={2}
-    mb={0}
-    whiteSpace="nowrap"
-  >
-    Theme
-  </FormLabel>
-
-  <LightMode>
-  <Select
-    size="xs"
-    width="170px"
-    value={themeId}
-    onChange={(e) => setThemeId(e.target.value as any)}
-    bg="#202938"
-    color="white"
-    borderColor="gray.600"
-    sx={{
-      option: {
-        background: '#202938',
-        color: '#ffffff',
-      },
-    }}
-  >
-    <option value="graphite">Carbon Graphite</option>
-    <option value="reactor_dark">Reactor Dark</option>
-    <option value="industrial_steel">Industrial Steel</option>
-    <option value="matrix_green">Matrix Green</option>
-    <option value="cyber_teal">Cyber Teal</option>
-    <option value="forge_orange">Forge Orange</option>
-    <option value="military_green">Military Green</option>
-    <option value="carbon_red">Carbon Red</option>
-    <option value="oled_black">OLED Black</option>
-    <option value="nordic_blue">Nordic Blue</option>
-  </Select>
-</LightMode>
-</FormControl>
-
-            <FormControl flexDirection="row" display="flex" alignItems="center">
+                        <FormControl flexDirection="row" display="flex" alignItems="center">
               <Tooltip
                 zIndex={100}
                 hasArrow
@@ -643,9 +604,72 @@ await fetch('http://localhost:3030/clean-flash', {
       </Button>
     </Flex>
 
-    <Box color="gray.300">
-      Theme Manager V1 Scaffold
-    </Box>
+    <Box>
+  <Box color="gray.400" fontSize="sm" mb={4}>
+    Select a ForgeUI visual theme. This updates the builder, browser preview,
+    and LVGL export colour palette.
+  </Box>
+
+  <HStack spacing={4} align="stretch" flexWrap="wrap">
+    {[
+      ['graphite', 'Carbon Graphite'],
+      ['industrial_steel', 'Industrial Steel'],
+      ['matrix_green', 'Matrix Green'],
+      ['military_green', 'Military Green'],
+      ['nordic_blue', 'Nordic Blue'],
+      ['reactor_dark', 'Reactor Dark'],
+      ['cyber_teal', 'Cyber Teal'],
+      ['forge_orange', 'Forge Orange'],
+      ['carbon_red', 'Carbon Red'],
+      ['oled_black', 'OLED Black'],
+    ].map(([id, name]) => (
+      <Box
+        key={id}
+        width="220px"
+        minHeight="120px"
+        p={3}
+        border="2px solid"
+        borderColor={themeId === id ? 'cyan.300' : 'gray.600'}
+        borderRadius="lg"
+        bg="#101827"
+        cursor="pointer"
+        onClick={() => setThemeId(id as any)}
+        boxShadow={
+          themeId === id
+            ? '0 0 18px rgba(103, 232, 249, 0.45)'
+            : 'none'
+        }
+      >
+        <Flex justify="space-between" align="center" mb={3}>
+  <Box fontWeight="bold">
+    {name}
+  </Box>
+
+  {themeId === id && (
+    <Badge
+  colorScheme="cyan"
+  variant="solid"
+  borderRadius="full"
+  px={2}
+>
+  ACTIVE
+</Badge>
+  )}
+</Flex>
+
+        <Box display="flex" height="48px" borderRadius="md" overflow="hidden">
+  <Box flex="1" bg={FG_PREVIEW_PALETTES[id as keyof typeof FG_PREVIEW_PALETTES].bg} />
+  <Box flex="1" bg={FG_PREVIEW_PALETTES[id as keyof typeof FG_PREVIEW_PALETTES].surface} />
+  <Box flex="1" bg={FG_PREVIEW_PALETTES[id as keyof typeof FG_PREVIEW_PALETTES].accent} />
+</Box>
+
+        <Box mt={3} fontSize="xs" color="gray.400">
+          {themeId === id ? 'Active Theme' : 'Click to apply'}
+        </Box>
+      </Box>
+    ))}
+  </HStack>
+</Box>
   </Box>
 )}
 

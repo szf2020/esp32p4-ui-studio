@@ -3,12 +3,12 @@
 ## Current Save Point
 
 ```text
-FORGEUI_STUDIO_UPLOADED_IMAGE_PIPELINE_V1_PROVEN__LVGL_CONVERSION_CMAKE_FLASH_SUCCESS__2026-06-11
+FORGEUI_THEME_MANAGER_V1__SINGLE_SOURCE_OF_TRUTH__PREVIEW_AND_P4_THEME_FLASH_VALIDATED__TEXTURE_SYSTEM_NEXT__2026-06-11
 ```
 
 ---
 
-## Current State
+# Current State
 
 ```text
 Asset Manager upload works
@@ -65,25 +65,65 @@ ESP-IDF compiles generated uploaded assets
 Physical ESP32-P4 renders uploaded images
 
 End-to-end uploaded image pipeline proven
+
+Theme Manager implemented
+
+Theme Manager integrated into Editor menu
+
+Theme Manager is now sole theme selection UI
+
+Header theme selector removed
+
+Canvas theme selector removed
+
+Duplicate theme controls removed
+
+Theme cards implemented
+
+Active theme badge implemented
+
+Theme preview palettes implemented
+
+Theme selection updates Builder
+
+Theme selection updates Browser Preview
+
+Theme selection updates LVGL Export
+
+Theme selection updates Physical ESP32-P4
+
+Theme Manager preview validated
+
+Theme Manager hardware flash validated
 ```
 
 ---
 
-## Current Architecture Truth
+# Current Architecture Truth
 
 ```text
 The image conversion problem is solved.
 
 The image integration problem is solved.
 
+The uploaded image pipeline is complete.
+
+The theme selection problem is solved.
+
+The theme ownership problem is solved.
+
+Theme Manager is now the single source of truth for theme selection.
+
 Uploaded image assets now complete a full end-to-end path from ForgeUI Studio to physical ESP32-P4 hardware.
 
-Remaining work is refinement, scaling, asset management, and multi-image validation.
+Theme selection now completes a full end-to-end path from ForgeUI Studio to physical ESP32-P4 hardware.
+
+Remaining work is refinement, presentation quality, texture systems, scaling controls, asset management improvements, and multi-image validation.
 ```
 
 ---
 
-## Updated Uploaded Image Pipeline
+# Updated Uploaded Image Pipeline
 
 Current proven flow:
 
@@ -113,9 +153,111 @@ Build & Flash
 Physical ESP32-P4 Image Rendering
 ```
 
+Status:
+
+```text
+PROVEN
+```
+
 ---
 
-## Uploaded Image Pipeline Status
+# Updated Theme Pipeline
+
+Current proven flow:
+
+```text
+Theme Manager
+    ↓
+ForgeThemeContext
+    ↓
+Builder
+    ↓
+Browser Preview
+    ↓
+generateForgeUILvglCode()
+    ↓
+LVGL Export
+    ↓
+Build & Flash
+    ↓
+Physical ESP32-P4 Theme Rendering
+```
+
+Status:
+
+```text
+PROVEN
+```
+
+---
+
+# Theme System Status
+
+Status:
+
+```text
+PROVEN
+```
+
+Capabilities:
+
+```text
+Theme Manager
+
+Theme Cards
+
+Theme Preview Palettes
+
+Theme Selection
+
+Theme Context Integration
+
+Builder Theme Updates
+
+Browser Preview Theme Updates
+
+LVGL Export Theme Updates
+
+ESP32-P4 Theme Rendering
+
+Active Theme Indicator
+
+Single Source Of Truth Theme Ownership
+```
+
+---
+
+# Theme Validation Status
+
+Status:
+
+```text
+PROVEN
+```
+
+Validated:
+
+```text
+✓ Carbon Graphite Preview
+
+✓ Matrix Green Preview
+
+✓ Cyber Teal Preview
+
+✓ Matrix Green Hardware Flash
+
+✓ Cyber Teal Hardware Flash
+
+✓ Theme Export Pipeline Verified
+
+✓ Theme Context Pipeline Verified
+
+✓ Preview To Hardware Validation Completed
+```
+
+---
+
+# Uploaded Image Pipeline Status
 
 Status:
 
@@ -165,7 +307,7 @@ Physical ESP32-P4 Rendering
 
 ---
 
-## LVGL Image Converter Status
+# LVGL Image Converter Status
 
 Status:
 
@@ -190,13 +332,21 @@ Bench proof:
 
 ```text
 ✓ Python 3.11 verified
+
 ✓ LVGLImage.py executes successfully
+
 ✓ pypng dependency verified
+
 ✓ lz4 dependency verified
+
 ✓ PNG → LVGL C conversion verified
+
 ✓ ARGB8888 output verified
+
 ✓ Generated .c asset created successfully
+
 ✓ Automatic ForgeUI integration verified
+
 ✓ Physical ESP32-P4 rendering verified
 ```
 
@@ -205,12 +355,12 @@ Current truth:
 ```text
 ForgeUI Studio possesses a fully integrated local/offline LVGL image conversion pipeline.
 
-No further image conversion research is required.
+No further image converter research is required.
 ```
 
 ---
 
-## Updated Tools Ownership
+# Updated Tools Ownership
 
 ```text
 tools/
@@ -238,7 +388,7 @@ Future asset automation
 
 ---
 
-## Browser Side Status
+# Browser Side Status
 
 Status:
 
@@ -250,7 +400,9 @@ Capabilities:
 
 ```text
 PNG upload
+
 JPG upload
+
 SVG upload
 
 Drag & Drop
@@ -266,11 +418,15 @@ Builder Rendering
 Browser Preview Rendering
 
 Builder/Preview Size Alignment
+
+Theme Preview Rendering
+
+Theme Texture Rendering
 ```
 
 ---
 
-## Firmware Side Status
+# Firmware Side Status
 
 Status:
 
@@ -291,6 +447,10 @@ LV_IMAGE_DECLARE Generation
 
 lv_image_set_src Generation
 
+Theme Export Integration
+
+Theme Rendering
+
 ESP-IDF Build Stability
 
 Flash Stability
@@ -302,59 +462,51 @@ Physical P4 Image Rendering
 
 ---
 
-## Converter Decision
-
-Decision:
+# Current Architecture Status
 
 ```text
-LOCKED
-```
+Asset Manager = Proven
 
-Selected converter:
+Uploaded Image Pipeline = Proven
 
-```text
-Official LVGL v9 LVGLImage.py
-```
+Browser Preview = Proven
 
-Location:
+Theme Manager = Proven
 
-```text
-tools/lvgl/LVGLImage.py
-```
+Theme Pipeline = Proven
 
-Do not re-open image converter research unless a major technical issue is discovered.
+Build & Flash = Proven
 
-Current direction:
+Clean Build & Flash = Proven
 
-```text
-Uploaded Asset
-    ↓
-LVGLImage.py
-    ↓
-Generated LVGL C Asset
-    ↓
-Firmware Assets/uploads
-    ↓
-Asset Registry
-    ↓
-assetSources[]
-    ↓
-Generated CMake
-    ↓
-LV_IMAGE_DECLARE(...)
-    ↓
-lv_image_set_src(...)
-    ↓
-Build & Flash
-    ↓
-Physical ESP32-P4 Image Rendering
+Detached Export = Proven
+
+LVGLImage.py = Proven
+
+PNG → LVGL C = Proven
+
+Theme Export = Proven
+
+Generated Asset Compilation = Proven
+
+Physical ESP32-P4 Rendering = Proven
 ```
 
 ---
 
-## New Proven Milestone
+# New Proven Milestones
 
-### Uploaded Image Pipeline V1
+## Uploaded Image Pipeline V1
+
+Status:
+
+```text
+PROVEN
+```
+
+---
+
+## Theme Manager V1
 
 Status:
 
@@ -365,55 +517,54 @@ PROVEN
 Achievements:
 
 ```text
-✓ Asset Manager uploads operational
+✓ Theme Manager integrated
 
-✓ LVGLImage.py integrated into Studio backend
+✓ Duplicate theme selectors removed
 
-✓ Auto PNG → LVGL C conversion
+✓ Theme Manager established as single source of truth
 
-✓ Generated assets written to:
-  firmware/ForgeUI-One/main/assets/uploads
+✓ Builder theme validation
 
-✓ Uploaded asset registry integration
+✓ Browser preview theme validation
 
-✓ Automatic assetSources generation
+✓ ESP32-P4 theme validation
 
-✓ Automatic CMake source injection
+✓ Hardware flash validation
 
-✓ Automatic LV_IMAGE_DECLARE generation
-
-✓ Automatic lv_image_set_src generation
-
-✓ ESP-IDF build integration
-
-✓ Physical ESP32-P4 rendering confirmed
+✓ Theme export validation
 ```
 
 ---
 
-## Immediate Next Mission
+# Immediate Next Mission
 
 ```text
-UPLOADED_IMAGE_PIPELINE_V2
+FORGEUI_TEXTURE_SYSTEM_V1
+```
 
-Multiple Uploaded Images
+Goals:
+
+```text
+Carbon Fiber Enhancements
     ↓
-Builder Size Preservation
+Brushed Steel Texture
     ↓
-Preview Size Preservation
+Blueprint Texture
     ↓
-Hardware Size Preservation
+Terminal Noise Texture
     ↓
-Image Scaling Controls
+Military Plate Texture
     ↓
-Asset Cleanup Management
+Theme-specific Texture Assignment
     ↓
-Multi-Asset Project Validation
+Preview Validation
+    ↓
+Hardware Validation
 ```
 
 ---
 
-## Future One-Wrapper Goal
+# Future One-Wrapper Goal
 
 Current setup:
 
@@ -457,16 +608,24 @@ Everything else is handled by ForgeUI Studio.
 
 ---
 
-## Source Of Truth
+# Source Of Truth
 
 Current architecture truth:
 
 ```text
 Asset Manager = Proven
 
+Uploaded Image Pipeline = Proven
+
+Theme Manager = Proven
+
+Theme Export = Proven
+
 Browser Preview = Proven
 
 Build & Flash = Proven
+
+Clean Build & Flash = Proven
 
 Detached Export = Proven
 
@@ -474,18 +633,27 @@ LVGLImage.py = Proven
 
 PNG → LVGL C = Proven
 
-Uploaded Asset Integration = Proven
-
 Generated Asset Compilation = Proven
 
 Physical ESP32-P4 Rendering = Proven
 
 Remaining Work:
 
+Texture System V1
+
 Image sizing parity
+
 Multi-image validation
+
 Asset cleanup
+
 Asset management improvements
+
+Custom Theme Creation
+
+Theme Categories
+
+Presentation quality improvements
 ```
 
 Future chats should treat this as the active architecture truth.

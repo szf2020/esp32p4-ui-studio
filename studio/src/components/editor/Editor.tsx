@@ -2,8 +2,6 @@ import React, { memo, useRef } from 'react'
 import {
   Box,
   Text,
-  Select,
-  HStack,
 } from '@chakra-ui/react'
 import { useDropComponent } from '~hooks/useDropComponent'
 import SplitPane from 'react-split-pane'
@@ -14,8 +12,6 @@ import { getComponents } from '~core/selectors/components'
 import { getShowLayout, getShowCode } from '~core/selectors/app'
 import ComponentPreview from '~components/editor/ComponentPreview'
 import { FORGEUI_ACTIVE_DEVICE } from '~forgeui/ForgeUIDeviceConfig'
-import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
-import { FG_PREVIEW_PALETTES } from '~forgeui/preview/forgeThemeMap'
 
 const GRID_SIZE = FORGEUI_ACTIVE_DEVICE.gridSize
 
@@ -31,7 +27,6 @@ const Editor: React.FC = () => {
   const showLayout = useSelector(getShowLayout)
   const components = useSelector(getComponents)
   const dispatch = useDispatch()
-  const { themeId, setThemeId } = useForgeTheme()
 
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const { drop } = useDropComponent('root', undefined, true, viewportRef)
@@ -64,35 +59,6 @@ const Editor: React.FC = () => {
       p={3}
       onClick={onSelectBackground}
     >
-      <HStack mb={3} px={1} justify="space-between">
-        <Text color="gray.300" fontSize="sm" fontWeight="bold">
-          ForgeUI Theme
-        </Text>
-
-        <Select
-          value={themeId}
-          onChange={(e) => setThemeId(e.target.value as any)}
-          width="220px"
-          bg="#0f172a"
-          borderColor="#334155"
-          color="white"
-          size="sm"
-        >
-          {Object.entries(FG_PREVIEW_PALETTES).map(([id, palette]) => (
-            <option
-              key={id}
-              value={id}
-              style={{
-              backgroundColor: '#020617',
-              color: '#f8fafc',
-  }}
->
-  {palette.name}
-</option>
-          ))}
-        </Select>
-      </HStack>
-
       <Box
         bg="#101826"
         border="1px solid rgba(56, 189, 248, 0.45)"
