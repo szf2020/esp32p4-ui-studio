@@ -197,6 +197,18 @@ export const FG_PREVIEW_PALETTES = {
     borderStyle: 'flat',
   },
 
+  test_purple: {
+  name: 'Test Purple',
+  bg: '#440066',
+  surface: '#552288',
+  surface2: '#663399',
+  border: '#FF00FF',
+  text: '#FFFFFF',
+  accent: '#FF00FF',
+  texture: 'none',
+  borderStyle: 'soft',
+},
+
   clean_light: {
     name: 'Clean Light Pro',
     bg: '#F3F4F6',
@@ -208,6 +220,7 @@ export const FG_PREVIEW_PALETTES = {
     texture: 'none',
     borderStyle: 'soft',
   },
+  
 } as const
 
 export type ForgeThemeId = keyof typeof FG_PREVIEW_PALETTES

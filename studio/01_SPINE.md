@@ -3,7 +3,7 @@
 ## Current Save Point
 
 ```text
-FORGEUI_THEME_MANAGER_V1__SINGLE_SOURCE_OF_TRUTH__PREVIEW_AND_P4_THEME_FLASH_VALIDATED__TEXTURE_SYSTEM_NEXT__2026-06-11
+FORGEUI_SINGLE_THEME_SOURCE_V1__PREVIEW_EXPORT_P4_SYNC_PROVEN__TEST_PURPLE_VALIDATED__2026-06-13
 ```
 
 ---
@@ -97,6 +97,149 @@ Theme Manager preview validated
 Theme Manager hardware flash validated
 ```
 
+---
+
+# Theme Drift Elimination (2026-06-13)
+
+## Status
+
+PROVEN
+
+---
+
+## Root Cause
+
+ForgeUI contained two separate theme systems:
+
+### Browser Theme System
+
+```text
+FG_PREVIEW_PALETTES
+```
+
+Used by:
+
+```text
+Theme Manager
+ForgeThemeContext
+Builder
+Browser Preview
+```
+
+### Export Theme System
+
+```text
+FG_PALETTES
+```
+
+Used by:
+
+```text
+ForgeUILvglExport.ts
+Generated LVGL Code
+ESP32-P4
+```
+
+The systems drifted apart.
+
+Example:
+
+```text
+Nordic Ice rendered correctly in Browser Preview
+Nordic Ice exported as Reactor Dark
+ESP32-P4 flashed incorrect dark background
+```
+
+---
+
+## Architecture Change
+
+Removed:
+
+```text
+FG_PALETTES
+```
+
+Removed all duplicate palette definitions from:
+
+```text
+studio/src/forgeui/ForgeUILvglExport.ts
+```
+
+Export now imports:
+
+```text
+studio/src/forgeui/preview/forgeThemeMap.ts
+```
+
+and consumes:
+
+```text
+FG_PREVIEW_PALETTES
+```
+
+directly.
+
+---
+
+## Current Theme Architecture
+
+```text
+FG_PREVIEW_PALETTES
+        ↓
+Theme Manager
+        ↓
+ForgeThemeContext
+        ↓
+Builder
+        ↓
+Browser Preview
+        ↓
+ForgeUILvglExport
+        ↓
+Generated LVGL C
+        ↓
+ESP32-P4
+```
+
+Single source of truth.
+
+---
+
+## Validation
+
+Nordic Ice
+
+```text
+Preview = Correct
+ESP32-P4 = Correct
+```
+
+Graphite
+
+```text
+Preview = Correct
+ESP32-P4 = Correct
+Carbon texture exported correctly
+```
+
+Test Purple
+
+```text
+Added to FG_PREVIEW_PALETTES only
+
+Automatically appeared in Theme Manager
+Automatically appeared in Browser Preview
+Automatically exported through LVGL
+Automatically flashed on ESP32-P4
+```
+
+Result:
+
+```text
+Theme drift eliminated.
+Single-source theme architecture proven.
+```
 ---
 
 # Current Architecture Truth
@@ -632,7 +775,6 @@ Touch:
 
 ```text
 studio/src/forgeui/preview/forgeThemeMap.ts
-studio/src/forgeui/ForgeUILvglExport.ts
 ```
 
 Do not start by touching firmware.

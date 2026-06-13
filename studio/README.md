@@ -508,45 +508,111 @@ ESP32-P4 Hardware
 Included themes:
 
 ```text
-Reactor Dark
+Industrial Carbon
 
-Graphite
+Brushed Steel
 
-Nordic Blue
+Reactor Hex
 
-Midnight Terminal
+Terminal Green
 
-Industrial Steel
+Military Plate
 
-Military Green
+Nordic Engineering
 
-Cyber Teal
+Nordic Ice
+
+Nordic Frost
+
+Nordic Slate
+
+Nordic Night
+
+Control Room
+
+Cyber Teal Pro
 
 Forge Orange
 
-Nebula Purple
-
-OLED Black
-
-Matrix Green
-
 Carbon Red
 
-Arctic Ice
+OLED Black Pro
 
-Blueprint
-
-Toxic Lime
+Clean Light Pro
 ```
 
-Theme tokens remain synchronized across:
+---
+
+# 🎨 Theme System V2 (PROVEN)
+
+Status:
 
 ```text
-Builder
-Preview
-Generated LVGL
-Hardware
+PROVEN
 ```
+
+Theme definitions live in a single location:
+
+```text
+studio/src/forgeui/preview/forgeThemeMap.ts
+```
+
+Current architecture:
+
+```text
+FG_PREVIEW_PALETTES
+        ↓
+Theme Manager
+        ↓
+ForgeThemeContext
+        ↓
+Builder
+        ↓
+Browser Preview
+        ↓
+ForgeUILvglExport
+        ↓
+Generated LVGL
+        ↓
+ESP32-P4
+```
+
+Theme synchronization is automatically maintained across:
+
+```text
+Theme Manager
+
+Builder
+
+Browser Preview
+
+Generated LVGL
+
+ESP32-P4 Hardware
+```
+
+Adding a theme to:
+
+```text
+FG_PREVIEW_PALETTES
+```
+
+automatically:
+
+```text
+✓ Appears in Theme Manager
+
+✓ Appears in Browser Preview
+
+✓ Exports to LVGL
+
+✓ Flashes to ESP32-P4
+```
+
+Theme drift has been eliminated.
+
+No duplicate palette definitions remain.
+
 
 ---
 
@@ -575,12 +641,32 @@ Deploy
 # 🔮 Current Development Direction
 
 ```text
-Multi-Image Validation
+Texture Pack V1
+
+Additional Built-In Textures
+
+Carbon Fiber Refinement
+
+Brushed Steel Validation
+
+Blueprint Grid Validation
+
+Industrial Panel Validation
+
+Theme Categories
+
+Custom Theme Creation
+
+Theme Import / Export
+
+Background Playground
+
+Theme Randomiser
 
 Builder ↔ Preview ↔ Hardware
-Sizing Parity
+Visual Parity Refinement
 
-Image Scaling Controls
+Image Scaling Refinement
 
 Asset Cleanup Management
 
@@ -588,8 +674,11 @@ Asset Browser Improvements
 
 Template Expansion
 
+Desktop Wrapper Investigation
+
 Future AI-Assisted UI Generation
 ```
+
 
 ---
 
@@ -629,5 +718,5 @@ ForgeUI Project
 ## Current Save Point
 
 ```text
-FORGEUI_STUDIO_UPLOADED_IMAGE_PIPELINE_V1_PROVEN__LVGL_CONVERSION_CMAKE_FLASH_SUCCESS__2026-06-11
+FORGEUI_SINGLE_THEME_SOURCE_V1__PREVIEW_EXPORT_P4_SYNC_PROVEN__TEST_PURPLE_VALIDATED__2026-06-13
 ```

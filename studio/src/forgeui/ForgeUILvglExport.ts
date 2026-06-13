@@ -1,298 +1,32 @@
-// const ACTIVE_BACKGROUND_FLAVOUR = 'reactor_dark'
-// const ACTIVE_BACKGROUND_FLAVOUR = 'nordic_blue'
 import { forgeUIGetUploadedAssets } from './ForgeUIUploadedAssetRegistry'
 import { FORGEUI_IMAGE_ASSETS } from './ForgeUIAssetRegistry'
-const ACTIVE_BACKGROUND_FLAVOUR = 'graphite'
 
-const FG_PALETTES: Record<string, any> = {
-  reactor_dark: {
-    name: 'Reactor Dark',
+import {
+  FG_PREVIEW_PALETTES,
+  type ForgeThemeId,
+} from './preview/forgeThemeMap'
 
-    bg: '0x08111F',
+const toLvHex = (
+  value: string,
+  fallback = '0x000000',
+) => {
+  if (!value) return fallback
 
-    surface: '0x101B2B',
-    surface2: '0x162436',
+  return `0x${String(value)
+    .replace('#', '')
+    .toUpperCase()}`
+}
 
-    border: '0x42E8FF',
-
-    text: '0xFFFFFF',
-
-    accent: '0x42E8FF',
-  },
-
-  graphite: {
-  name: 'Carbon Graphite',
-
-  bg: '0x121417',
-
-  surface: '0x1E2328',
-  surface2: '0x2A3138',
-
-  border: '0xF2A900',
-
-  text: '0xF5F5F5',
-
-  accent: '0xF2A900',
-
-    textureAsset: {
+const FG_TEXTURE_ASSETS: Record<
+  string,
+  {
+    symbol: string
+    source: string
+  }
+> = {
+  carbon_fiber: {
     symbol: 'fg_theme_carbon_fiber',
     source: 'assets/themes/fg_theme_carbon_fiber.c',
-  },
-},
-
-  nordic_blue: {
-    name: 'Nordic Blue',
-
-    bg: '0xDDE7EF',
-
-    surface: '0xF4F8FB',
-    surface2: '0xD7E5EF',
-
-    border: '0x1B6CA8',
-
-    text: '0x102030',
-
-    accent: '0x1B6CA8',
-  },
-
-  military_green: {
-    name: 'Military Green',
-
-    bg: '0x1B2416',
-
-    surface: '0x2D3A25',
-    surface2: '0x3D4D33',
-
-    border: '0x84CC16',
-
-    text: '0xF7FEE7',
-
-    accent: '0x84CC16',
-  },
-
-  cyber_teal: {
-    name: 'Cyber Teal',
-
-    bg: '0x071A1D',
-
-    surface: '0x0F2A30',
-    surface2: '0x153942',
-
-    border: '0x14B8A6',
-
-    text: '0xCCFBF1',
-
-    accent: '0x14B8A6',
-  },
-
-  forge_orange: {
-    name: 'Forge Orange',
-
-    bg: '0x1A120B',
-
-    surface: '0x2B1D14',
-    surface2: '0x3A281D',
-
-    border: '0xF97316',
-
-    text: '0xFFF7ED',
-
-    accent: '0xF97316',
-  },
-
-  nebula_purple: {
-    name: 'Nebula Purple',
-
-    bg: '0x140F1F',
-
-    surface: '0x221A33',
-    surface2: '0x302347',
-
-    border: '0xA855F7',
-
-    text: '0xF3E8FF',
-
-    accent: '0xA855F7',
-  },
-
-  oled_black: {
-    name: 'OLED Black',
-
-    bg: '0x000000',
-
-    surface: '0x0A0A0A',
-    surface2: '0x1A1A1A',
-
-    border: '0xFFFFFF',
-
-    text: '0xFFFFFF',
-
-    accent: '0xFFFFFF',
-  },
-
-  matrix_green: {
-    name: 'Matrix Green',
-
-    bg: '0x000A00',
-
-    surface: '0x001A00',
-    surface2: '0x003300',
-
-    border: '0x00FF66',
-
-    text: '0xCCFFDD',
-
-    accent: '0x00FF66',
-  },
-
-  carbon_red: {
-    name: 'Carbon Red',
-
-    bg: '0x140809',
-
-    surface: '0x2A1012',
-    surface2: '0x3A181C',
-
-    border: '0xEF4444',
-
-    text: '0xFEE2E2',
-
-    accent: '0xEF4444',
-  },
-
-  arctic_ice: {
-    name: 'Arctic Ice',
-
-    bg: '0xE6F4F9',
-
-    surface: '0xF8FCFE',
-    surface2: '0xDDEEF5',
-
-    border: '0x38BDF8',
-
-    text: '0x082F49',
-
-    accent: '0x38BDF8',
-  },
-
-  industrial_steel: {
-    name: 'Industrial Steel',
-
-    bg: '0x1F2937',
-
-    surface: '0x374151',
-    surface2: '0x4B5563',
-
-    border: '0x9CA3AF',
-
-    text: '0xF3F4F6',
-
-    accent: '0x9CA3AF',
-  },
-
-  lava_core: {
-    name: 'Lava Core',
-
-    bg: '0x140404',
-
-    surface: '0x260909',
-    surface2: '0x3A1010',
-
-    border: '0xFF4500',
-
-    text: '0xFFE5D9',
-
-    accent: '0xFF4500',
-  },
-
-    nordic_ice: {
-    name: 'Nordic Ice',
-    bg: '0xEAF4FA',
-    surface: '0xFFFFFF',
-    surface2: '0xDCEAF3',
-    border: '0x7DD3FC',
-    text: '0x0F172A',
-    accent: '0x38BDF8',
-  },
-
-  nordic_frost: {
-    name: 'Nordic Frost',
-    bg: '0xF7FBFD',
-    surface: '0xFFFFFF',
-    surface2: '0xE6F1F7',
-    border: '0x94A3B8',
-    text: '0x0F172A',
-    accent: '0x06B6D4',
-  },
-
-  nordic_slate: {
-    name: 'Nordic Slate',
-    bg: '0xDCE3E8',
-    surface: '0xF6F8FA',
-    surface2: '0xC9D4DC',
-    border: '0x64748B',
-    text: '0x1E293B',
-    accent: '0x0EA5E9',
-  },
-
-  nordic_night: {
-    name: 'Nordic Night',
-    bg: '0x1B2430',
-    surface: '0x253041',
-    surface2: '0x344256',
-    border: '0x60A5FA',
-    text: '0xF8FAFC',
-    accent: '0x7DD3FC',
-  },
-
-  control_room: {
-    name: 'Control Room',
-    bg: '0x18222D',
-    surface: '0x223040',
-    surface2: '0x2E4156',
-    border: '0x4FC3F7',
-    text: '0xEAF6FF',
-    accent: '0x4FC3F7',
-  },
-
-  clean_light: {
-    name: 'Clean Light Pro',
-    bg: '0xF3F4F6',
-    surface: '0xFFFFFF',
-    surface2: '0xE5E7EB',
-    border: '0x2563EB',
-    text: '0x111827',
-    accent: '0x2563EB',
-  },
-
-  blueprint: {
-    name: 'Blueprint',
-
-    bg: '0x0A1A33',
-
-    surface: '0x10264A',
-    surface2: '0x18345F',
-
-    border: '0x60A5FA',
-
-    text: '0xDBEAFE',
-
-    accent: '0x60A5FA',
-  },
-
-  toxic_lime: {
-    name: 'Toxic Lime',
-
-    bg: '0x101A00',
-
-    surface: '0x1F2D00',
-    surface2: '0x2E4200',
-
-    border: '0xA3E635',
-
-    text: '0xF7FEE7',
-
-    accent: '0xA3E635',
   },
 }
 
@@ -655,8 +389,29 @@ export const generateForgeUILvglCode = (
   const lines: string[] = []
   const usedAssetSources = new Set<string>()
 
-  const palette =
-    FG_PALETTES[themeId] || FG_PALETTES.reactor_dark
+  const previewPalette =
+  FG_PREVIEW_PALETTES[themeId as ForgeThemeId] ||
+  FG_PREVIEW_PALETTES.graphite
+
+const palette = {
+  ...previewPalette,
+
+  bg: toLvHex(previewPalette.bg),
+  surface: toLvHex(previewPalette.surface),
+  surface2: toLvHex(previewPalette.surface2),
+
+  border: toLvHex(previewPalette.border),
+
+  text: toLvHex(previewPalette.text),
+
+  accent: toLvHex(previewPalette.accent),
+
+  textureAsset:
+    previewPalette.texture !== 'none'
+      ? FG_TEXTURE_ASSETS[previewPalette.texture]
+      : undefined,
+}
+
 
   lines.push(`#include "90_Studio_Export.h"`)
   lines.push(`#include "lvgl.h"`)
@@ -673,7 +428,10 @@ export const generateForgeUILvglCode = (
   lines.push(`    lv_obj_set_style_bg_opa(parent, LV_OPA_COVER, 0);`)
   lines.push(``)
 
-  if (palette.textureAsset) {
+  if (
+  palette.textureAsset?.source &&
+  palette.textureAsset?.symbol
+) {
   usedAssetSources.add(palette.textureAsset.source)
 
   lines.push(`    LV_IMAGE_DECLARE(${palette.textureAsset.symbol});`)

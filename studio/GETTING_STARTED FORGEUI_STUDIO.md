@@ -34,28 +34,212 @@ The following are working:
 
 ```text
 ✓ Browser Preview
-✓ Theme System
+
+✓ Theme Manager
+
+✓ Single Source Theme System
+
 ✓ Build & Flash
+
 ✓ Clean Build & Flash
+
 ✓ Standalone ESP-IDF Export
+
 ✓ Asset Manager
+
 ✓ Uploaded Asset Selection
+
+✓ Uploaded Asset Registry
+
 ✓ Builder Image Rendering
+
 ✓ Browser Preview Image Rendering
+
+✓ Multi-Image Validation
+
 ✓ Offline LVGL v9 Image Converter
+
 ✓ PNG → LVGL C Conversion
+
+✓ Automatic Asset Source Generation
+
+✓ Automatic CMake Integration
+
+✓ Automatic LV_IMAGE_DECLARE Generation
+
+✓ Automatic lv_image_set_src Generation
+
+✓ ESP-IDF Asset Compilation
+
+✓ Physical ESP32-P4 Image Rendering
+
+✓ Theme Preview Validation
+
+✓ Theme Hardware Flash Validation
 ```
 
-Current limitation:
+---
+
+# 🎨 Theme System V2
+
+Status:
 
 ```text
-Uploaded images do not yet automatically
-flow into the firmware asset pipeline.
-
-The image converter is proven.
-
-Automatic integration is the next milestone.
+PROVEN
 ```
+
+Current architecture:
+
+```text
+FG_PREVIEW_PALETTES
+        ↓
+Theme Manager
+        ↓
+ForgeThemeContext
+        ↓
+Builder
+        ↓
+Browser Preview
+        ↓
+ForgeUILvglExport
+        ↓
+Generated LVGL
+        ↓
+ESP32-P4
+```
+
+Single source of truth.
+
+Adding a theme to:
+
+```text
+studio/src/forgeui/preview/forgeThemeMap.ts
+```
+
+automatically:
+
+```text
+✓ Appears in Theme Manager
+
+✓ Appears in Browser Preview
+
+✓ Exports to LVGL
+
+✓ Flashes to ESP32-P4
+```
+
+---
+
+# 🖼️ Current Image Workflow
+
+Status:
+
+```text
+PROVEN
+```
+
+Current architecture:
+
+```text
+Uploaded Asset
+    ↓
+Asset Manager
+    ↓
+LVGLImage.py
+    ↓
+Generated LVGL C Asset
+    ↓
+Firmware Assets/uploads
+    ↓
+Asset Registry
+    ↓
+assetSources[]
+    ↓
+Generated CMake
+    ↓
+LV_IMAGE_DECLARE(...)
+    ↓
+lv_image_set_src(...)
+    ↓
+Build & Flash
+    ↓
+Physical ESP32-P4 Rendering
+```
+
+---
+
+# 🖼️ Uploaded Asset Status
+
+Current truth:
+
+```text
+The uploaded image pipeline is complete.
+
+The image conversion problem is solved.
+
+The image integration problem is solved.
+
+Multi-image validation is complete.
+
+Physical ESP32-P4 rendering is proven.
+```
+
+---
+
+# 📍 Current Save Point
+
+```text
+FORGEUI_SINGLE_THEME_SOURCE_V1__PREVIEW_EXPORT_P4_SYNC_PROVEN__TEST_PURPLE_VALIDATED__2026-06-13
+```
+
+Meaning:
+
+```text
+✓ Uploaded image pipeline proven
+
+✓ Multi-image validation proven
+
+✓ Theme Manager proven
+
+✓ Theme export proven
+
+✓ ESP32-P4 theme validation proven
+
+✓ Duplicate theme definitions removed
+
+✓ Theme drift eliminated
+
+✓ Single source of truth established
+
+✓ Nordic Ice validated
+
+✓ Graphite validated
+
+✓ Test Purple validated
+```
+
+---
+
+# 🎯 Next Major Milestone
+
+```text
+Texture Pack V1
+    ↓
+Additional Built-In Textures
+    ↓
+Background Playground
+    ↓
+Theme Categories
+    ↓
+Custom Theme Creation
+    ↓
+Theme Import / Export
+    ↓
+Presentation Quality Improvements
+    ↓
+Desktop Wrapper Investigation
+```
+
 
 ---
 
