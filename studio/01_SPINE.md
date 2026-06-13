@@ -639,6 +639,46 @@ Physical ESP32-P4 Rendering = Proven
 
 # New Proven Milestones
 
+✓ AI / Sci-Fi theme pack imported
+
+✓ 1024x600 PNG hero backgrounds added to Studio public textures
+
+✓ 1024x600 PNG hero backgrounds converted to LVGL C assets
+
+✓ Generated C assets registered in ForgeUILvglExport.ts
+
+✓ Builder renders AI hero backgrounds
+
+✓ Browser Preview renders AI hero backgrounds
+
+✓ CSS URL spacing issue fixed with quoted backgroundImage URLs
+
+✓ LVGL export supports textureMode tile/fullscreen
+
+✓ Industrial textures continue using tiled rendering
+
+✓ AI hero backgrounds render once at 0,0 fullscreen
+
+✓ Build & Flash successful
+
+✓ Physical ESP32-P4 renders fullscreen AI hero background
+
+✓ Theme Manager → Preview → Export → P4 path proven
+
+Validated on hardware:
+
+AI Nexus / Neural-style 1024x600 hero background rendered fullscreen on ESP32-P4.
+Widgets rendered above background.
+Old side-by-side tiling issue fixed.
+
+Architecture rule remains:
+
+FG_PREVIEW_PALETTES remains the single source of truth.
+No FG_PALETTES.
+No duplicate theme system.
+ForgeUILvglExport.ts consumes forgeThemeMap.ts.
+
+
 ## Uploaded Image Pipeline V1
 
 Status:

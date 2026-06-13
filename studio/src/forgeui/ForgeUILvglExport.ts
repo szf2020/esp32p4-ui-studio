@@ -25,9 +25,74 @@ const FG_TEXTURE_ASSETS: Record<
   }
 > = {
   carbon_fiber: {
-    symbol: 'fg_theme_carbon_fiber',
-    source: 'assets/themes/fg_theme_carbon_fiber.c',
+    symbol: 'fg_upload_carbon_fiber_be774fd2',
+    source: 'assets/uploads/fg_upload_carbon_fiber_be774fd2.c',
   },
+
+  brushed_steel: {
+    symbol: 'fg_upload_brushed_steel_bc48e90c',
+    source: 'assets/uploads/fg_upload_brushed_steel_bc48e90c.c',
+  },
+
+  hex_mesh: {
+    symbol: 'fg_upload_hex_mesh_e46ed0b5',
+    source: 'assets/uploads/fg_upload_hex_mesh_e46ed0b5.c',
+  },
+
+  dark_noise: {
+    symbol: 'fg_upload_dark_noise_08fcab09',
+    source: 'assets/uploads/fg_upload_dark_noise_08fcab09.c',
+  },
+
+  industrial_panel: {
+    symbol: 'fg_upload_industrial_panel_8775311d',
+    source: 'assets/uploads/fg_upload_industrial_panel_8775311d.c',
+  },
+
+  blueprint_grid: {
+    symbol: 'fg_upload_blueprint_grid_71595117',
+    source: 'assets/uploads/fg_upload_blueprint_grid_71595117.c',
+  },
+  ai_mesh: {
+    symbol: 'fg_upload_1024x600_ai_mesh_9f3f1b39',
+    source: 'assets/uploads/fg_upload_1024x600_ai_mesh_9f3f1b39.c',
+  },
+
+  ai_nexus: {
+    symbol: 'fg_upload_1024x600_ai_nexus_88b196e9',
+    source: 'assets/uploads/fg_upload_1024x600_ai_nexus_88b196e9.c',
+  },
+
+  creation: {
+    symbol: 'fg_upload_1024x600_creation_786cf05c',
+    source: 'assets/uploads/fg_upload_1024x600_creation_786cf05c.c',
+  },
+
+  nebula_core: {
+    symbol: 'fg_upload_1024x600_nebula_core_0ddf52d1',
+    source: 'assets/uploads/fg_upload_1024x600_nebula_core_0ddf52d1.c',
+  },
+
+  neon_horizon: {
+    symbol: 'fg_upload_1024x600_neon_horizon_6dae04db',
+    source: 'assets/uploads/fg_upload_1024x600_neon_horizon_6dae04db.c',
+  },
+
+  neural_core: {
+    symbol: 'fg_upload_1024x600_neural_core_67dd4ba0',
+    source: 'assets/uploads/fg_upload_1024x600_neural_core_67dd4ba0.c',
+  },
+
+  quantum_flow: {
+    symbol: 'fg_upload_1024x600_quantum_flow_4ffa7dbc',
+    source: 'assets/uploads/fg_upload_1024x600_quantum_flow_4ffa7dbc.c',
+  },
+
+  quantum_hex: {
+    symbol: 'fg_upload_1024x600_quantum_hex_98c7da6c',
+    source: 'assets/uploads/fg_upload_1024x600_quantum_hex_98c7da6c.c',
+  },
+
 }
 
 const lv = (v: any, d: any = 0) =>
@@ -393,6 +458,19 @@ export const generateForgeUILvglCode = (
   FG_PREVIEW_PALETTES[themeId as ForgeThemeId] ||
   FG_PREVIEW_PALETTES.graphite
 
+const fullscreenTextures = new Set([
+  'ai_mesh',
+  'ai_nexus',
+  'creation',
+  'nebula_core',
+  'neon_horizon',
+  'neural_core',
+  'quantum_flow',
+  'quantum_hex',
+])
+
+const textureId = previewPalette.texture
+
 const palette = {
   ...previewPalette,
 
@@ -407,9 +485,13 @@ const palette = {
   accent: toLvHex(previewPalette.accent),
 
   textureAsset:
-    previewPalette.texture !== 'none'
-      ? FG_TEXTURE_ASSETS[previewPalette.texture]
+    textureId !== 'none'
+      ? FG_TEXTURE_ASSETS[textureId]
       : undefined,
+
+  textureMode: fullscreenTextures.has(textureId)
+    ? 'fullscreen'
+    : 'tile',
 }
 
 
@@ -435,10 +517,31 @@ const palette = {
   usedAssetSources.add(palette.textureAsset.source)
 
   lines.push(`    LV_IMAGE_DECLARE(${palette.textureAsset.symbol});`)
-  lines.push(`    lv_obj_t * bg_texture = lv_image_create(parent);`)
-  lines.push(`    lv_image_set_src(bg_texture, &${palette.textureAsset.symbol});`)
-  lines.push(`    lv_obj_set_pos(bg_texture, 0, 0);`)
-  lines.push(``)
+
+if (palette.textureMode === 'fullscreen') {
+  lines.push(`    lv_obj_t * bg_texture_0 = lv_image_create(parent);`)
+  lines.push(`    lv_image_set_src(bg_texture_0, &${palette.textureAsset.symbol});`)
+  lines.push(`    lv_obj_set_pos(bg_texture_0, 0, 0);`)
+  lines.push(`    lv_obj_set_size(bg_texture_0, 1024, 600);`)
+} else {
+  lines.push(`    lv_obj_t * bg_texture_0 = lv_image_create(parent);`)
+  lines.push(`    lv_image_set_src(bg_texture_0, &${palette.textureAsset.symbol});`)
+  lines.push(`    lv_obj_set_pos(bg_texture_0, 0, 0);`)
+
+  lines.push(`    lv_obj_t * bg_texture_1 = lv_image_create(parent);`)
+  lines.push(`    lv_image_set_src(bg_texture_1, &${palette.textureAsset.symbol});`)
+  lines.push(`    lv_obj_set_pos(bg_texture_1, 512, 0);`)
+
+  lines.push(`    lv_obj_t * bg_texture_2 = lv_image_create(parent);`)
+  lines.push(`    lv_image_set_src(bg_texture_2, &${palette.textureAsset.symbol});`)
+  lines.push(`    lv_obj_set_pos(bg_texture_2, 0, 512);`)
+
+  lines.push(`    lv_obj_t * bg_texture_3 = lv_image_create(parent);`)
+  lines.push(`    lv_image_set_src(bg_texture_3, &${palette.textureAsset.symbol});`)
+  lines.push(`    lv_obj_set_pos(bg_texture_3, 512, 512);`)
+}
+
+lines.push(``)
 }
 
   const body: string[] = []

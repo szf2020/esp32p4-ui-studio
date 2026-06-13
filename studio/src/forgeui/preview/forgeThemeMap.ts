@@ -6,6 +6,14 @@ export type ForgeTextureId =
   | 'hex_mesh'
   | 'blueprint_grid'
   | 'industrial_panel'
+  | 'ai_mesh'
+  | 'ai_nexus'
+  | 'creation'
+  | 'nebula_core'
+  | 'neon_horizon'
+  | 'neural_core'
+  | 'quantum_flow'
+  | 'quantum_hex'
 
 export type ForgeBorderStyle =
   | 'flat'
@@ -208,6 +216,102 @@ export const FG_PREVIEW_PALETTES = {
   texture: 'none',
   borderStyle: 'soft',
 },
+
+  quantum_hex: {
+    name: 'Quantum Hex',
+    bg: '#030816',
+    surface: '#081225',
+    surface2: '#10203A',
+    border: '#38BDF8',
+    text: '#FFFFFF',
+    accent: '#00E5FF',
+    texture: 'quantum_hex',
+    borderStyle: 'glow',
+  },
+
+  ai_mesh: {
+    name: 'AI Mesh',
+    bg: '#020617',
+    surface: '#07152A',
+    surface2: '#102A44',
+    border: '#38BDF8',
+    text: '#E0F2FE',
+    accent: '#0EA5E9',
+    texture: 'ai_mesh',
+    borderStyle: 'glow',
+  },
+
+  neural_core: {
+    name: 'Neural Core',
+    bg: '#05030A',
+    surface: '#120824',
+    surface2: '#1E1035',
+    border: '#D946EF',
+    text: '#FFFFFF',
+    accent: '#C026D3',
+    texture: 'neural_core',
+    borderStyle: 'glow',
+  },
+
+  quantum_flow: {
+    name: 'Quantum Flow',
+    bg: '#07031A',
+    surface: '#120A2A',
+    surface2: '#1E1640',
+    border: '#A855F7',
+    text: '#F8FAFC',
+    accent: '#22D3EE',
+    texture: 'quantum_flow',
+    borderStyle: 'glow',
+  },
+
+  ai_nexus: {
+    name: 'AI Nexus',
+    bg: '#020817',
+    surface: '#071528',
+    surface2: '#0F2A44',
+    border: '#0EA5E9',
+    text: '#E0F2FE',
+    accent: '#38BDF8',
+    texture: 'ai_nexus',
+    borderStyle: 'glow',
+  },
+
+  neon_horizon: {
+    name: 'Neon Horizon',
+    bg: '#0B1020',
+    surface: '#131A2E',
+    surface2: '#1F2950',
+    border: '#FF4FD8',
+    text: '#FFFFFF',
+    accent: '#7C4DFF',
+    texture: 'neon_horizon',
+    borderStyle: 'glow',
+  },
+
+  nebula_core: {
+    name: 'Nebula Core',
+    bg: '#070312',
+    surface: '#120824',
+    surface2: '#1B1036',
+    border: '#C026D3',
+    text: '#FFFFFF',
+    accent: '#E879F9',
+    texture: 'nebula_core',
+    borderStyle: 'glow',
+  },
+
+  singularity: {
+    name: 'Singularity',
+    bg: '#05020A',
+    surface: '#140A1F',
+    surface2: '#24113A',
+    border: '#FF7A18',
+    text: '#FFFFFF',
+    accent: '#C026D3',
+    texture: 'creation',
+    borderStyle: 'glow',
+  },
 
   clean_light: {
     name: 'Clean Light Pro',

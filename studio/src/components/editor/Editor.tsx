@@ -59,6 +59,63 @@ const textureBackgrounds: Record<string, any> = {
     backgroundRepeat: 'repeat',
     backgroundSize: '512px 512px',
   },
+
+    ai_mesh: {
+    backgroundImage: 'url("/textures/1024x600 AI Mesh.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+
+  ai_nexus: {
+    backgroundImage: 'url("/textures/1024x600 AI Nexus.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+
+  creation: {
+    backgroundImage: 'url("/textures/1024x600 Creation.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+
+  nebula_core: {
+    backgroundImage: 'url("/textures/1024x600 Nebula Core.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+
+  neon_horizon: {
+    backgroundImage: 'url("/textures/1024x600 Neon Horizon.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+
+  neural_core: {
+    backgroundImage: 'url("/textures/1024x600 Neural Core.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+
+  quantum_flow: {
+    backgroundImage: 'url("/textures/1024x600 Quantum Flow.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+
+  quantum_hex: {
+    backgroundImage: 'url("/textures/1024x600 Quantum_hex.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1024px 600px',
+    backgroundPosition: '0 0',
+  },
+  
 }
 
 const Editor: React.FC = () => {
@@ -111,8 +168,8 @@ const Editor: React.FC = () => {
         position="relative"
         mx="auto"
         my={4}
-        {...textureStyle}
         {...deviceProps}
+        {...textureStyle}
         ref={(node: HTMLDivElement | null) => {
           viewportRef.current = node
           drop(node)
@@ -128,12 +185,14 @@ const Editor: React.FC = () => {
         alignItems="center"
         flexDirection="column"
       >
-        <Box
-          position="absolute"
-          inset={0}
-          bg="blackAlpha.400"
-          pointerEvents="none"
-        />
+        {textureId && textureId !== 'none' && (
+  <Box
+    position="absolute"
+    inset={0}
+    bg="blackAlpha.200"
+    pointerEvents="none"
+  />
+)}
 
         {isEmpty && (
           <Text
