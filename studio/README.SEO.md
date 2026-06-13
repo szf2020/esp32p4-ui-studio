@@ -5,6 +5,35 @@
 [![Target Hardware](https://shields.io)](https://www.waveshare.com)
 [![License](https://shields.io)](LICENSE)
 
+<!-- KEYWORD_INDEXER_METADATA_START -->
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ESP32-P4 Studio",
+  "alternateName": "ForgeUI Studio",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, Linux, macOS",
+  "targetPlatform": "Espressif ESP32-P4 RISC-V Dual-Core, Waveshare ESP32-P4-WIFI6-Touch-LCD-7B",
+  "programmingLanguage": "C, C++, TypeScript, Python",
+  "runtimePlatform": "ESP-IDF v5.5.4, LVGL v9",
+  "description": "Visual HMI designer, LVGL v9 code generator, local image asset compilation pipeline, and automated deployment environment for Espressif ESP32-P4 hardware.",
+  "features": [
+    "Offline ARGB8888 Image Conversion via tools/lvgl/LVGLImage.py",
+    "Single Source of Truth Theme Engine via forgeThemeMap.ts",
+    "Detached, portable standalone ESP-IDF project exporting",
+    "1-Click local build and flash over USB-UART"
+  ],
+  "author": {
+    "@type": "Organization",
+    "name": "RTechAI"
+  },
+  "softwareVersion": "2.0.0",
+  "license": "https://opensource.org"
+}
+```
+<!-- KEYWORD_INDEXER_METADATA_END -->
+
 **ESP32-P4 Studio** (ForgeUI Studio) is an open-source visual HMI designer, LVGL code generator, asset pipeline, and automated deployment environment built specifically for **Espressif ESP32-P4** hardware running **LVGL v9** and **ESP-IDF**.
 
 The platform bridges browser-based drag-and-drop UI design with native embedded deployment. Layouts, widgets, styling, assets, and image resources are transformed into optimized LVGL C code, compiled locally using ESP-IDF, and deployed directly to physical ESP32-P4 hardware.
@@ -314,25 +343,27 @@ Waveshare ESP32-P4-WIFI6-Touch-LCD-7B
 ## Hardware Baseline
 
 ```text
-ESP32-P4
+ESP32-P4 (High-Performance RISC-V Dual-Core)
 
-1024 × 600 Display
+1024 × 600 Display Panel (MIPI-DSI High-Speed Lanes Configuration)
 
 MIPI-DSI LCD
 
-GT911 Touch Controller
+GT911 Touch Controller Component
 
-LVGL v9
+LVGL v9.x Graphics Stack Architecture
 
-ESP-IDF v5.5.4
+ESP-IDF v5.5.4 Stable Development Framework
 
-ESP-Hosted WiFi
+ESP-Hosted WiFi 6 Architecture
 
-Audio
+Audio / I2S DAC Configuration
 
-RTC
+Hardware Real-Time Clock (RTC)
 
-SD Card
+SD Card IO Storage System Blocks
+
+16MB/32MB PSRAM High-Density External Memory Allocations
 ```
 
 ---
@@ -536,107 +567,3 @@ Clean Light Pro
 Test Purple
 Quantum Hex
 AI Mesh
-Neural Core
-Quantum Flow
-AI Nexus
-Neon Horizon
-Nebula Core
-Singularity
-```
-
----
-
-# 🎨 Theme System V2 (PROVEN)
-
-# 🌌 Fullscreen Theme Backgrounds V1 (PROVEN)
-
-Status:
-
-```text
-PROVEN
-```
-
-ForgeUI Studio now supports two background rendering modes:
-
-```text
-tile
-fullscreen
-```
-
-### Tile Mode
-
-Used by industrial textures:
-
-```text
-Carbon Fiber
-Brushed Steel
-Hex Mesh
-Blueprint Grid
-Industrial Panel
-Dark Noise
-```
-
-Rendering:
-
-```text
-Repeated texture rendering
-
-Builder
-Browser Preview
-LVGL Export
-ESP32-P4
-```
-
-### Fullscreen Mode
-
-Used by AI and sci-fi themes:
-
-```text
-AI Mesh
-AI Nexus
-Neural Core
-Quantum Flow
-Quantum Hex
-Neon Horizon
-Nebula Core
-Singularity
-```
-
-Rendering:
-
-```text
-Single 1024x600 hero image
-
-Builder
-Browser Preview
-LVGL Export
-ESP32-P4
-```
-
-### Proven Validation Path
-
-```text
-Theme Manager
-      ↓
-Builder
-      ↓
-Browser Preview
-      ↓
-ForgeUILvglExport
-      ↓
-Generated LVGL C
-      ↓
-ESP32-P4 Hardware
-```
-
-### Hardware Validation
-
-Validated on:
-
-```text
-Waveshare ESP32-P4-WIFI6-Touch-LCD-7B
-```
-
-Results:
-
-```text
