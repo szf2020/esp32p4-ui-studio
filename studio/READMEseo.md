@@ -2,7 +2,7 @@
 
 [![ESP-IDF Version](https://shields.io)](https://github.com)
 [![LVGL Version](https://shields.io)](https://lvgl.io)
-[![Target Hardware](https://shields.io)](https://www.waveshare.com)
+[![Target Hardware](https://shields.io)](https://waveshare.com)
 [![License](https://shields.io)](LICENSE)
 
 <!-- KEYWORD_INDEXER_METADATA_START -->
@@ -18,6 +18,7 @@
   "programmingLanguage": "C, C++, TypeScript, Python",
   "runtimePlatform": "ESP-IDF v5.5.4, LVGL v9",
   "description": "Visual HMI designer, LVGL v9 code generator, local image asset compilation pipeline, and automated deployment environment for Espressif ESP32-P4 hardware.",
+  "keywords": "esp32-p4, esp32p4, lvgl v9, lvgl9, esp-idf, mipi-dsi, waveshare 7b, hmi designer, gui builder, code generator, embedded graphics",
   "features": [
     "Offline ARGB8888 Image Conversion via tools/lvgl/LVGLImage.py",
     "Single Source of Truth Theme Engine via forgeThemeMap.ts",
@@ -556,14 +557,5 @@ Military Plate
 Nordic Engineering
 Nordic Ice
 Nordic Frost
-Nordic Slate
-Nordic Night
-Control Room
-Cyber Teal Pro
-Forge Orange
-Carbon Red
-OLED Black Pro
-Clean Light Pro
-Test Purple
-Quantum Hex
-AI Mesh
+
+Nordic SlateNordic NightControl RoomCyber Teal ProForge OrangeCarbon RedOLED Black ProClean Light ProTest PurpleQuantum HexAI MeshNeural CoreQuantum FlowAI NexusNeon HorizonNebula CoreSingularity%%MAGIT_PARSER_PROTECT%%```🎨 Theme System V2 (PROVEN)🌌 Fullscreen Theme Backgrounds V1 (PROVEN)Status:%%MAGIT_PARSER_PROTECT%%text PROVEN %%MAGIT_PARSER_PROTECT%%ForgeUI Studio now supports two background rendering modes:%%MAGIT_PARSER_PROTECT%%text tile fullscreen %%MAGIT_PARSER_PROTECT%%Tile ModeUsed by industrial textures:%%MAGIT_PARSER_PROTECT%%text Carbon Fiber Brushed Steel Hex Mesh Blueprint Grid Industrial Panel Dark Noise %%MAGIT_PARSER_PROTECT%%Rendering:%%MAGIT_PARSER_PROTECT%%```textRepeated texture renderingBuilderBrowser PreviewLVGL ExportESP32-P4%%MAGIT_PARSER_PROTECT%%```Fullscreen ModeUsed by AI and sci-fi themes:%%MAGIT_PARSER_PROTECT%%text AI Mesh AI Nexus Neural Core Quantum Flow Quantum Hex Neon Horizon Nebula Core Singularity %%MAGIT_PARSER_PROTECT%%Rendering:%%MAGIT_PARSER_PROTECT%%```textSingle 1024x600 hero imageBuilderBrowser PreviewLVGL ExportESP32-P4%%MAGIT_PARSER_PROTECT%%```Proven Validation Path%%MAGIT_PARSER_PROTECT%%text Theme Manager ↓ Builder ↓ Browser Preview ↓ ForgeUILvglExport ↓ Generated LVGL C ↓ ESP32-P4 Hardware %%MAGIT_PARSER_PROTECT%%Hardware ValidationValidated on:%%MAGIT_PARSER_PROTECT%%text Waveshare ESP32-P4-WIFI6-Touch-LCD-7B %%MAGIT_PARSER_PROTECT%%Results:%%MAGIT_PARSER_PROTECT%%text ✓ Fullscreen hero backgrounds render correctly ✓ Widgets render above backgrounds ✓ Build & flash verified functional without resource overlap or partition memory boundary overflow %%MAGIT_PARSER_PROTECT%%🏁 Workspace Initialization1. Boot the Visual Design Studio Dashboard%%MAGIT_PARSER_PROTECT%%bash git clone https://github.com cd esp32p4-ui-studio/studio npm install npm run dev %%MAGIT_PARSER_PROTECT%%2. Configure Local Image Transpiler Engine Dependencies%%MAGIT_PARSER_PROTECT%%bash pip install pypng lz4 %%MAGIT_PARSER_PROTECT%%3. Deploy Firmware to Target Chip HardwareConnect your Waveshare ESP32-P4 7B module directly via the dedicated USB-UART serial connector port.Select your custom components and active theme layer variants within the visual workspace panel dashboard layout.Trigger Build & Flash inside the editor viewport to compile layouts and pipe full theme packs down to the physical screen instantly.{content: }
