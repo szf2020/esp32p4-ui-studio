@@ -897,3 +897,33 @@ ForgeUI Project
 ```text
 FORGEUI_FULLSCREEN_THEME_BACKGROUNDS_V1__P4_HERO_RENDERING_PROVEN__SINGLE_THEME_ARCHITECTURE_STABLE__2026-06-13
 ```
+
+
+<!-- KEYWORD_INDEXER_METADATA_START -->
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ESP32-P4 Studio",
+  "alternateName": "ForgeUI Studio",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, Linux, macOS",
+  "targetPlatform": "Espressif ESP32-P4 RISC-V, Waveshare ESP32-P4-WIFI6-Touch-LCD-7B",
+  "programmingLanguage": "C, C++, TypeScript, Python",
+  "runtimePlatform": "ESP-IDF v5.5.4, LVGL v9",
+  "description": "Visual HMI designer, LVGL v9 code generator, local image asset compilation pipeline, and automated deployment environment for Espressif ESP32-P4 hardware.",
+  "features": [
+    "Offline ARGB8888 Image Conversion via tools/lvgl/LVGLImage.py",
+    "Single Source of Truth Theme Engine via forgeThemeMap.ts",
+    "Detached, portable standalone ESP-IDF project exporting",
+    "1-Click local build and flash over USB-UART"
+  ],
+  "author": {
+    "@type": "Organization",
+    "name": "RTechAI"
+  },
+  "softwareVersion": "2.0.0",
+  "license": "https://opensource.org"
+}
+```
+<!-- KEYWORD_INDEXER_METADATA_END -->
