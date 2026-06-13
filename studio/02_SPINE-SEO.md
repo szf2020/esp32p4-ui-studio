@@ -1,107 +1,116 @@
-# ForgeUI Studio for ESP32-P4
-> **Tagline:** The Open-Source Visual UI Studio & Code Generation Matrix for 1024x600 MIPI-DSI Displays running LVGL v9.
+# # 13. Known-Good Save Point
 
-[![Hardware Baseline](https://shields.io)](https://github.com)
-[![LVGL Version](https://shields.io)](https://github.com)
-[![Toolchain](https://shields.io)](https://github.com)
+## Current Save Point Identifier Reference
 
-ForgeUI Studio is a specialized, production-ready design workspace and firmware compilation engine built specifically for high-performance Espressif **ESP32-P4** multimedia microcontrollers. It bridges the gap between browser-based vector layouts and bare-metal hardware execution, delivering 1-click asset conversion, theme engine generation, and direct serial compilation paths over UART/OTG.
-
----
-
-## 🛠 Target Hardware Core Specification
-* **MCU:** Espressif ESP32-P4 (High-performance RISC-V dual-core pipeline)
-* **Display Interface:** Native High-Speed MIPI-DSI
-* **Resolution Panel:** 1024x600 7-Inch (Waveshare ESP32-P4-WIFI6-Touch-LCD-7B)
-* **Touch Controller Component:** GT911 Capacitive Touch Layer
-* **Graphics Library Stack:** Native LVGL v9 Execution Layer
-
----
-
-## 🚀 Core Engine Capabilities
-
-### 1. End-to-End Asset Pipeline & Compiler Matrix
-Bypasses manual cloud asset conversion workflows using a local, decoupled, automated compilation toolchain.
-* **Format Parser:** Ingests local `.png`, `.jpg`, and `.svg` image assets via integrated drag-and-drop mechanics.
-* **Offline Conversion Engine:** Utilizes local asset automation utilities (`tools/lvgl/LVGLImage.py`) powered by `pypng` and `lz4`.
-* **Output Format Processing:** Automatically bakes images down to hardware-optimized **ARGB8888** uncompressed byte streams.
-* **Auto-Linker Architecture:** Dynamically handles generation of `.c` asset files, `LV_IMAGE_DECLARE(...)` mappings, `CMakeLists.txt` structural updates, and automated code injects for `lv_image_set_src(...)`.
-
-### 2. Single Source of Truth Theme Engine
-Eliminates interface rendering drift between the editor viewport and external microcontroller targets by moving theme mapping to an exclusive single-pipeline module.
-* **Unified Pipeline:** Core layouts use a universal theme definition model (`studio/src/forgeui/preview/forgeThemeMap.ts`) mapping to the central `FG_PREVIEW_PALETTES` layout database.
-* **Downstream Alignment:** Eliminates layout discrepancy by routing the exact same data variables straight from **Theme Manager ➔ Context Layout ➔ Viewport Builder ➔ LVGL Export Module ➔ Hardware C Target**.
-* **Pre-Baked Themes Included:** Carbon Graphite (with native texture backing), Matrix Green, Cyber Teal, Nordic Ice, Forge Orange, and Test Purple profiles.
-
----
-
-## 📊 Proven Architecture Flowchart
-
-### Data Layer: Image Ingestion & Code Generation Path
 ```text
-[Local Image Upload] ➔ [Asset Registry Manager] ➔ [Local Python Asset Parser (LVGLImage.py)]
-                                                                  │
-[Physical ESP32-P4 Canvas Screen] ◄── [Serial Flash via UART] ◄── [ESP-IDF Compiler Workspace]
-                                                                  ▲
-                                                                  │
-[CMake Assembly Injection] ◄── [Automated C Variable Injects] ◄── [LVGL Image Descriptor Arrays]
-```
-
-### Logical Layer: Synchronized Theme Distribution
-```text
-[Theme Selection Matrix] ➔ [Universal Theme State Context] ➔ [Viewport Builder Editor]
-                                                                     │
-[Hardware Display Screen] ◄── [Native Target Build] ◄── [C Code Translation Engine]
+FORGEUI_SINGLE_THEME_SOURCE_V1__PREVIEW_EXPORT_P4_SYNC_PROVEN__TEST_PURPLE_VALIDATED__2026-06-13
 ```
 
 ---
 
-## 📂 Project Repository Tree
+# 🚀 Core Operational State & Verification Matrices
+
+| Structural Subsystem Module | Functional Target State | Technical Verification Validation |
+| :--- | :--- | :--- |
+| **Asset Manager Upload** | Active / Fully Functional | Validated local binary uploads |
+| **Asset Manager Delete** | Active / Fully Functional | Cleans local environment arrays |
+| **Asset Manager Thumbnail** | Active / Fully Functional | Generates browser viewport cache |
+| **Uploaded Asset Registry** | Active / Fully Functional | In-memory indexing database verified |
+| **Browser Source (`browserSrc`)** | Active / Fully Functional | Resolves local path variants cleanly |
+| **Export Status (`exportStatus`)** | Active / Fully Functional | Dispatches real-time toolchain flags |
+| **LVGL Symbol Generation** | Active / Fully Functional | Outputs standard C variables natively |
+| **C Source File Generation** | Active / Fully Functional | Creates physical `.c` source assets |
+| **Image Dropdown Component** | Active / Fully Functional | Injects real-time local registry files |
+| **Viewport Alignment Engine** | Active / Fully Functional | Layout sizing matches browser previews |
+| **Build & Flash Utility** | Active / Fully Functional | 1-click terminal deployment over UART |
+| **Clean Build & Flash Utility**| Active / Fully Functional | Triggers full environment purge caches |
+| **Detached ESP-IDF Export** | Active / Fully Functional | Builds fully portable project modules |
+
+---
+
+# 🎨 Theme Drift Elimination Matrix (2026-06-13)
+
+### Definitive Technical Diagnosis
+ForgeUI previously ran duplicate parallel layout databases which split structural values between editing sandboxes and physical microcontroller hardware deployments:
+
+1. **Browser Preview Array Model:** Handled exclusively via `FG_PREVIEW_PALETTES` by components like `Theme Manager`, `ForgeThemeContext`, and the `Browser Preview` display panel.
+2. **Firmware Compilers Engine Model:** Handled by `FG_PALETTES` inside `ForgeUILvglExport.ts` targeting bare-metal microcontrollers directly.
+
+* **Resulting Drift Symptom:** Themes like `Nordic Ice` or `Graphite` rendered perfectly in the browser workspace but flashed incorrect color registers (`Reactor Dark` defaults) on physical display panels.
+
+### Structural Refactoring Fix
+The duplicate `FG_PALETTES` array blocks were fully removed from `studio/src/forgeui/ForgeUILvglExport.ts`. The code generator now imports `studio/src/forgeui/preview/forgeThemeMap.ts` directly, locking the entire deployment path down to a **single source of truth (`FG_PREVIEW_PALETTES`)**.
+
+### Synchronized Unified Theme Pipeline Data Flow
+```text
+[Universal Palette Array (FG_PREVIEW_PALETTES)] ➔ [Theme Manager Control Registry]
+                                                               │
+[Microcontroller Hardware Canvas (ESP32-P4)] ◄── [Native LVGL C] ◄── [ForgeUILvglExport Engine]
+```
+
+---
+
+# 🖼️ Local Image Asset Ingestion Pipeline
+
+This fully offline utility converts raw vectors and images directly into low-level uncompressed/compressed byte arrays optimized for multimedia microcontrollers.
+
+* **Engine Driver Pathway:** `tools/lvgl/LVGLImage.py`
+* **Local Subsystem Dependencies:** `pypng` | `lz4`
+* **Target Output Encoding:** Native **ARGB8888** C arrays
+
+### End-to-End Image Processing Lifecycle Flowchart
+```text
+[Local Image Drop (PNG/JPG/SVG)] ➔ [Asset Registry Manager] ➔ [LVGLImage.py Transpiler]
+                                                                        │
+[Physical LCD Display] ◄── [Serial Flash over UART] ◄── [Automated CMake / C Variable Inject]
+```
+
+---
+
+# 📊 Proven Technical Milestones Index
+
+### 1. Unified Theme Management Profiles (V2)
+```text
+✓ Carbon Graphite Preview Verified      ✓ Matrix Green Hardware Deployment Proven
+✓ Cyber Teal Preview Verified           ✓ Cyber Teal Hardware Deployment Proven
+✓ Nordic Ice Array Parity Confirmed     ✓ Test Purple Dynamic Injection Proven
+```
+
+### 2. Standalone Firmware Compilation Targets
+```text
+✓ Pure Native Output (C / LVGL v9)     ✓ Zero Framework Lock-In UI Deployments
+✓ idf.py build Lifecycle Parity         ✓ idf.py flash Memory Range Stability
+✓ Lightweight Injection (90_Studio)    ✓ Isolated System Driver Abstractions
+```
+
+### 3. Comprehensive High-Density Asset Operations
+```text
+✓ Local Drag-and-Drop File Ingestion    ✓ Automated CMake Dependency Tracking
+✓ Automated LV_IMAGE_DECLARE Generation  ✓ Automated lv_image_set_src Mappings
+```
+
+### 4. New 2026 High-Resolution Asset Breakthroughs
+* **Milestone 01:** Full **AI / Sci-Fi Theme Pack** assets imported directly into the application environment workspace without cache collisions.
+* **Milestone 02:** Large-scale **1024x600 PNG Hero Backgrounds** injected into local textures directories.
+* **Milestone 03:** Direct **PNG to LVGL C byte transpilations** completed cleanly for 1024x600 high-definition background screens.
+* **Milestone 04:** **Fullscreen Hero Background Modes** verified stable under real-world target compilation parameters on physical **Waveshare ESP32-P4-WIFI6-Touch-LCD-7B** panels.
+
+---
+
+# 📁 Architectural Repository Footprint & Ownership Registry
 
 ```text
-forgeui-p4-studio/
-├── studio/
+esp32p4-ui-studio/
+├── studio/                               # React / Next.js State Tree & Visual Builder
 │   └── src/
 │       └── forgeui/
 │           ├── preview/
-│           │   └── forgeThemeMap.ts      <-- Universal Palette Mappings (Single Truth Source)
-│           └── ForgeUILvglExport.ts      <-- Decoupled Clean ESP-IDF Source Code Generator
+│           │   └── forgeThemeMap.ts      # Unified Palette Mapping (Single Source of Truth)
+│           └── ForgeUILvglExport.ts      # Code Generation Translation Engine Matrix
+├── firmware/
+│   └── ForgeUI-One/                      # Pure Embedded ESP-IDF v5.5.4 Runtime Environment
 ├── tools/
 │   └── lvgl/
-│       └── LVGLImage.py                  <-- Local/Offline Binary Image Transpiler Engine
-└── docs/
-    └── history/                          <-- Precompiled Asset Packs & UI Hardware Verification
+│       └── LVGLImage.py                  # Local Python Graphical Transpiler & Asset Packer
+└── C:\ForgeUI-Exports\                   # Output Target for Portable Independent VS Code Projects
 ```
-
----
-
-## ⚡ Direct Workspace Initialization
-
-### Initializing the Software Dependencies
-To spin up the local graphical environment and link the offline binary asset compiler modules, run the following commands in your terminal terminal:
-
-```bash
-# Clone the repository workspace
-git clone https://github.com.git
-cd esp32p4-ui-studio
-
-# Spin up the frontend graphical studio environment
-cd studio
-npm install
-npm run dev
-
-# Provision Python automation pipelines for offline graphic compilation
-pip install pypng lz4
-```
-
-### Compiling and Injecting Code to Bare-Metal Hardware
-1. Connect your **Waveshare ESP32-P4 7B** screen directly to your workspace machine via the dedicated **USB-UART** serial debugging terminal.
-2. Select or drop your theme pack directly onto the visual UI Workspace.
-3. Execute **Build & Flash** from the Studio dashboard layout. The visual workspace automatically calls underlying toolchain files to convert vector layouts into standard C matrices, verify partitions, compile dependencies inside the project tree, and flash target memory addresses cleanly.
-
----
-
-## 🎯 Verification Records & Bench Proofs
-* **Theme Stability Profile:** Eliminates palette synchronization lag completely across all target profiles (`Carbon Graphite`, `Cyber Teal`, `Matrix Green`).
-* **Complex Assets Pipeline Proven:** 1024x600 high-definition Sci-Fi UI textures successfully processed, injected into compilation scripts, and accurately rendered on target LCD modules over MIPI-DSI data lines without resource limit overlaps.
-* **Firmware Reliability Target:** Stable builds compiled natively with official Espressif **ESP-IDF v5.x** framework guidelines.
