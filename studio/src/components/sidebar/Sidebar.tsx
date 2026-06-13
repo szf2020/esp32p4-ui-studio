@@ -73,18 +73,11 @@ const Menu = () => {
         </Box>
 
         <Box p={5} pt={0}>
-          {[
-            ...forgeuiCoreWidgets.filter(
-              name => menuItems[name as ComponentType]
-            ),
-
-            ...(Object.keys(menuItems) as ComponentType[]).filter(
-              c => !forgeuiCoreWidgets.includes(c)
-            ),
-          ]
-            .filter(c =>
-              c.toLowerCase().includes(searchTerm.toLowerCase())
-            )
+  {forgeuiCoreWidgets
+    .filter(name => menuItems[name as ComponentType])
+    .filter(c =>
+      c.toLowerCase().includes(searchTerm.toLowerCase())
+    )
 
             .map(name => {
               const isForgeUIStart =

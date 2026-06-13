@@ -539,6 +539,109 @@ case 'Link':
     case 'SkeletonCircle':
       return <SkeletonCirclePreview component={component} />
 
+case 'Led':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Chakra.Box
+          width="24px"
+          height="24px"
+          borderRadius="999px"
+          bg="green.400"
+          boxShadow="0 0 12px rgba(72,255,120,0.8)"
+        />
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+case 'Bar':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Progress
+        value={70}
+        width="100%"
+        height="100%"
+      />
+    </PreviewContainer>
+  )
+
+case 'Arc':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Chakra.Box
+          width="64px"
+          height="64px"
+          borderRadius="50%"
+          border="8px solid"
+          borderColor="cyan.300"
+        />
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+case 'AnimImage':
+case 'ButtonMatrix':
+case 'Calendar':
+case 'Canvas':
+case 'Chart':
+case 'ImageButton':
+case 'Keyboard':
+case 'Line':
+case 'Lottie':
+case 'Msgbox':
+case 'ObjxTempl':
+case 'Roller':
+case 'Scale':
+case 'Table':
+case 'Tabview':
+case 'Tileview':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        border="1px dashed #00d4ff"
+        color="#00d4ff"
+        fontSize="sm"
+        bg="rgba(0,212,255,0.08)"
+      >
+        {type}
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
     default:
       return null
   }

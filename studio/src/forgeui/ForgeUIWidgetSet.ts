@@ -1,4 +1,26 @@
 export const forgeuiCoreWidgets = [
+  // LVGL First
+  'Led',
+  'Bar',
+  'Arc',
+  'Chart',
+  'Table',
+  'Keyboard',
+  'Calendar',
+  'Scale',
+  'Roller',
+  'Msgbox',
+  'ButtonMatrix',
+  'Canvas',
+  'Line',
+  'Tabview',
+  'Tileview',
+  'ImageButton',
+  'AnimImage',
+  'Lottie',
+  'Spinner',
+
+  // Basic ForgeUI Controls
   'Button',
   'Text',
   'Input',
