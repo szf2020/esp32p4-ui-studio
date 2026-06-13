@@ -33,7 +33,7 @@ This document maps out the system boundaries, interface structures, and hardware
 
 ---
 
-## 🗂️ Core Index Directory & Code Registries
+## 🗂️ Core Index Directory & Code Registries..
 
 | Source Pathway | Functional Responsibility Layer | Structural Targets & Assets |
 | :--- | :--- | :--- |
