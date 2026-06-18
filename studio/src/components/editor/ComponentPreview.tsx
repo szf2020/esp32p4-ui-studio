@@ -604,20 +604,230 @@ case 'Arc':
     </PreviewContainer>
   )
 
-case 'AnimImage':
-case 'ButtonMatrix':
+  
+
 case 'Calendar':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        p="6px"
+        display="grid"
+        gridTemplateColumns="repeat(7, 1fr)"
+        gap="2px"
+        bg="#1e2328"
+      >
+        {Array.from({ length: 35 }, (_, i) => (
+          <Chakra.Box
+            key={i}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            fontSize="10px"
+            borderRadius="2px"
+            bg={i === 17 ? 'cyan.400' : 'gray.700'}
+            color={i === 17 ? 'black' : 'white'}
+          >
+            {i < 30 ? i + 1 : ''}
+          </Chakra.Box>
+        ))}
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+  case 'Chart':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        p="8px"
+        border="1px solid #00d4ff"
+        borderRadius="8px"
+        bg="rgba(0,212,255,0.08)"
+      >
+        <svg width="100%" height="100%" viewBox="0 0 100 60">
+          <polyline
+            fill="none"
+            stroke="#00d4ff"
+            strokeWidth="2"
+            points="5,50 20,35 35,40 50,20 65,25 80,10 95,15"
+          />
+        </svg>
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+  case 'Scale':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        bg="rgba(0,212,255,0.08)"
+        border="1px solid #00d4ff"
+        borderRadius="8px"
+      >
+        <svg width="90%" height="40">
+          <line
+            x1="10"
+            y1="20"
+            x2="190"
+            y2="20"
+            stroke="#00d4ff"
+            strokeWidth="2"
+          />
+          {[...Array(11)].map((_, i) => (
+            <line
+              key={i}
+              x1={10 + i * 18}
+              y1="10"
+              x2={10 + i * 18}
+              y2="30"
+              stroke="#00d4ff"
+              strokeWidth="2"
+            />
+          ))}
+        </svg>
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+
+
+case 'Table':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        display="grid"
+        gridTemplateColumns="repeat(2, 1fr)"
+        border="1px solid #00d4ff"
+        color="white"
+        fontSize="12px"
+      >
+        {['A1', 'B1', 'A2', 'B2'].map((cell) => (
+          <Chakra.Box
+            key={cell}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            border="1px solid #00d4ff"
+          >
+            {cell}
+          </Chakra.Box>
+        ))}
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+  case 'Keyboard':
+  return (
+    <PreviewContainer component={component} enableVisualHelper {...forwardedProps}>
+      <Chakra.Box width="100%" height="100%" p="8px" display="flex" flexDirection="column" gap="6px" border="1px solid #00d4ff" borderRadius="8px" bg="rgba(255,255,255,0.75)">
+        {[['1#','q','w','e','r','t','y','u','i','o','p','⌫'], ['ABC','a','s','d','f','g','h','j','k','l','↵'], ['_','-','z','x','c','v','b','n','m','.',',',':'], ['⌨','<','','','','','','','>','✓']].map((row, r) => (
+          <Chakra.Box key={r} flex="1" display="grid" gridTemplateColumns={`repeat(${row.length}, 1fr)`} gap="6px">
+            {row.map((key, i) => (
+              <Chakra.Box key={`${r}-${i}`} display="flex" alignItems="center" justifyContent="center" borderRadius="6px" bg="rgba(255,255,255,0.45)" color="gray.700" fontSize="11px">
+                {key}
+              </Chakra.Box>
+            ))}
+          </Chakra.Box>
+        ))}
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+  case 'Msgbox':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        border="1px solid #00d4ff"
+        borderRadius="8px"
+        bg="#1e2328"
+        color="white"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        p="8px"
+      >
+        <Chakra.Text fontWeight="bold">
+          Message
+        </Chakra.Text>
+
+        <Chakra.Text fontSize="sm">
+          Example message text
+        </Chakra.Text>
+
+        <Chakra.HStack justify="flex-end">
+          <Chakra.Button size="xs">OK</Chakra.Button>
+          <Chakra.Button size="xs">Cancel</Chakra.Button>
+        </Chakra.HStack>
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+  case 'Roller':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Box
+        width="100%"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        bg="rgba(0,212,255,0.08)"
+        border="1px solid #00d4ff"
+        borderRadius="8px"
+      >
+        <Chakra.Text color="gray.500">Item 1</Chakra.Text>
+        <Chakra.Text color="#00d4ff" fontWeight="bold">
+          Item 2
+        </Chakra.Text>
+        <Chakra.Text color="gray.500">Item 3</Chakra.Text>
+      </Chakra.Box>
+    </PreviewContainer>
+  )
+
+  case 'AnimImage':
+case 'ButtonMatrix':
 case 'Canvas':
-case 'Chart':
 case 'ImageButton':
-case 'Keyboard':
 case 'Line':
 case 'Lottie':
-case 'Msgbox':
 case 'ObjxTempl':
-case 'Roller':
-case 'Scale':
-case 'Table':
 case 'Tabview':
 case 'Tileview':
   return (
