@@ -49,6 +49,7 @@ const ComponentPreview: React.FC<{
   }
 
   const type = (component && component.type) || null
+  console.log('COMPONENT TYPE:', type)
 
   switch (type) {
     // Simple components
@@ -87,13 +88,21 @@ const ComponentPreview: React.FC<{
         height="100%"
         display="flex"
         alignItems="center"
-        justifyContent="center"
+        justifyContent="flex-start"
         gap="10px"
         color="white"
+        px="8px"
       >
-        <Chakra.Radio {...component.props} />
+        <Chakra.Box
+          width="18px"
+          height="18px"
+          borderRadius="999px"
+          border="2px solid white"
+          bg={component.props.isChecked ? '#00d4ff' : 'transparent'}
+        />
+
         <Chakra.Text color="white">
-          {component.props.children || 'Radio'}
+          {component.props.children || component.props.text || 'Radio'}
         </Chakra.Text>
       </Chakra.Box>
     </PreviewContainer>
@@ -130,7 +139,7 @@ case 'Switch':
     //case 'Checkbox':
     // case 'Textarea':
     //case 'CircularProgress':
-    case 'Heading':
+    //case 'Heading':
     // case 'Switch':
     case 'FormLabel':
     case 'FormHelperText':
@@ -385,6 +394,30 @@ case 'Select':
       </Chakra.Box>
     </PreviewContainer>
   )
+
+  case 'Heading':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Text
+        {...component.props}
+        width="100%"
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        color="white"
+        fontSize="32px"
+        fontWeight="bold"
+      >
+        {component.props.children || component.props.text || 'Heading'}
+      </Chakra.Text>
+    </PreviewContainer>
+  )
+
 
   case 'Input':
   return (

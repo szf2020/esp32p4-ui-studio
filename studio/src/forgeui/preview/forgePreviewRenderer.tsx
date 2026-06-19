@@ -60,6 +60,25 @@ export const renderForgePreview = ({
     }
 
     switch (child.type) {
+
+      case 'Heading': {
+        output.push(
+          <Text
+            key={child.id}
+            {...commonStyle}
+            color={child.props.color || palette.text}
+            fontSize={`${lv(child.props.fontSize, 32)}px`}
+            fontWeight="bold"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            {label || 'Heading'}
+          </Text>,
+        )
+        break
+      }
+
       case 'Text': {
         output.push(
           <Text
@@ -97,6 +116,27 @@ export const renderForgePreview = ({
         break
       }
 
+      case 'IconButton': {
+  output.push(
+    <Box
+      key={child.id}
+      {...commonStyle}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      borderRadius="8px"
+      background={palette.surface}
+      border={`2px solid ${palette.border}`}
+      color={palette.text}
+      fontSize="24px"
+      fontWeight="bold"
+    >
+      ⧉
+    </Box>,
+  )
+  break
+}
+
       case 'Box': {
         output.push(
           <Box
@@ -109,6 +149,23 @@ export const renderForgePreview = ({
         )
         break
       }
+
+      case 'Icon': {
+  output.push(
+    <Box
+      key={child.id}
+      {...commonStyle}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      color={palette.text}
+      fontSize="32px"
+    >
+      {child.props.icon || '⚙'}
+    </Box>,
+  )
+  break
+}
 
       case 'Input': {
         output.push(
@@ -234,28 +291,29 @@ export const renderForgePreview = ({
 
       case 'Radio': {
   output.push(
-    <Checkbox
+    <Box
       key={child.id}
-      position="absolute"
-      left={`${x}px`}
-      top={`${y}px`}
-      isChecked={Boolean(child.props.isChecked)}
+      {...commonStyle}
+      display="flex"
+      alignItems="center"
+      justifyContent="flex-start"
+      gap="8px"
       color={palette.text}
-      sx={{
-        '.chakra-checkbox__control': {
-          borderRadius: '999px',
-          bg: palette.surface,
-          borderColor: palette.border,
-        },
-
-        '.chakra-checkbox__control[data-checked]': {
-          bg: palette.accent,
-          borderColor: palette.accent,
-        },
-      }}
     >
-      {label || 'Radio'}
-    </Checkbox>,
+      <Box
+        width="18px"
+        height="18px"
+        borderRadius="999px"
+        border={`2px solid ${palette.border}`}
+        bg={Boolean(child.props.isChecked)
+          ? palette.accent
+          : 'transparent'}
+      />
+
+      <Text color={palette.text}>
+        {label || 'Radio'}
+      </Text>
+    </Box>,
   )
   break
 }

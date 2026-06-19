@@ -147,6 +147,27 @@ const buildLvglBlock = (
         lines.push(``)
         break
       }
+
+      case 'Heading': {
+  const text = esc(
+    child.props.children ||
+    child.props.text ||
+    child.props.value ||
+    'Heading'
+  )
+
+  const color = child.props.color
+    ? `0x${String(child.props.color).replace('#', '')}`
+    : palette.text
+
+  lines.push(`lv_obj_t * ${varName} = lv_label_create(${parentVar});`)
+  lines.push(`lv_label_set_text(${varName}, "${text}");`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${color}), 0);`)
+  lines.push(`lv_obj_set_style_text_font(${varName}, &lv_font_montserrat_32, 0);`)
+  lines.push(``)
+  break
+}
       
             case 'Button': {
         const text = esc(
@@ -172,6 +193,33 @@ const buildLvglBlock = (
         lines.push(``)
         break
       }
+
+      case 'IconButton': {
+  lines.push(`lv_obj_t * ${varName} = lv_button_create(${parentVar});`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+
+  lines.push(`lv_obj_set_style_radius(${varName}, 12, 0);`)
+  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), 0);`)
+  lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), 0);`)
+  lines.push(`lv_obj_set_style_border_width(${varName}, 2, 0);`)
+
+  lines.push(`lv_obj_t * ${varName}_label = lv_label_create(${varName});`)
+  lines.push(`lv_label_set_text(${varName}_label, LV_SYMBOL_OK);`)
+  lines.push(`lv_obj_center(${varName}_label);`)
+
+  lines.push(``)
+  break
+}
+
+case 'Icon': {
+  lines.push(`lv_obj_t * ${varName} = lv_label_create(${parentVar});`)
+  lines.push(`lv_label_set_text(${varName}, LV_SYMBOL_SETTINGS);`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), 0);`)
+  lines.push(``)
+  break
+}
 
             case 'Input': {
         const text = esc(child.props.placeholder || child.props.value || 'Input')
@@ -247,37 +295,7 @@ const buildLvglBlock = (
   break
 }
 
-        case 'Radio': {
-  const text = esc(
-    child.props.children ||
-      child.props.text ||
-      child.props.label ||
-      'Radio'
-  )
-
-  const checked = Boolean(child.props.isChecked)
-
-  lines.push(`lv_obj_t * ${varName} = lv_checkbox_create(${parentVar});`)
-  lines.push(`lv_checkbox_set_text(${varName}, "${text}");`)
-  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-
-  if (checked) {
-    lines.push(`lv_obj_add_state(${varName}, LV_STATE_CHECKED);`)
-  }
-
-  lines.push(`lv_obj_set_style_radius(${varName}, LV_RADIUS_CIRCLE, LV_PART_INDICATOR);`)
-
-  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${palette.text}), LV_PART_MAIN);`)
-
-  lines.push(`lv_obj_set_style_border_color(${varName}, lv_color_hex(${palette.border}), LV_PART_INDICATOR);`)
-
-  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.surface}), LV_PART_INDICATOR);`)
-
-  lines.push(`lv_obj_set_style_bg_color(${varName}, lv_color_hex(${palette.accent}), LV_PART_INDICATOR | LV_STATE_CHECKED);`)
-
-  lines.push(``)
-  break
-}         
+  
         
       case 'NumberInput': {
         const text = esc(String(child.props.value || '123'))
