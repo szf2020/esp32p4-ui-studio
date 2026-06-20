@@ -177,12 +177,12 @@ case 'Clock': {
       '12:34'
   )
 
-  lines.push(`lv_obj_t * ${varName} = lv_label_create(${parentVar});`)
-  lines.push(`lv_label_set_text(${varName}, "${text}");`)
-  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
-  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
-  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(0x00D4FF), 0);`)
-  lines.push(`lv_obj_set_style_text_font(${varName}, &lv_font_montserrat_32, 0);`)
+  lines.push(`fg_clock_label = lv_label_create(${parentVar});`)
+  lines.push(`lv_label_set_text(fg_clock_label, "${text}");`)
+  lines.push(`lv_obj_set_pos(fg_clock_label, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(fg_clock_label, ${w}, ${h});`)
+  lines.push(`lv_obj_set_style_text_color(fg_clock_label, lv_color_hex(0x00D4FF), 0);`)
+  lines.push(`lv_obj_set_style_text_font(fg_clock_label, &lv_font_montserrat_32, 0);`)
   lines.push(``)
   break
 }
@@ -887,7 +887,26 @@ const palette = {
 
   lines.push(`#include "90_Studio_Export.h"`)
   lines.push(`#include "lvgl.h"`)
+  lines.push(`#include "20_RTC.h"`)
+
   lines.push(``)
+  lines.push(`static lv_obj_t * fg_clock_label = NULL;`)
+  lines.push(``)
+
+  lines.push(`static void fg_clock_tick_cb(lv_timer_t *timer)`)
+  lines.push(`{`)
+  lines.push(`    LV_UNUSED(timer);`)
+  lines.push(``)
+  lines.push(`    char time_buf[16];`)
+  lines.push(`    fg_rtc_format_time(time_buf, sizeof(time_buf));`)
+  lines.push(``)
+  lines.push(`    if (fg_clock_label)`)
+  lines.push(`    {`)
+  lines.push(`        lv_label_set_text(fg_clock_label, time_buf);`)
+  lines.push(`    }`)
+  lines.push(`}`)
+  lines.push(``)
+
   lines.push(`// ForgeUI LVGL Export Proof V1`)
   lines.push(`// Generated from ForgeUI Studio`)
   lines.push(``)
@@ -954,10 +973,14 @@ lines.push(``)
   }
 
   body.forEach(line => {
-    lines.push(line ? `    ${line}` : ``)
-  })
+  lines.push(line ? `    ${line}` : ``)
+})
 
-  lines.push(`}`)
+lines.push(``)
+lines.push(`    fg_clock_tick_cb(NULL);`)
+lines.push(`    lv_timer_create(fg_clock_tick_cb, 1000, NULL);`)
+
+lines.push(`}`)
 
   return {
     code: lines.join('\n'),
