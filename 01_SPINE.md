@@ -3,7 +3,7 @@
 ## Current Save Point
 
 ```text
-FORGEUI_HEADING_WIDGET_COMPLETE__PREVIEW_EXPORT_P4_FONT_PIPELINE_PROVEN__NEXT_SIDEBAR_AUDIT__2026-06-19
+FORGEUI_CLOCK_WIDGET_V3_COMPLETE__BUILDER_PREVIEW_EXPORT_P4_ALIGNED__RTC_RUNTIME_ALREADY_PRESENT__NEXT_V4_RTC_TICKING_CLOCK__2026-06-20
 ```
 
 ---
@@ -33,6 +33,32 @@ Physical ESP32-P4 Hardware
 ---
 
 # Heading Widget Milestone
+
+## Status
+
+PROVEN ON PHYSICAL ESP32-P4
+
+## What Was Proven
+
+Clock widget appears in ForgeUI Studio sidebar
+
+Clock widget can be placed on Builder canvas
+
+Clock widget renders on Builder canvas
+
+Clock widget updates live in Builder
+
+Clock widget renders in Browser Preview
+
+Clock widget exports to generated LVGL C
+
+Generated LVGL compiles successfully
+
+ESP-IDF Build & Flash succeeds
+
+Physical ESP32-P4 renders Clock widget correctly
+
+Builder, Preview, Export and P4 alignment proven
 
 ## Status
 
@@ -133,7 +159,41 @@ This is acceptable.
 
 The important proof is that the Heading widget exports, compiles, flashes, and renders correctly on hardware.
 ```
+# RTC Runtime Architecture Status
 
+Status
+
+PROVEN
+
+Runtime ownership exists in ForgeUI One.
+
+Files:
+
+firmware/ForgeUI-One/main/20_RTC.h
+firmware/ForgeUI-One/main/20_RTC.c
+
+Available API:
+
+fg_rtc_init()
+fg_rtc_set()
+fg_rtc_get()
+fg_rtc_format_time()
+fg_rtc_format_day()
+fg_rtc_format_header()
+
+Features:
+
+ESP system time runtime truth
+
+DS3231 hardware RTC support
+
+NVS persistence fallback
+
+Time formatting helpers
+
+Runtime abstraction layer
+
+UI does not own time truth
 ---
 
 # Heading Widget Result
