@@ -94,6 +94,7 @@ type PreviewDefaultProps = {
   Textarea?: PropsWithForm<TextareaProps>
   CircularProgress?: PropsWithForm<CircularProgressProps>
   Heading?: PropsWithForm<HeadingProps>
+  Clock?: PropsWithForm<TextProps>
   Highlight?: PropsWithForm<HighlightProps>
   Tag?: PropsWithForm<TagProps>
   SimpleGrid?: PropsWithForm<SimpleGridProps>
@@ -231,6 +232,14 @@ export const DEFAULT_PROPS: PreviewDefaultProps = {
   Heading: {
     children: 'Heading title',
   },
+  Clock: {
+     children: '12:34',
+     positionMode: 'absolute',
+     x: 40,
+     y: 40,
+     w: 160,
+     h: 60,
+},
   Highlight: {
     children: 'Heading title',
     query: 'title',

@@ -418,6 +418,28 @@ case 'Select':
     </PreviewContainer>
   )
 
+  case 'Clock':
+  return (
+    <PreviewContainer
+      component={component}
+      enableVisualHelper
+      {...forwardedProps}
+    >
+      <Chakra.Text
+        width="100%"
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        color="#00d4ff"
+        fontSize="32px"
+        fontWeight="bold"
+        fontFamily="monospace"
+      >
+        12:34
+      </Chakra.Text>
+    </PreviewContainer>
+  )
 
   case 'Input':
   return (

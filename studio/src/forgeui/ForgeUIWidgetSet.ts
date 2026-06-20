@@ -26,6 +26,7 @@ export const forgeuiCoreWidgets = [
   'Button',
   'Text',
   'Heading',
+  'Clock',
   'Input',
   'Textarea',
   'Switch',
