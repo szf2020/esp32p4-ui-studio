@@ -1,239 +1,514 @@
-# 13. Known-Good Save Point
+# SPINE
 
 ## Current Save Point
 
 ```text
-FORGEUI_WIFI_WIDGET_V2__30_WIFI_RUNTIME_STATUS_BOUND__INIT_READY_P4_PROVEN__CONNECT_PATH_NEXT__2026-06-20
+FORGEUI_WIFI_CONNECT_PATH_V3__CONNECTED_IP_PROOF_P4_PROVEN__RUNTIME_CLEANED__2026-06-20
+```
 
 ---
 
-# Current Status
+# Project Status
+
+```text
+ACTIVE
+STABLE
+PHYSICAL HARDWARE PROVEN
+```
+
+ForgeUI Studio is now operating with multiple proven runtime systems on physical ESP32-P4 hardware.
+
+Current architecture has been validated through:
+
+```text
+Builder
+    ↓
+Browser Preview
+    ↓
+LVGL Export
+    ↓
+Generated C
+    ↓
+ESP-IDF Build
+    ↓
+Physical ESP32-P4
+```
+
+---
+
+# Runtime Status
+
+## Theme Runtime
 
 ```text
 PROVEN
 ```
 
-ForgeUI Studio now has another confirmed ESP32-P4 hardware milestone.
-
-The Heading widget is alive across:
+Single source of truth:
 
 ```text
-ForgeUI Studio Builder
+FG_PREVIEW_PALETTES
     ↓
-ForgeUI Browser Preview
+Theme Manager
+    ↓
+ForgeThemeContext
+    ↓
+Builder
+    ↓
+Browser Preview
     ↓
 LVGL Export
     ↓
-ESP-IDF Build
-    ↓
-Physical ESP32-P4 Hardware
+ESP32-P4
 ```
 
 ---
 
-# Heading Widget Milestone
+## RTC Runtime
 
-## Status
-
+```text
 PROVEN ON PHYSICAL ESP32-P4
+```
 
-## What Was Proven
+Architecture:
 
-Clock widget appears in ForgeUI Studio sidebar
+```text
+20_RTC
+    ↓
+fg_rtc_format_time()
+    ↓
+fg_clock_tick_cb()
+    ↓
+Clock Widget
+```
 
-Clock widget can be placed on Builder canvas
+Proven:
 
-Clock widget renders on Builder canvas
+```text
+Clock widget
+RTC integration
+LVGL timer refresh
+24-hour HH:MM display
+Blinking colon heartbeat
+Minute rollover
+Builder / Preview / Export / P4 alignment
+```
 
-Clock widget updates live in Builder
+Runtime ownership:
 
-Clock widget renders in Browser Preview
+```text
+RTC runtime owns time truth
 
-Clock widget exports to generated LVGL C
+Clock widget owns display only
 
-Generated LVGL compiles successfully
+LVGL timer owns refresh
+```
 
-ESP-IDF Build & Flash succeeds
+---
 
-Physical ESP32-P4 renders Clock widget correctly
+## WiFi Runtime
 
-Builder, Preview, Export and P4 alignment proven
-
-# WiFi Widget V2 Status
-
-# WiFi Widget V2 Status
-
-## Status
-
+```text
 PROVEN ON PHYSICAL ESP32-P4
+```
 
-## What Was Proven
+Architecture:
 
-WiFi widget is no longer static.
-
-Generated LVGL now includes:
-
-#include "30_WIFI.h"
-
-Generated export creates:
-
-static lv_obj_t * fg_wifi_label = NULL;
-
-Generated export adds:
-
-fg_wifi_tick_cb()
-
-WiFi timer now calls:
-
-fg_wifi_pump()
+```text
+30_WIFI
+    ↓
 fg_wifi_status_text()
 fg_wifi_ip_text()
+    ↓
+fg_wifi_tick_cb()
+    ↓
+WiFi Widget
+```
 
-Physical ESP32-P4 proof completed.
+Proven:
 
-Observed runtime transition:
-
-WIFI
+```text
 INIT
-IP: -
-
-then:
-
-WIFI
+ ↓
 READY
-IP: -
+ ↓
+CONNECTING
+ ↓
+CONNECTED
+ ↓
+DHCP
+ ↓
+IP Address Display
+```
 
-This proves Studio WiFi widget is now bound to the existing 30_WIFI runtime.
+Physical proof achieved:
 
-## Architecture Truth
-
-30_WIFI owns WiFi state.
-
-WiFi widget owns display only.
-
-LVGL timer owns refresh.
-
-UI does not own WiFi truth.
-
-No new WiFi framework was created.
-
-## Next Mission
-
-WiFi Connect Path
-
-Goal:
-
-Prove:
-
+```text
 WIFI
 CONNECTED
 IP: 192.168.x.x
-
-before building drawer / scan / keyboard / saved credentials.
-
-## Status
-
-PROVEN ON PHYSICAL ESP32-P4
-
-## What Was Proven
-
-WiFi widget appears in ForgeUI Studio sidebar
-
-WiFi widget can be placed on Builder canvas
-
-WiFi widget renders in Builder mode
-
-WiFi widget renders in Browser Preview
-
-WiFi widget exports to generated LVGL C
-
-Generated LVGL compiles successfully
-
-ESP-IDF Build & Flash succeeds
-
-Physical ESP32-P4 renders WiFi widget correctly
-
-Builder / Preview / Export / P4 alignment proven
-
-Current display:
-
-WIFI
-DISCONNECTED
-IP: -
-
-## Architecture
-
-30_WIFI.c
-↓
-ForgeUI WiFi Runtime
-↓
-WiFi Widget
-↓
-Display Only
-
-UI does not own WiFi truth.
-
-WiFi runtime owns WiFi truth.
-
-Widget owns display only.
-
-Runtime binding is next.
-
-
-## Status
-
-```text
-PROVEN ON PHYSICAL ESP32-P4
 ```
 
-## What Was Proven
+Runtime ownership:
 
 ```text
-Heading widget appears in ForgeUI Studio sidebar
+30_WIFI owns WiFi truth
 
-Heading widget can be placed on the Builder canvas
+WiFi widget owns display only
 
-Heading widget renders in Builder mode
+LVGL timer owns refresh
 
-Heading widget renders in Browser Preview
-
-Heading widget exports to generated LVGL C
-
-Heading widget uses LVGL Montserrat font pipeline
-
-Generated LVGL compiles successfully
-
-ESP-IDF Build & Flash succeeds
-
-Physical ESP32-P4 renders Heading text correctly
+UI does not own WiFi truth
 ```
 
 ---
 
+# Current Proven Runtime Systems
+
+```text
+Theme Runtime
+    ✓ Proven
+
+RTC Runtime
+    ✓ Proven
+
+WiFi Runtime
+    ✓ Proven
+
+Audio Runtime
+    ✓ Runtime Exists
+    ✓ BSP Proven
+    ○ Studio Binding Pending
+
+SD Runtime
+    ✓ Runtime Exists
+    ○ Studio Binding Pending
+
+IO Runtime
+    Future
+```
+
+# Runtime Maturity
+
+```text
+Theme
+    Production Proven
+
+RTC
+    Production Proven
+
+WiFi
+    Production Proven
+
+Audio
+    Runtime Available
+
+SD
+    Runtime Available
+
+IO
+    Planned
+```
+
+# Runtime Architecture Rule
+
+```text
+Runtime owns truth.
+
+Widget owns display.
+
+LVGL timer owns refresh.
+
+UI owns neither.
+```
+
+Examples:
+
+```text
+20_RTC
+    ↓
+Clock Widget
+    ↓
+Physical ESP32-P4
+
+30_WIFI
+    ↓
+WiFi Widget
+    ↓
+Physical ESP32-P4
+
+40_AUDIO
+    ↓
+Audio Widget
+    ↓
+Future
+
+50_SD
+    ↓
+SD Widget
+    ↓
+Future
+```
+
+---
+
+## Current Proven Widget Set
+
+## Runtime Widgets
+
+```text
+Clock
+WiFi
+```
+
+Proven:
+
+```text
+20_RTC
+    ↓
+Clock Widget
+    ↓
+Physical ESP32-P4
+
+30_WIFI
+    ↓
+WiFi Widget
+    ↓
+Physical ESP32-P4
+```
+
+---
+
+## Core Widgets
+
+```text
+Button
+Text
+Heading
+Input
+Textarea
+Switch
+Checkbox
+Radio
+Slider
+Progress
+CircularProgress
+NumberInput
+Select
+Image
+Box
+```
+
+Status:
+
+```text
+Builder
+    ✓
+
+Preview
+    ✓
+
+LVGL Export
+    ✓
+
+Physical ESP32-P4
+    ✓
+```
+
+---
+
+## LVGL Widgets
+
+```text
+Led
+Bar
+Arc
+Chart
+Table
+Calendar
+Scale
+Roller
+Msgbox
+ButtonMatrix
+Canvas
+Line
+Tabview
+Tileview
+AnimImage
+Keyboard
+```
+
+Status:
+
+```text
+Builder
+    ✓
+
+Preview
+    ✓
+
+LVGL Export
+    ✓
+
+Physical ESP32-P4
+    ✓
+```
+
+---
+
+## Widget Coverage Status
+
+```text
+Core Widgets
+    Proven
+
+LVGL Widgets
+    Proven
+
+Runtime Widgets
+    Proven
+
+Theme Integration
+    Proven
+
+Asset Integration
+    Proven
+
+Builder → Preview → Export → P4
+    Proven
+```
+
+---
+
+# Current Architecture Truth
+
+```text
+Asset Manager = Proven
+
+Uploaded Image Pipeline = Proven
+
+Theme Pipeline = Proven
+
+Theme Drift Elimination = Proven
+
+Build & Flash = Proven
+
+Detached Export = Proven
+
+RTC Runtime = Proven
+
+Clock Widget = Proven
+
+WiFi Runtime = Proven
+
+WiFi Widget = Proven
+
+Physical ESP32-P4 Validation = Proven
+```
+
+---
+
+# Current Next Mission
+
+```text
+FORGEUI_WIFI_SETUP_ENTRYPOINT_V4__USER_WORKFLOW_NEXT__2026-06-20
+```
+
+Goal:
+
+```text
+Create first user-facing WiFi setup entry point.
+
+Do not rebuild WiFi.
+
+Do not touch BSPs.
+
+Do not create another WiFi framework.
+
+Use existing proven 30_WIFI runtime.
+```
+
+Future roadmap:
+
+```text
+V1 Static Widget
+    COMPLETE
+
+V2 Runtime Status Binding
+    COMPLETE
+
+V3 Connected + IP Proof
+    COMPLETE
+
+V4 WiFi Setup Entry Point
+    NEXT
+
+V5 WiFi Drawer
+
+V6 Network Scan
+
+V7 Password Entry
+
+V8 Keyboard Integration
+
+V9 Save Credentials
+
+V10 NVS Persistence
+
+V11 Auto Connect
+```
+
 # Heading Font Pipeline Fix
+
+# Heading Font Pipeline Validation
+
+## Status
+
+```text
+PROVEN ON PHYSICAL ESP32-P4
+```
+
+---
 
 ## Original Blocker
 
 ```text
-Heading export used lv_font_montserrat_32.
+Heading export used:
 
-Real sdkconfig did not have Montserrat 32 enabled.
+lv_font_montserrat_32
 
-Browser Preview rendered correctly, but physical ESP32-P4 could not safely prove the Heading export path until the matching LVGL font was enabled.
+Browser Preview rendered correctly.
+
+Generated LVGL export rendered correctly.
+
+Physical ESP32-P4 could not safely validate the Heading widget because the required LVGL font sizes were not enabled in the active ESP-IDF configuration.
+```
+
+---
+
+## Root Cause
+
+```text
+ForgeUI Studio export and runtime were aligned.
+
+LVGL font resources were not.
+
+The generated export referenced font sizes that were unavailable in the active firmware build.
 ```
 
 ---
 
 ## Fix Applied
 
-Enabled larger Montserrat font sizes in both:
+Enabled larger Montserrat font sizes in:
 
 ```text
 firmware/ForgeUI-One/sdkconfig
+
 firmware/ForgeUI-One/sdkconfig.defaults
 ```
 
-Required font options:
+Required font configuration:
 
 ```text
 CONFIG_LV_FONT_MONTSERRAT_28=y
@@ -249,19 +524,84 @@ CONFIG_LV_FONT_MONTSERRAT_48=y
 ## Validation Flow
 
 ```text
-Reconfigure
+Studio
     ↓
-Build
+Builder
     ↓
-Flash
+Browser Preview
     ↓
-Physical ESP32-P4 validation
+LVGL Export
+    ↓
+ESP-IDF Build
+    ↓
+Physical ESP32-P4
 ```
 
-Result:
+---
+
+## Result
 
 ```text
-Heading rendered on physical ESP32-P4.
+Heading rendered successfully on physical ESP32-P4.
+```
+
+Proven:
+
+```text
+Heading Widget
+    ✓ Proven
+
+LVGL Font Pipeline
+    ✓ Proven
+
+Builder → Preview → Export → P4
+    ✓ Proven
+```
+
+---
+
+## Architecture Truth
+
+```text
+Widgets may reference LVGL fonts.
+
+Firmware must provide matching LVGL font resources.
+
+Preview and Export are only considered proven once validated on physical hardware.
+```
+
+---
+
+## Future Benefit
+
+The following font sizes are now available to future widgets:
+
+```text
+28
+30
+32
+36
+40
+48
+```
+
+This supports:
+
+```text
+Heading Widget
+
+Clock Widget
+
+WiFi Widget
+
+Future Dashboard Widgets
+
+Future Status Widgets
+```
+
+without requiring further LVGL font configuration work.
+
+```
 ```
 
 ---
