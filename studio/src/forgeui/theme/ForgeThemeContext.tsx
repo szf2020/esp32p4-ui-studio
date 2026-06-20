@@ -15,7 +15,7 @@ const ForgeThemeContext = createContext<ForgeThemeContextValue | null>(null)
 export const ForgeThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [themeId, setThemeId] = useState<ForgeThemeId>('graphite')
+  const [themeId, setThemeId] = useState<ForgeThemeId>('neural_core')
 
   return (
     <ForgeThemeContext.Provider
