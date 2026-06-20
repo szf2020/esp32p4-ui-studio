@@ -79,6 +79,25 @@ export const renderForgePreview = ({
         break
       }
 
+     case 'Clock': {
+  output.push(
+    <Text
+      key={child.id}
+      {...commonStyle}
+      color={child.props.color || '#00d4ff'}
+      fontSize={`${lv(child.props.fontSize, 32)}px`}
+      fontWeight="bold"
+      fontFamily="monospace"
+      display="flex"
+      alignItems="center"
+      justifyContent="flex-start"
+    >
+      {label || '12:34'}
+    </Text>,
+  )
+  break
+}
+
       case 'Text': {
         output.push(
           <Text

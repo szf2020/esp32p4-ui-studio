@@ -18,4 +18,11 @@ void fg_studio_export_create(lv_obj_t *parent)
     lv_obj_set_pos(bg_texture_0, 0, 0);
     lv_obj_set_size(bg_texture_0, 1024, 600);
 
+    lv_obj_t * obj1 = lv_label_create(parent);
+    lv_label_set_text(obj1, "12:34");
+    lv_obj_set_pos(obj1, 24.999969482421875, 5);
+    lv_obj_set_size(obj1, 233, 82);
+    lv_obj_set_style_text_color(obj1, lv_color_hex(0x00D4FF), 0);
+    lv_obj_set_style_text_font(obj1, &lv_font_montserrat_32, 0);
+
 }

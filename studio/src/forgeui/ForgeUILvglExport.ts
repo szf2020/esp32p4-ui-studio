@@ -156,7 +156,7 @@ const buildLvglBlock = (
     'Heading'
   )
 
-  const color = child.props.color
+    const color = child.props.color
     ? `0x${String(child.props.color).replace('#', '')}`
     : palette.text
 
@@ -164,6 +164,24 @@ const buildLvglBlock = (
   lines.push(`lv_label_set_text(${varName}, "${text}");`)
   lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
   lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(${color}), 0);`)
+  lines.push(`lv_obj_set_style_text_font(${varName}, &lv_font_montserrat_32, 0);`)
+  lines.push(``)
+  break
+}
+
+case 'Clock': {
+  const text = esc(
+    child.props.children ||
+      child.props.text ||
+      child.props.value ||
+      '12:34'
+  )
+
+  lines.push(`lv_obj_t * ${varName} = lv_label_create(${parentVar});`)
+  lines.push(`lv_label_set_text(${varName}, "${text}");`)
+  lines.push(`lv_obj_set_pos(${varName}, ${x}, ${y});`)
+  lines.push(`lv_obj_set_size(${varName}, ${w}, ${h});`)
+  lines.push(`lv_obj_set_style_text_color(${varName}, lv_color_hex(0x00D4FF), 0);`)
   lines.push(`lv_obj_set_style_text_font(${varName}, &lv_font_montserrat_32, 0);`)
   lines.push(``)
   break
