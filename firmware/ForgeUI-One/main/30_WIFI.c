@@ -76,9 +76,17 @@ static const char *TAG = "FG_WIFI";
 
 #define FG_WIFI_MAX_SCAN 12
 
+// V3 TEST ONLY
+// Temporary hard-coded WiFi credentials.
+// Replace later with drawer / keyboard / NVS flow.
+#define FG_WIFI_TEST_SSID "Your SSID Here"
+#define FG_WIFI_TEST_PASS "Your WIFI PW Here"
+
 static bool g_wifi_ready = false;
 static bool g_wifi_connected = false;
 static volatile bool g_scan_done_pending = false;
+
+static bool g_test_connect_started = false;
 
 static esp_netif_t *g_sta_netif = NULL;
 
@@ -111,12 +119,13 @@ static void fg_wifi_event_handler(void *arg,
             g_scan_done_pending = true;
         }
         else if (event_id == WIFI_EVENT_STA_DISCONNECTED)
-        {
-            ESP_LOGW(TAG, "STA disconnected");
-            g_wifi_connected = false;
-            snprintf(g_ip, sizeof(g_ip), "-");
-            fg_wifi_set_status("DISCONNECTED");
-        }
+{
+    ESP_LOGW(TAG, "STA disconnected");
+    g_wifi_connected = false;
+    g_test_connect_started = false;
+    snprintf(g_ip, sizeof(g_ip), "-");
+    fg_wifi_set_status("DISCONNECTED");
+}
     }
     else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
     {
@@ -219,6 +228,21 @@ void fg_wifi_init(void)
 
 void fg_wifi_pump(void)
 {
+    // V3 TEST ONLY
+    // Auto-connect once after WiFi becomes ready.
+
+    if (g_wifi_ready &&
+        !g_wifi_connected &&
+        !g_test_connect_started)
+    {
+        g_test_connect_started = true;
+
+        fg_wifi_connect(
+            FG_WIFI_TEST_SSID,
+            FG_WIFI_TEST_PASS
+        );
+    }
+
     if (!g_scan_done_pending)
     {
         return;
