@@ -710,20 +710,75 @@ await fetch('http://localhost:3030/clean-flash', {
     </Box>
 
     <Button
-    colorScheme="cyan"
-    onClick={() => {
-    dispatch.components.addComponent({
-      parentName: 'root',
-      type: 'Heading' as any,
-      rootParentType: 'Heading' as any,
-      props: {
-        positionMode: 'absolute',
-        x: 360,
-        y: 90,
-        w: 320,
-        h: 60,
-        children: 'WiFi Setup',
+  colorScheme="cyan"
+  onClick={() => {
+    const items = [
+      {
+        type: 'Heading',
+        props: {
+          positionMode: 'absolute',
+          x: 360,
+          y: 90,
+          w: 320,
+          h: 60,
+          children: 'WiFi Setup',
+        },
       },
+
+      {
+        type: 'Input',
+        props: {
+          positionMode: 'absolute',
+          x: 360,
+          y: 180,
+          w: 320,
+          h: 50,
+        },
+      },
+
+      {
+        type: 'Input',
+        props: {
+          positionMode: 'absolute',
+          x: 360,
+          y: 250,
+          w: 320,
+          h: 50,
+        },
+      },
+
+      {
+        type: 'Button',
+        props: {
+          positionMode: 'absolute',
+          x: 360,
+          y: 330,
+          w: 140,
+          h: 50,
+          children: 'Scan',
+        },
+      },
+
+      {
+        type: 'Button',
+        props: {
+          positionMode: 'absolute',
+          x: 540,
+          y: 330,
+          w: 140,
+          h: 50,
+          children: 'Connect',
+        },
+      },
+    ]
+
+    items.forEach((item) => {
+      dispatch.components.addComponent({
+        parentName: 'root',
+        type: item.type as any,
+        rootParentType: item.type as any,
+        props: item.props,
+      })
     })
   }}
 >
