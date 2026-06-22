@@ -706,15 +706,33 @@ const DEFAULT_LAYOUT_JSON = JSON.stringify(
 
 
 const AI_TEMPLATE_BUTTONS = [
-  { label: 'WiFi Setup', layout: AI_LAYOUTS.wifiSetup },
-  { label: 'Login', layout: AI_LAYOUTS.loginScreen },
-  { label: 'Dashboard', layout: AI_LAYOUTS.dashboard },
-  { label: 'Settings', layout: AI_LAYOUTS.settingsScreen },
-  { label: 'Sensor Dashboard', layout: AI_LAYOUTS.sensorDashboard },
-  { label: 'Machine Status', layout: AI_LAYOUTS.machineStatusPanel },
-  { label: 'Diagnostics', layout: AI_LAYOUTS.diagnosticsScreen },
-  { label: 'Touch Keypad', layout: AI_LAYOUTS.touchKeypadScreen },
-  { label: 'WiFi Drawer', layout: AI_LAYOUTS.wifiDrawerMockup },
+  {
+    label: 'WiFi Setup',
+    document: {
+      name: 'WiFi Setup',
+      category: 'Templates',
+      description: 'Basic WiFi configuration screen',
+      layout: AI_LAYOUTS.wifiSetup,
+    },
+  },
+  {
+    label: 'Login',
+    document: {
+      name: 'Login',
+      category: 'Templates',
+      description: 'Simple login screen',
+      layout: AI_LAYOUTS.loginScreen,
+    },
+  },
+  {
+    label: 'Dashboard',
+    document: {
+      name: 'Dashboard',
+      category: 'Templates',
+      description: 'Basic dashboard layout',
+      layout: AI_LAYOUTS.dashboard,
+    },
+  },
 ]
 
 export const ForgeAIPanel = ({
@@ -724,16 +742,8 @@ export const ForgeAIPanel = ({
   const [layoutJson, setLayoutJson] = useState(DEFAULT_LAYOUT_JSON)
   const [jsonError, setJsonError] = useState('')
 
-  const loadLayoutJson = (layout: any[]) => {
-    setLayoutJson(
-      JSON.stringify(
-        {
-          layout,
-        },
-        null,
-        2
-      )
-    )
+  const loadLayoutJson = (document: any) => {
+    setLayoutJson(JSON.stringify(document, null, 2))
   }
 
   const validateAiLayout = (layout: any[]) => {
@@ -822,7 +832,7 @@ export const ForgeAIPanel = ({
       colorScheme="cyan"
       onClick={() => {
         setJsonError('')
-        loadLayoutJson(template.layout)
+        loadLayoutJson(template.document)
       }}
     >
       {template.label}
