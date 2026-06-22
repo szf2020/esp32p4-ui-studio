@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Box, Button, Flex, HStack, Textarea } from '@chakra-ui/react'
+import { aiSupportedComponents } from '~componentsList'
 
 type ForgeAIPanelProps = {
   onClose: () => void
   insertAiLayout: (items: any[]) => void
 }
+
+const SUPPORTED_AI_COMPONENTS = new Set(aiSupportedComponents)
 
 const AI_LAYOUTS = {
   wifiSetup: [
@@ -203,45 +206,71 @@ export const ForgeAIPanel = ({
     )
   }
 
-  const generateJsonFromPrompt = () => {
+  const validateAiLayout = (layout: any[]) => {
+  if (!Array.isArray(layout)) {
+    throw new Error('layout must be an array')
+  }
+
+  layout.forEach((item, index) => {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) {
+      throw new Error(`layout[${index}] must be an object`)
+    }
+
+    if (typeof item.type !== 'string') {
+      throw new Error(`layout[${index}].type must be a string`)
+    }
+
+    if (!SUPPORTED_AI_COMPONENTS.has(item.type)) {
+      throw new Error(`Unsupported component: ${item.type}`)
+    }
+
+    if (
+      !item.props ||
+      typeof item.props !== 'object' ||
+      Array.isArray(item.props)
+    ) {
+      throw new Error(`layout[${index}].props must be an object`)
+    }
+  })
+}
+
+const generateJsonFromPrompt = () => {
+  setJsonError('')
+
+  const text = prompt.toLowerCase()
+
+  if (text.includes('wifi') || text.includes('wi-fi')) {
+    loadLayoutJson(AI_LAYOUTS.wifiSetup)
+    return
+  }
+
+  if (text.includes('login') || text.includes('sign in')) {
+    loadLayoutJson(AI_LAYOUTS.loginScreen)
+    return
+  }
+
+  if (text.includes('dashboard') || text.includes('status')) {
+    loadLayoutJson(AI_LAYOUTS.dashboard)
+    return
+  }
+
+  setJsonError('No matching layout template yet')
+  setLayoutJson(DEFAULT_LAYOUT_JSON)
+}
+
+const insertJsonLayout = () => {
+  try {
     setJsonError('')
 
-    const text = prompt.toLowerCase()
+    const parsed = JSON.parse(layoutJson)
 
-    if (text.includes('wifi') || text.includes('wi-fi')) {
-      loadLayoutJson(AI_LAYOUTS.wifiSetup)
-      return
-    }
+    validateAiLayout(parsed.layout)
 
-    if (text.includes('login') || text.includes('sign in')) {
-      loadLayoutJson(AI_LAYOUTS.loginScreen)
-      return
-    }
-
-    if (text.includes('dashboard') || text.includes('status')) {
-      loadLayoutJson(AI_LAYOUTS.dashboard)
-      return
-    }
-
-    setJsonError('No matching layout template yet')
-    setLayoutJson(DEFAULT_LAYOUT_JSON)
+    insertAiLayout(parsed.layout)
+  } catch (err: any) {
+    setJsonError(err.message || 'Invalid JSON')
   }
-
-  const insertJsonLayout = () => {
-    try {
-      setJsonError('')
-
-      const parsed = JSON.parse(layoutJson)
-
-      if (!Array.isArray(parsed.layout)) {
-        throw new Error('layout must be an array')
-      }
-
-      insertAiLayout(parsed.layout)
-    } catch (err: any) {
-      setJsonError(err.message || 'Invalid JSON')
-    }
-  }
+}
 
   return (
     <Box
@@ -299,12 +328,20 @@ export const ForgeAIPanel = ({
         </Button>
 
         <Button
-          variant="outline"
-          colorScheme="cyan"
-          onClick={() => insertAiLayout(AI_LAYOUTS.wifiSetup)}
-        >
-          Insert WiFi Setup Layout
-        </Button>
+            variant="outline"
+            colorScheme="cyan"
+             onClick={() => {
+            try {
+             setJsonError('')
+             validateAiLayout(AI_LAYOUTS.wifiSetup)
+            insertAiLayout(AI_LAYOUTS.wifiSetup)
+    } catch (err: any) {
+      setJsonError(err.message || 'Invalid AI layout')
+    }
+  }}
+>
+  Insert WiFi Setup Layout
+</Button>
       </HStack>
 
       <Box mb={2} color="cyan.200" fontWeight="bold">
