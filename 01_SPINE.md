@@ -3,7 +3,7 @@
 ## Current Save Point
 
 ```text
-FORGEUI_AI_PLAYGROUND_V1__JSON_LAYOUT_PARSE_PROVEN__CANVAS_INSERTION_PROVEN__OPENAI_NEXT__2026-06-21
+FORGEUI_AI_PLAYGROUND_V1__PROMPT_LAYOUT_LIBRARY_PROVEN__WIFI_LOGIN_DASHBOARD__2026-06-22
 ```
 
 ---
@@ -281,80 +281,160 @@ ESP32-P4
 PROVEN IN STUDIO
 ```
 
+## Current Save Point
+
+```text
+FORGEUI_AI_PLAYGROUND_V1__PROMPT_LAYOUT_LIBRARY_PROVEN__WIFI_LOGIN_DASHBOARD__2026-06-22
+```
+
+---
+
 ## What Was Proven
 
 ```text
 Editor Menu
-    ↓
-AI Playground
-
-AI Playground panel opens.
     ✓
 
-Custom event system works.
+AI Playground Panel
     ✓
 
-Canvas insertion works.
+Custom Event System
     ✓
 
-dispatch.components.addComponent()
-    ↓
-ForgeUI Store
-    ↓
-Canvas Render
+Canvas Insertion
+    ✓
 
-Canvas insertion path proven.
-```
-
----
-
-## Additional Proof
-
-```text
 Single Component Insert
-    ✓ Proven
+    ✓
 
 Multi Component Insert
-    ✓ Proven
+    ✓
 
 Layout Definition Array
-    ✓ Proven
+    ✓
 
 JSON Layout Definition
-    ✓ Proven
+    ✓
 
-JSON Parse
-    ✓ Proven
+JSON.parse()
+    ✓
+
+User Editable JSON Textarea
+    ✓
+
+JSON Error Handling
+    ✓
+
+Prompt Box
+    ✓
+
+Generate JSON Button
+    ✓
+
+Prompt → Layout Template Match
+    ✓
+
+Layout Library V1
+    ✓
+
+ForgeUI Store Integration
+    ✓
+
+Canvas Render
+    ✓
 ```
 
 ---
 
-## Proven Flow
+## Current Proven Flow
 
 ```text
-AI Playground
+Prompt
     ↓
-JSON Layout Definition
+Intent Match
+    ↓
+Layout Library
+    ↓
+ForgeUI JSON
+    ↓
+JSON Textarea
     ↓
 JSON.parse()
+    ↓
+insertAiLayout()
     ↓
 ForgeUI Component Store
     ↓
 Canvas Render
 ```
 
-Current proof:
+Status:
 
 ```text
-JSON String
+PROVEN
+```
+
+---
+
+## Layout Library V1
+
+Proven prompt templates:
+
+```text
+Create a WiFi setup screen
     ↓
-JSON.parse()
+WiFi Setup Layout
+    ✓
+
+Create a login screen
     ↓
+Login Layout
+    ✓
+
+Create a dashboard
+    ↓
+Dashboard Layout
+    ✓
+```
+
+---
+
+## AI Panel Refactor
+
+AI Playground was moved out of:
+
+```text
+Header.tsx
+```
+
+and into:
+
+```text
+src/forgeui/ai/ForgeAIPanel.tsx
+```
+
+Header now only owns:
+
+```text
+Open / Close AI Panel
+
 insertAiLayout()
-    ↓
-ForgeUI Store
-    ↓
-Canvas Render
+```
+
+ForgeAIPanel now owns:
+
+```text
+Prompt UI
+
+Generate JSON
+
+Layout JSON Textarea
+
+JSON Validation
+
+Insert JSON
+
+Layout Library
 ```
 
 ---
@@ -376,45 +456,11 @@ Runtime owns truth.
 
 AI does not write firmware.
 
-AI does not generate arbitrary code.
+AI does not generate arbitrary React.
+
+AI does not generate LVGL.
 
 AI generates ForgeUI layout definitions only.
-```
-
----
-
-## Current AI Status
-
-```text
-AI Playground Shell
-    ✓ Proven
-
-Canvas Insertion
-    ✓ Proven
-
-Multi Component Layout
-    ✓ Proven
-
-Layout Definition Array
-    ✓ Proven
-
-JSON Layout Definition
-    ✓ Proven
-
-JSON Parse
-    ✓ Proven
-
-Builder Ownership
-    ✓ Proven
-
-Preview Ownership
-    ✓ Proven
-
-Export Ownership
-    ✓ Proven
-
-Physical P4 Flash
-    ✓ Proven
 ```
 
 ---
@@ -422,39 +468,41 @@ Physical P4 Flash
 # Current Next Mission
 
 ```text
-FORGEUI_AI_PLAYGROUND_V1__JSON_TEXTAREA_AND_VALIDATION_NEXT__2026-06-21
+FORGEUI_AI_PLAYGROUND_V1__FORGEUI_SCHEMA_VALIDATION_NEXT__2026-06-22
 ```
 
 Goal:
 
 ```text
-Move from:
+Validate component type.
 
-Hard-Coded JSON
-    ↓
-JSON Text Area
-    ↓
-User Supplied JSON
-    ↓
-Validation
-    ↓
-Canvas Insertion
+Validate layout array.
+
+Validate props object.
+
+Reject invalid component types.
+
+Reject unsafe / unsupported layout definitions.
+
+Only allow ForgeUI-supported components.
 ```
 
-Success Criteria:
+Success criteria:
 
 ```text
-User enters JSON
+Valid ForgeUI JSON
     ↓
-Validate
+Accepted
     ↓
-Parse
-    ↓
-ForgeUI Store
-    ↓
-Canvas Render
+Canvas Insert
 
-Proven
+Invalid JSON or unsupported component
+    ↓
+Rejected
+    ↓
+Error shown
+    ↓
+Nothing inserted
 ```
 
 ---
@@ -483,206 +531,27 @@ V6 JSON Layout Definition
 V7 JSON Parse
     ✓ Complete
 
-V8 JSON Validation
-    Next
+V8 JSON Textarea + Error Handling
+    ✓ Complete
 
-V9 User JSON Input
+V9 Prompt → JSON Template Generation
+    ✓ Complete
 
-V10 OpenAI Integration
+V10 Layout Library V1
+    ✓ Complete
 
 V11 ForgeUI Schema Validation
-
-V12 Layout Library
-
-V13 Asset Generation
-
-V14 ForgeUI Playbooks
-```
-
-
----
-
-## Additional Proof
-
-```text
-Single Component Insert
-    ✓ Proven
-
-Multi Component Insert
-    ✓ Proven
-
-Test WiFi Layout Generator
-    ✓ Proven
-
-Generated Layout
-    ↓
-ForgeUI Store
-    ↓
-Canvas Render
-    ↓
-Preview
-    ↓
-LVGL Export
-    ↓
-ESP32-P4 Flash
-
-Proven
-```
-
----
-
-## AI Architecture Rule
-
-```text
-AI suggests.
-
-ForgeUI validates.
-
-Builder owns layout.
-
-Preview owns preview.
-
-Export owns LVGL generation.
-
-Runtime owns truth.
-
-AI does not write firmware.
-
-AI does not generate arbitrary code.
-
-AI generates ForgeUI layout definitions only.
-```
-
----
-
-## Proven Flow
-
-```text
-AI Playground
-    ↓
-Layout Definition
-    ↓
-ForgeUI Component Store
-    ↓
-Canvas Render
-```
-
-Current implementation:
-
-```text
-Test Layout Generator
-    ↓
-Layout Definition
-    ↓
-Multiple Components
-    ↓
-ForgeUI Store
-    ↓
-Canvas Render
-```
-
----
-
-# Current Next Mission
-
-```text
-FORGEUI_AI_PLAYGROUND_V1__JSON_LAYOUT_DEFINITION_NEXT__2026-06-21
-```
-
-Goal:
-
-```text
-Replace hard-coded component insertion
-with a ForgeUI layout definition.
-
-Heading
-Input
-Input
-Button
-Button
-
-Move from:
-
-Multi Component Layout
-    ↓
-Layout Definition Array
-    ↓
-JSON Layout Definition
-```
-
-Success criteria:
-
-```text
-AI Playground
-    ↓
-Layout Definition
-    ↓
-Multiple Components
-    ↓
-Canvas Render
-
-Proven
-```
-
----
-
-# Current AI Status
-
-```text
-AI Playground Shell
-    ✓ Proven
-
-Test Layout Generator
-    ✓ Proven
-
-Multi Component Layout
-    ✓ Proven
-
-Physical P4 Flash
-    ✓ Proven
-
-JSON Layout Definition
     Next
 
-Schema Validation
-    Future
+V12 OpenAI Integration
 
-OpenAI Integration
-    Future
+V13 Layout Library Expansion
+
+V14 Asset Generation
+
+V15 ForgeUI Playbooks
 ```
 
----
-
-# Future AI Roadmap
-
-```text
-V1 AI Menu
-    ✓ Complete
-
-V2 AI Panel
-    ✓ Complete
-
-V3 Canvas Insertion
-    ✓ Complete
-
-V4 Multi Component Layout
-    ✓ Complete
-
-V5 JSON Layout Definition
-    Next
-
-V6 OpenAI Integration
-
-V7 ForgeUI Schema Validation
-
-V8 Insert To Canvas
-
-V9 Layout Library
-
-V10 Asset Generation
-
-V11 ForgeUI Playbooks
-```
 
 
 # Current Hardware Target

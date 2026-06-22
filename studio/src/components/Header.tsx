@@ -4,6 +4,7 @@ import { ForgeUIAssetManager } from '~forgeui/assets/ForgeUIAssetManager'
 import { generateForgeUILvglCode } from '~forgeui/ForgeUILvglExport'
 import { useForgeTheme } from '~forgeui/theme/ForgeThemeContext'
 import { FG_PREVIEW_PALETTES } from '~forgeui/preview/forgeThemeMap'
+import ForgeAIPanel from '~forgeui/ai/ForgeAIPanel'
 
 import {
   Box,
@@ -28,7 +29,6 @@ import {
   PopoverFooter,
   Tooltip,
   HStack,
-  Select,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon, SmallCloseIcon, CheckIcon } from '@chakra-ui/icons'
 import { DiGithubBadge } from 'react-icons/di'
@@ -142,67 +142,7 @@ const Header = () => {
   })
 }
 
-const AI_LAYOUTS = {
-  wifiSetup: [
-    {
-      type: 'Heading',
-      props: {
-        positionMode: 'absolute',
-        x: 360,
-        y: 90,
-        w: 320,
-        h: 60,
-        children: 'WiFi Setup',
-      },
-    },
 
-    {
-      type: 'Input',
-      props: {
-        positionMode: 'absolute',
-        x: 360,
-        y: 180,
-        w: 320,
-        h: 50,
-      },
-    },
-
-    {
-      type: 'Input',
-      props: {
-        positionMode: 'absolute',
-        x: 360,
-        y: 250,
-        w: 320,
-        h: 50,
-      },
-    },
-
-    {
-      type: 'Button',
-      props: {
-        positionMode: 'absolute',
-        x: 360,
-        y: 330,
-        w: 140,
-        h: 50,
-        children: 'Scan',
-      },
-    },
-
-    {
-      type: 'Button',
-      props: {
-        positionMode: 'absolute',
-        x: 540,
-        y: 330,
-        w: 140,
-        h: 50,
-        children: 'Connect',
-      },
-    },
-  ],
-}
 
   const flashLogRef = useRef<HTMLPreElement | null>(null)
 
@@ -745,80 +685,14 @@ await fetch('http://localhost:3030/clean-flash', {
 )}
 
 {aiPlaygroundOpen && (
-  <Box
-    position="fixed"
-    left="20px"
-    top="70px"
-    right="20px"
-    bottom="20px"
-    bg="#070b12"
-    color="white"
-    border="1px solid #2dd4bf"
-    borderRadius="md"
-    zIndex={9999}
-    overflow="auto"
-    boxShadow="0 0 24px rgba(0,0,0,0.65)"
-    p={4}
-  >
-    <Flex justify="space-between" align="center" mb={4}>
-      <Box fontWeight="bold" fontSize="lg">
-        ForgeUI AI Playground
-      </Box>
-
-      <Button
-        size="xs"
-        colorScheme="red"
-        onClick={() => setAiPlaygroundOpen(false)}
-      >
-        Close
-      </Button>
-    </Flex>
-
-    <Box color="gray.400" mb={4}>
-      AI layout generation playground.
-    </Box>
-
-    <Button
-      colorScheme="cyan"
-      onClick={() => insertAiLayout(AI_LAYOUTS.wifiSetup)}
-    >
-      Insert WiFi Setup Layout
-    </Button>
-  </Box>
+  <ForgeAIPanel
+    onClose={() => setAiPlaygroundOpen(false)}
+    insertAiLayout={insertAiLayout}
+  />
 )}
 
-<Button
-  mt={4}
-  colorScheme="purple"
-  onClick={() => {
-    const json = `
-    {
-      "layout": [
-        {
-          "type": "Heading",
-          "props": {
-            "positionMode": "absolute",
-            "x": 100,
-            "y": 100,
-            "w": 300,
-            "h": 60,
-            "children": "JSON Test"
-          }
-        }
-      ]
-    }
-    `
-
-    const parsed = JSON.parse(json)
-
-    insertAiLayout(parsed.layout)
-  }}
->
-  Insert From JSON
-</Button>
-
-    </DarkMode>
-  )
+</DarkMode>
+)
 }
 
 export default memo(Header)
