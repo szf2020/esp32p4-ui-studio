@@ -273,7 +273,285 @@ ESP32-P4
 
 ---
 
+## Current Save Point
+
+```text
+FORGEUI_AI_PLAYGROUND_V1__SCHEMA_VALIDATION_PROVEN__REGISTRY_BOUND__UNSUPPORTED_COMPONENT_REJECTED__2026-06-22
+```
+
+---
+
 # AI Playground V1
+
+## Status
+
+```text
+PROVEN IN STUDIO
+
+SCHEMA VALIDATION PROVEN
+
+REGISTRY BOUND
+```
+
+---
+
+## What Was Proven
+
+```text
+Editor Menu
+    ✓
+
+AI Playground Panel
+    ✓
+
+Custom Event System
+    ✓
+
+Canvas Insertion
+    ✓
+
+Single Component Insert
+    ✓
+
+Multi Component Insert
+    ✓
+
+Layout Definition Array
+    ✓
+
+JSON Layout Definition
+    ✓
+
+JSON.parse()
+    ✓
+
+User Editable JSON Textarea
+    ✓
+
+JSON Error Handling
+    ✓
+
+Prompt Box
+    ✓
+
+Generate JSON Button
+    ✓
+
+Prompt → Layout Template Match
+    ✓
+
+Layout Library V1
+    ✓
+
+ForgeUI Store Integration
+    ✓
+
+Canvas Render
+    ✓
+
+ForgeUI Schema Validation
+    ✓
+
+Layout Array Validation
+    ✓
+
+Props Object Validation
+    ✓
+
+Unsupported Component Rejection
+    ✓
+
+Registry-backed AI Component Allow List
+    ✓
+```
+
+---
+
+## Current Proven Flow
+
+```text
+Prompt
+    ↓
+Intent Match
+    ↓
+Layout Library
+    ↓
+ForgeUI JSON
+    ↓
+JSON Textarea
+    ↓
+JSON.parse()
+    ↓
+validateAiLayout()
+    ↓
+aiSupportedComponents
+    ↓
+insertAiLayout()
+    ↓
+ForgeUI Component Store
+    ↓
+Canvas Render
+```
+
+Status:
+
+```text
+PROVEN
+```
+
+---
+
+## Schema Validation Proof
+
+```text
+Valid ForgeUI JSON
+    ↓
+Accepted
+    ↓
+Canvas Insert
+    ✓
+
+Unsupported Component
+    ↓
+Rejected
+    ↓
+Error Shown
+    ↓
+Nothing Inserted
+    ✓
+```
+
+Tested rejection:
+
+```text
+SuperWidget
+    ↓
+Unsupported component: SuperWidget
+    ✓
+```
+
+---
+
+## Registry Binding
+
+AI validation now uses:
+
+```text
+~componentsList
+    ↓
+componentsList
+    ↓
+aiSupportedComponents
+    ↓
+SUPPORTED_AI_COMPONENTS
+    ↓
+validateAiLayout()
+```
+
+Status:
+
+```text
+PROVEN
+```
+
+Rule:
+
+```text
+Do not maintain a separate hard-coded AI component list inside ForgeAIPanel.
+
+AI-supported components must come from the ForgeUI component registry path.
+```
+
+---
+
+# Current Next Mission
+
+```text
+FORGEUI_AI_PLAYGROUND_V1__LAYOUT_LIBRARY_EXPANSION_NEXT__2026-06-22
+```
+
+Goal:
+
+```text
+Expand Layout Library V1 with more safe ForgeUI templates.
+
+Keep all generated layouts JSON-only.
+
+Keep validation before insertion.
+
+Do not touch firmware.
+
+Do not touch export.
+
+Do not touch runtime.
+```
+
+Candidate templates:
+
+```text
+Settings screen
+
+Sensor dashboard
+
+Machine status panel
+
+WiFi login drawer mockup
+
+Diagnostics screen
+
+Touch keypad screen
+```
+
+---
+
+# Future AI Roadmap
+
+```text
+V1 AI Menu
+    ✓ Complete
+
+V2 AI Panel
+    ✓ Complete
+
+V3 Canvas Insertion
+    ✓ Complete
+
+V4 Multi Component Layout
+    ✓ Complete
+
+V5 Layout Definition Array
+    ✓ Complete
+
+V6 JSON Layout Definition
+    ✓ Complete
+
+V7 JSON Parse
+    ✓ Complete
+
+V8 JSON Textarea + Error Handling
+    ✓ Complete
+
+V9 Prompt → JSON Template Generation
+    ✓ Complete
+
+V10 Layout Library V1
+    ✓ Complete
+
+V11 ForgeUI Schema Validation
+    ✓ Complete
+
+V11.5 Registry-backed Component Validation
+    ✓ Complete
+
+V12 Layout Library Expansion
+    NEXT
+
+V13 OpenAI Integration
+
+V14 Asset Generation
+
+V15 ForgeUI Playbooks
+```
 
 ## Status
 
