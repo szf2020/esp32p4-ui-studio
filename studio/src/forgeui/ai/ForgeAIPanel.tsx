@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { Box, Button, Flex, HStack, Textarea } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  SimpleGrid,
+  Textarea,
+} from '@chakra-ui/react'
+
 import { aiSupportedComponents } from '~componentsList'
 
 type ForgeAIPanelProps = {
@@ -688,29 +696,31 @@ const AI_LAYOUTS = {
   ],
 }
 
-const DEFAULT_LAYOUT_JSON = `{
-  "layout": [
-    {
-      "type": "Heading",
-      "props": {
-        "positionMode": "absolute",
-        "x": 100,
-        "y": 100,
-        "w": 300,
-        "h": 60,
-        "children": "JSON Test"
-      }
-    }
-  ]
-}`
+const DEFAULT_LAYOUT_JSON = JSON.stringify(
+  {
+    layout: [],
+  },
+  null,
+  2
+)
 
-const DEFAULT_PROMPT = 'Create a WiFi setup screen'
+
+const AI_TEMPLATE_BUTTONS = [
+  { label: 'WiFi Setup', layout: AI_LAYOUTS.wifiSetup },
+  { label: 'Login', layout: AI_LAYOUTS.loginScreen },
+  { label: 'Dashboard', layout: AI_LAYOUTS.dashboard },
+  { label: 'Settings', layout: AI_LAYOUTS.settingsScreen },
+  { label: 'Sensor Dashboard', layout: AI_LAYOUTS.sensorDashboard },
+  { label: 'Machine Status', layout: AI_LAYOUTS.machineStatusPanel },
+  { label: 'Diagnostics', layout: AI_LAYOUTS.diagnosticsScreen },
+  { label: 'Touch Keypad', layout: AI_LAYOUTS.touchKeypadScreen },
+  { label: 'WiFi Drawer', layout: AI_LAYOUTS.wifiDrawerMockup },
+]
 
 export const ForgeAIPanel = ({
   onClose,
   insertAiLayout,
 }: ForgeAIPanelProps) => {
-  const [prompt, setPrompt] = useState(DEFAULT_PROMPT)
   const [layoutJson, setLayoutJson] = useState(DEFAULT_LAYOUT_JSON)
   const [jsonError, setJsonError] = useState('')
 
@@ -754,83 +764,7 @@ export const ForgeAIPanel = ({
     })
   }
 
-  const generateJsonFromPrompt = () => {
-    setJsonError('')
-
-    const text = prompt.toLowerCase()
-
-    if (
-      text.includes('wifi drawer') ||
-      text.includes('wi-fi drawer') ||
-      text.includes('wifi panel') ||
-      text.includes('network drawer')
-    ) {
-      loadLayoutJson(AI_LAYOUTS.wifiDrawerMockup)
-      return
-    }
-
-    if (text.includes('wifi') || text.includes('wi-fi')) {
-      loadLayoutJson(AI_LAYOUTS.wifiSetup)
-      return
-    }
-
-    if (text.includes('login') || text.includes('sign in')) {
-      loadLayoutJson(AI_LAYOUTS.loginScreen)
-      return
-    }
-
-    if (text.includes('settings') || text.includes('setup menu')) {
-      loadLayoutJson(AI_LAYOUTS.settingsScreen)
-      return
-    }
-
-    if (
-      text.includes('sensor') ||
-      text.includes('temperature') ||
-      text.includes('humidity') ||
-      text.includes('pressure')
-    ) {
-      loadLayoutJson(AI_LAYOUTS.sensorDashboard)
-      return
-    }
-
-    if (
-      text.includes('machine') ||
-      text.includes('motor') ||
-      text.includes('battery')
-    ) {
-      loadLayoutJson(AI_LAYOUTS.machineStatusPanel)
-      return
-    }
-
-    if (
-      text.includes('diagnostics') ||
-      text.includes('diagnostic') ||
-      text.includes('cpu') ||
-      text.includes('memory')
-    ) {
-      loadLayoutJson(AI_LAYOUTS.diagnosticsScreen)
-      return
-    }
-
-    if (
-      text.includes('keypad') ||
-      text.includes('pin') ||
-      text.includes('touch keypad')
-    ) {
-      loadLayoutJson(AI_LAYOUTS.touchKeypadScreen)
-      return
-    }
-
-    if (text.includes('dashboard') || text.includes('status')) {
-      loadLayoutJson(AI_LAYOUTS.dashboard)
-      return
-    }
-
-    setJsonError('No matching layout template yet')
-    setLayoutJson(DEFAULT_LAYOUT_JSON)
-  }
-
+  
   const insertJsonLayout = () => {
     try {
       setJsonError('')
@@ -874,47 +808,34 @@ export const ForgeAIPanel = ({
       <Box color="gray.400" mb={4}>
         AI layout generation playground.
       </Box>
+      
+<Box mb={2} color="cyan.200" fontWeight="bold">
+  Template Library
+</Box>
 
-      <Box mb={2} color="cyan.200" fontWeight="bold">
-        Prompt
-      </Box>
-
-      <Textarea
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        minH="80px"
-        mb={4}
-        bg="#101827"
-        color="white"
-        borderColor="gray.600"
-        fontFamily="monospace"
-        fontSize="sm"
-      />
+<SimpleGrid columns={3} spacing={3} mb={4}>
+  {AI_TEMPLATE_BUTTONS.map((template) => (
+    <Button
+      key={template.label}
+      size="sm"
+      variant="outline"
+      colorScheme="cyan"
+      onClick={() => {
+        setJsonError('')
+        loadLayoutJson(template.layout)
+      }}
+    >
+      {template.label}
+    </Button>
+  ))}
+</SimpleGrid>
 
       <HStack spacing={3} mb={4} flexWrap="wrap">
-        <Button colorScheme="cyan" onClick={generateJsonFromPrompt}>
-          Generate JSON
-        </Button>
 
         <Button colorScheme="purple" onClick={insertJsonLayout}>
           Insert JSON
         </Button>
-
-        <Button
-          variant="outline"
-          colorScheme="cyan"
-          onClick={() => {
-            try {
-              setJsonError('')
-              validateAiLayout(AI_LAYOUTS.wifiSetup)
-              insertAiLayout(AI_LAYOUTS.wifiSetup)
-            } catch (err: any) {
-              setJsonError(err.message || 'Invalid AI layout')
-            }
-          }}
-        >
-          Insert WiFi Setup Layout
-        </Button>
+        
       </HStack>
 
       <Box mb={2} color="cyan.200" fontWeight="bold">
